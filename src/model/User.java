@@ -3,6 +3,7 @@ import using.*;
 
 public abstract class User {
 
+    private String name;
     private String id;
     private String password;
     private Role role;
@@ -10,7 +11,8 @@ public abstract class User {
 
     public User() {}
 
-    public User(String id,String password, Role role, Gender gender) {
+    public User(String name, String id,String password, Role role, Gender gender) {
+        this.name = name;
         this.id = id;
         this.password = password;
         this.role = role;
@@ -31,6 +33,14 @@ public abstract class User {
 
     public String getRole() {
         return role.getLabel();
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
     }
 
     public void setID(String id) {

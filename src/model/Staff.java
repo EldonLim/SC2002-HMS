@@ -5,8 +5,10 @@ public class Staff extends User {
 
     private int age;
 
-    public Staff(String id, String password, Gender gender, Role role, int age) {
-        super(id, password, role, gender);
+    public Staff() {}
+
+    public Staff(String name, String id, String password, Gender gender, Role role, int age) {
+        super(name, id, password, role, gender);
         this.age = age;
     }
 
