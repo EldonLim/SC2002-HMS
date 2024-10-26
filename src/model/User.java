@@ -9,9 +9,9 @@ enum Role{
 
 public class User {
     private String id;
-    private String password;
-    private String gender;
-    private Role role;
+    // private String password;
+    // private String gender;
+    // private Role role;
 
     User(){}
 
