@@ -6,7 +6,6 @@ public class PatientView implements View{
 
     public PatientView() {}
     public void printViewMenu() {
-        this.viewTitle();
         System.out.println("1. View Medical Record");
         System.out.println("2. Update Personal Information");
         System.out.println("3. View Available Appointment Slots");
@@ -22,6 +21,7 @@ public class PatientView implements View{
         int choice;
 
         do {
+            this.viewTitle();
             this.printViewMenu();
             choice = Helper.readInt();
             System.out.println();

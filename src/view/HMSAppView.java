@@ -28,6 +28,7 @@ public class HMSAppView implements View{
         boolean validate = false;
 
         while (!validate) {
+            System.out.println("Login Page");
             System.out.print("ID: ");
             currUserID = Helper.readString();
             System.out.print("Password: ");
