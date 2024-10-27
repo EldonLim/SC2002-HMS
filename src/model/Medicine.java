@@ -4,8 +4,8 @@ public class Medicine {
     private String medicineName;
     private int stock;
     private int lowStockThreshold;
-    private boolean lowStockAlert = false;
-    private boolean requestAddStock = false;
+    private boolean lowStockAlert;
+    private boolean requestAddStock;
 
     /**
      * Constructs a Medicine object.
@@ -18,6 +18,7 @@ public class Medicine {
         this.medicineName = medicineName;
         this.stock = stock;
         this.lowStockThreshold = lowStockThreshold;
+        this.requestAddStock = false;
         checkStockLevel(); // Initialize lowStockAlert and requestAddStock
     }
 
@@ -26,37 +27,22 @@ public class Medicine {
      *
      * @return the medicine name
      */
-    public String getMedicineName() {
-        return medicineName;
-    }
-
-    public int getStock() {
-        return stock;
-    }
+    public String getMedicineName() { return medicineName; }
+    public int getStock() { return stock; }
 
     public void setStock(int stock) {
         this.stock = stock;
         checkStockLevel(); // Update lowStockAlert and requestAddStock
     }
 
-    public int getLowStockThreshold() {
-        return lowStockThreshold;
-    }
+    public int getLowStockThreshold() { return lowStockThreshold; }
 
     public void setLowStockThreshold(int lowStockThreshold) {
         this.lowStockThreshold = lowStockThreshold;
         checkStockLevel(); // Update lowStockAlert and requestAddStock
     }
 
-    private void checkStockLevel() {
-        lowStockAlert = stock <= lowStockThreshold;
-    }
-
-    public boolean getLowStockAlert() {
-        return lowStockAlert;
-    }
-
-    public boolean getRequestAddStock() {
-        return requestAddStock;
-    }
+    public void checkStockLevel() { lowStockAlert = stock <= lowStockThreshold; }
+    public boolean getLowStockAlert() { return lowStockAlert; }
+    public boolean getRequestAddStock() { return requestAddStock; }
 }

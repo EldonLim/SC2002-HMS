@@ -15,6 +15,8 @@ public class DataBase {
     private static final String fileExtension = ".csv";
 
     public static HashMap<String, User> Users = new HashMap<String, User>();
+    public static HashMap<String, MedicalRecord> MedicalRecords = new HashMap<>();
+
     public static int numberOfPatient = 0;
     public static int numberofDoctor = 0;
     public static int numberofAdminstrator = 0;
@@ -83,9 +85,13 @@ public class DataBase {
 
                String patientID = inputData[0];
                User user = new Patient(inputData[1], patientID, initialState? "password" : inputData[6], Role.PATIENT, Gender.fromString(inputData[3]), BloodType.fromString(inputData[4]), initialState? "" : inputData[7], inputData[5]);
+               // might change the casting
+               MedicalRecord medicalRecord = new MedicalRecord((Patient) user);
+               ((Patient) user).setMedicalRecord(medicalRecord);
 
                numberOfPatient++;
                Users.put(patientID, user);
+               MedicalRecords.put(patientID, medicalRecord);
            }
 
        }

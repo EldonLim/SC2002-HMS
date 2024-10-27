@@ -27,11 +27,13 @@ public class PatientView implements View{
             choice = Helper.readInt();
             System.out.println();
 
+            switch (choice) {
+                case 1:
+
+            }
         } while (choice != 9);
 
     }
 
-    public void viewTitle() {
-        System.out.println("Patient Menu");
-    }
+    public void viewTitle() { System.out.println("Patient Menu"); }
 }

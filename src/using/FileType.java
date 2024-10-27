@@ -7,11 +7,7 @@ public enum FileType {
 
     private final String fileName;
 
-    private FileType(String fileName) {
-        this.fileName = fileName;
-    }
+    private FileType(String fileName) { this.fileName = fileName; }
+    public String getFileName() { return fileName; }
 
-    public String getFileName() {
-        return fileName;
-    }
 }

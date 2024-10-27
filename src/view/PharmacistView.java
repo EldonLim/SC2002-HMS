@@ -24,7 +24,5 @@ public class PharmacistView implements View{
 
         } while (choice != 5);
     }
-    public void viewTitle() {
-        System.out.println("Pharmacist Menu");
-    }
+    public void viewTitle() { System.out.println("Pharmacist Menu"); }
 }

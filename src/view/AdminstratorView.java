@@ -30,7 +30,5 @@ public class AdminstratorView implements View{
     }
 
     @Override
-    public void viewTitle() {
-        System.out.println("Adminstrator Menu");
-    }
+    public void viewTitle() { System.out.println("Adminstrator Menu"); }
 }

@@ -12,13 +12,8 @@ public enum BloodType {
 
     private final String label;
 
-    private BloodType(String label) {
-        this.label = label;
-    }
-
-    public String getLabel() {
-        return label;
-    }
+    private BloodType(String label) { this.label = label; }
+    public String getLabel() { return label; }
 
     public static BloodType fromString(String bloodType) {
         for (BloodType bloodType_ : values())
@@ -26,4 +21,5 @@ public enum BloodType {
                 return bloodType_;
         return null;
     }
+
 }

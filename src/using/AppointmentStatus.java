@@ -6,11 +6,7 @@ public enum AppointmentStatus {
 
     private final String label;
 
-    private AppointmentStatus(String label) {
-        this.label = label;
-    }
+    private AppointmentStatus(String label) { this.label = label; }
+    public String getLabel() { return label; }
 
-    public String getLabel() {
-        return label;
-    }
 }

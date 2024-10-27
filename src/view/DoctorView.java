@@ -33,7 +33,5 @@ public class DoctorView implements View{
     }
 
     @Override
-    public void viewTitle() {
-        System.out.println("Doctor Menu");
-    }
+    public void viewTitle() { System.out.println("Doctor Menu"); }
 }

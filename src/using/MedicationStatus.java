@@ -6,11 +6,6 @@ public enum MedicationStatus {
 
     private final String label;
 
-    private MedicationStatus(String label) {
-        this.label = label;
-    }
-
-    public String getLabel() {
-        return label;
-    }
+    private MedicationStatus(String label) { this.label = label; }
+    public String getLabel() { return label; }
 }

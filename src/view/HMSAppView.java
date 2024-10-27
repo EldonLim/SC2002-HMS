@@ -105,7 +105,5 @@ public class HMSAppView implements View{
        System.out.println("3. Exit");
     }
 
-    public static String getCurrUserID() {
-        return currUserID;
-    }
+    public static String getCurrUserID() { return currUserID; }
 }

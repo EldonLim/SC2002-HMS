@@ -16,20 +16,14 @@ public class AppointmentOutcome {
         this.appointmentOutcomeID = appointmentOutcomeID;
     }
 
-    public String getDate() {
-        return date;
-    }
+    public String getDate() { return date; }
+    public Service getService() { return service; }
+    public String getConsultationNotes() { return consultationNotes; }
+    public String getAppointmentOutcomeID() { return appointmentOutcomeID;}
 
-    public Service getService() {
-        return service;
-    }
-
-    public String getConsultationNotes() {
-        return consultationNotes;
-    }
-
-    public String getAppointmentOutcomeID() {
-        return appointmentOutcomeID;
-    }
+    public void setDate(String date) { this.date = date; }
+    public void setService(Service service) { this.service = service; }
+    public void setConsultationNotes(String consultationNotes) { this.consultationNotes = consultationNotes; }
+    public void setAppointmentOutcomeID(String appointmentOutcomeID) { this.appointmentOutcomeID = appointmentOutcomeID; }
 
 }
