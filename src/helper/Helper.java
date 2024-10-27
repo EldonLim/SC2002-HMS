@@ -15,4 +15,11 @@ public class Helper {
         try { System.in.read(); }
         catch (Exception e) {}
     }
+
+    public static int readInt() {
+        System.out.print("Please Enter Your Choice: ");
+        int userInput = sc.nextInt();
+        sc.nextLine(); // clear buffer
+        return userInput;
+    }
 }

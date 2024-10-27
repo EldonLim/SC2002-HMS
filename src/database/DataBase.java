@@ -11,7 +11,9 @@ public class DataBase {
 
     private static final String folderName = "data/";
     private static final String fileExtension = ".csv";
+
     public static HashMap<String, User> Users = new HashMap<String, User>();
+    public static int numberOfPatient = 0;
 
     public DataBase() {
         if (!readCSVFile(FileType.PATIENTFILE))
@@ -32,6 +34,7 @@ public class DataBase {
                String patientID = inputData[0];
                Patient patient = new Patient(inputData[1], patientID, initialState? "password" : inputData[6], Role.PATIENT, Gender.fromString(inputData[3]), BloodType.fromString(inputData[4]), initialState? "" : inputData[7], inputData[5]);
 
+               numberOfPatient++;
                Users.put(patientID, patient);
            }
 

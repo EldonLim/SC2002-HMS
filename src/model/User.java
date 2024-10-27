@@ -31,8 +31,12 @@ public abstract class User {
         return gender.getLabel();
     }
 
-    public String getRole() {
+    public String getRole_String() {
         return role.getLabel();
+    }
+
+    public Role getRole() {
+        return role;
     }
 
     public String getName() {
