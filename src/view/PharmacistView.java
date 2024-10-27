@@ -21,22 +21,31 @@ public class PharmacistView implements View{
             choice = Helper.readInt();
             System.out.println();
 
-        } while (choice < 1 || choice > 5);
+            if (choice < 1 || choice > 5){
+                System.out.printf("Invalid choice!\n\n");
+            }
+
+        } while (choice != 5);
 
         switch(choice){
-            case 1: displayAppointmentOutcome();
-                    break;
+            case 1: 
+                displayAppointmentOutcome();
+                break;
 
-            case 2: updatePrescriptionStatus();
-                    break;
+            case 2: 
+                updatePrescriptionStatus();
+                break;
 
-            case 3: viewMedicalInventory();
-                    break;
+            case 3: 
+                viewMedicalInventory();
+                break;
 
-            case 4: submitReplenishmentReq();
-                    break;
+            case 4: 
+                submitReplenishmentReq();
+                break;
 
-            case 5: logout();
+            case 5: 
+                logout();
         }
     }
 
@@ -50,6 +59,8 @@ public class PharmacistView implements View{
 
     public void submitReplenishmentReq(){};
 
-    public void logout(){};
+    public void logout(){
+        System.out.println("Logging out ...");
+    }
 
 }

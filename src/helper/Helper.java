@@ -7,7 +7,7 @@ public class Helper {
     private static final Scanner sc = new Scanner(System.in);
 
     public static String readString() {
-        return sc.nextLine();
+        return sc.nextLine().trim();
     }
 
     public static void pauseApplication() {

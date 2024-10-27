@@ -23,6 +23,10 @@ public class HMSAppView implements View{
         this.handleView();
     }
 
+    public void reset(){
+        currUserID = null;
+    }
+
     public void viewTitle() {
         System.out.println("========================================");
         System.out.println("||                                    ||");
@@ -47,6 +51,7 @@ public class HMSAppView implements View{
                 System.out.println("Invalid Username or Password");
                 System.out.println("Please try again");
                 Helper.pauseApplication();
+                Helper.readString();            //clear input buffer
             }
 
         }
@@ -79,6 +84,8 @@ public class HMSAppView implements View{
                 break;
         }
 
+        this.viewTitle();
+
     }
 
     public void handleView() {
@@ -99,6 +106,7 @@ public class HMSAppView implements View{
             }
         } while (choice != 3);
     }
+
     public void printViewMenu() {
        System.out.println("1. Login");
        System.out.println("2. Register");
