@@ -15,4 +15,11 @@ public enum Service {
     public String getLabel() {
         return label;
     }
+
+    public static Service fromString(String service) {
+        for (Service service_: values())
+            if (service_.label.equals(service))
+                return service_;
+        return null;
+    }
 }

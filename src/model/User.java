@@ -11,7 +11,7 @@ public abstract class User {
 
     public User() {}
 
-    public User(String name, String id,String password, Role role, Gender gender) {
+    public User(String name, String id, String password, Role role, Gender gender) {
         this.name = name;
         this.id = id;
         this.password = password;

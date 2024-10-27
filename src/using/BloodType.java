@@ -19,4 +19,11 @@ public enum BloodType {
     public String getLabel() {
         return label;
     }
+
+    public static BloodType fromString(String bloodType) {
+        for (BloodType bloodType_ : values())
+            if (bloodType_.label.equals(bloodType))
+                return bloodType_;
+        return null;
+    }
 }
