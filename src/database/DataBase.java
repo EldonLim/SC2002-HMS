@@ -11,7 +11,7 @@ import java.util.function.DoubleConsumer;
 
 public class DataBase {
 
-    private static final String folderPath = "./src/dtabase/data/";
+    private static final String folderPath = "./src/database/data/";
     private static final String fileExtension = ".csv";
 
     public static HashMap<String, User> Users = new HashMap<String, User>();
@@ -95,4 +95,13 @@ public class DataBase {
        }
        return true;
     }
+
+    public static int getNumberOfPatient() { return numberOfPatient; }
+
+    public static int getNumberofDoctor() { return numberofDoctor; }
+
+    public static int getNumberofAdminstrator() { return numberofAdminstrator; }
+
+    public static int getNumberOfPharmacist() { return numberOfPharmacist; }
+
 }
