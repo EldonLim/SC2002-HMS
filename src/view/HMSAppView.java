@@ -8,10 +8,17 @@ import using.*;
 public class HMSAppView implements View{
 
     protected static PatientView patientView;
+    protected static AdminstratorView adminstratorView;
+    protected static DoctorView doctorView;
+    protected static PharmacistView pharmacistView;
+
     private static String currUserID;
 
     public HMSAppView() {
         patientView = new PatientView();
+        adminstratorView = new AdminstratorView();
+        doctorView = new DoctorView();
+        pharmacistView = new PharmacistView();
         this.viewTitle();
         this.handleView();
     }
@@ -28,7 +35,7 @@ public class HMSAppView implements View{
         boolean validate = false;
 
         while (!validate) {
-            System.out.println("Login Page");
+            System.out.println("Login Page (The password for first time user is \"password\")");
             System.out.print("ID: ");
             currUserID = Helper.readString();
             System.out.print("Password: ");
@@ -60,12 +67,15 @@ public class HMSAppView implements View{
                 break;
 
             case Role.ADMINISTRATOR:
+                adminstratorView.handleView();
                 break;
 
             case Role.DOCTOR:
+                doctorView.handleView();
                 break;
 
             case Role.PHARMACIST:
+                pharmacistView.handleView();
                 break;
         }
 
@@ -84,7 +94,8 @@ public class HMSAppView implements View{
                     this.loginView();
                     break;
                 case 2:
-
+                case 3:
+                    System.out.println("Thanks For Using HMSApp");
             }
         } while (choice != 3);
     }

@@ -5,6 +5,7 @@ import helper.Helper;
 public class PatientView implements View{
 
     public PatientView() {}
+
     public void printViewMenu() {
         System.out.println("1. View Medical Record");
         System.out.println("2. Update Personal Information");
