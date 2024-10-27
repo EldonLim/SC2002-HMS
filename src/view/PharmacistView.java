@@ -21,8 +21,35 @@ public class PharmacistView implements View{
             choice = Helper.readInt();
             System.out.println();
 
+        } while (choice < 1 || choice > 5);
 
-        } while (choice != 5);
+        switch(choice){
+            case 1: displayAppointmentOutcome();
+                    break;
+
+            case 2: updatePrescriptionStatus();
+                    break;
+
+            case 3: viewMedicalInventory();
+                    break;
+
+            case 4: submitReplenishmentReq();
+                    break;
+
+            case 5: logout();
+        }
     }
+
     public void viewTitle() { System.out.println("Pharmacist Menu"); }
+
+    public void displayAppointmentOutcome(){};
+
+    public void updatePrescriptionStatus(){};
+
+    public void viewMedicalInventory(){};
+
+    public void submitReplenishmentReq(){};
+
+    public void logout(){};
+
 }
