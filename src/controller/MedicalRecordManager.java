@@ -11,31 +11,31 @@ public class MedicalRecordManager {
     public static MedicalRecord getMedicalRecord(String patientID) {
         int found = 0;
         // go through the patient list to search for the patient ID
-        while(!null patientList){
+        for (Patient patient : patientList) {
             // patient found, print out his/her basic info first
-            if(patientID == patient.getID()){
+            if (patientID == patient.getID()) {
                 found = 1;
                 System.out.println("Medical Record: ");
                 Stystem.out.println("------------------");
                 System.out.println("Patient Personal Info: ");
                 System.out.println("Name: " + Database.MedicalRecord.getName());
-                System.out.println("Patient ID: " +  Database.MedicalRecord.getPatientID());
-                System.out.println("Date Of Birth: " +  Database.MedicalRecord.getDateOfBirth());
-                System.out.println("Gender: " +  Database.MedicalRecord.getGender());
+                System.out.println("Patient ID: " + Database.MedicalRecord.getPatientID());
+                System.out.println("Date Of Birth: " + Database.MedicalRecord.getDateOfBirth());
+                System.out.println("Gender: " + Database.MedicalRecord.getGender());
                 System.out.println("Phone Number: " + Database.MedicalRecord.getPhoneNo());
-                System.out.println("Email Address: " +  Database.MedicalRecord.getEmailAddress());
-                System.out.println("Blood Type: " +  Database.MedicalRecord.getBloodType());
+                System.out.println("Email Address: " + Database.MedicalRecord.getEmailAddress());
+                System.out.println("Blood Type: " + Database.MedicalRecord.getBloodType());
                 break;
             }
             System.out.println("Patient ID not found!");
-    }
+        }
 
         // print out all past medical records
-        if(found ==1){
-            while(!null patientList){
+        if (found == 1) {
+            for (Patient patient : patientList) {
                 System.out.println("Date of Visit: " + Database.MedicalRecord.getDateOfVisit);
                 System.out.println("Diagnosis: " + Database.MedicalRecord.getDiagnosis());
-                System.out.println("Treatment Plan: " +  Database.MedicalRecord.getTreatments());
+                System.out.println("Treatment Plan: " + Database.MedicalRecord.getTreatments());
             }
         }
     }
@@ -58,7 +58,7 @@ public class MedicalRecordManager {
 
     public static updateMedicalRecord(String patientID, Enum data){
         // go through the patient list to search for the patient ID
-        while(!null patientList){
+        for(Patient patient: patientList){
             if(patientID == patient.getID()){
                 // if user choose to add diagnosis
                 if(data == diagnosis){
