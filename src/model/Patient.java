@@ -9,11 +9,12 @@ public class Patient extends User{
     private String emailAddress;
     private MedicalRecord medicalRecord; // Composition
 
-    public Patient(String name, String id, String password, Role role, Gender gender, BloodType bloodType, String phoneNo, String emailAddress) {
+    public Patient(String name, String id, String password, Role role, Gender gender, BloodType bloodType, String phoneNo, String emailAddress, String dateOfBirth) {
         super(name, id, password, role, gender);
         this.bloodType = bloodType;
         this.phoneNo = phoneNo;
         this.emailAddress = emailAddress;
+        this.dateOfBirth = dateOfBirth;
         medicalRecord = null;
     }
 

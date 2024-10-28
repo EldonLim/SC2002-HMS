@@ -1,5 +1,6 @@
 package view;
 
+import controller.PatientManager;
 import helper.Helper;
 
 public class PatientView implements View{
@@ -29,7 +30,8 @@ public class PatientView implements View{
 
             switch (choice) {
                 case 1:
-
+                    PatientManager.getMedicalRecord(HMSAppView.getCurrUserID());
+                    System.out.println();
             }
         } while (choice != 9);
 

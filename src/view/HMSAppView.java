@@ -12,6 +12,7 @@ public class HMSAppView implements View{
     protected static DoctorView doctorView;
     protected static PharmacistView pharmacistView;
 
+    //protected String currUserID;
     private static String currUserID;
 
     public HMSAppView() {
