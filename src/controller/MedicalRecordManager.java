@@ -26,6 +26,7 @@ public class MedicalRecordManager {
         System.out.println("Phone Number: " + patient.getPhoneNo());
         System.out.println("Email Address: " + patient.getEmailAddress());
         System.out.println("Blood Type: " + patient.getBloodType().getLabel());
+        System.out.println();
     }
 
 }

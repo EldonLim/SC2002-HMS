@@ -31,10 +31,23 @@ public class PatientView implements View{
             switch (choice) {
                 case 1:
                     PatientManager.getMedicalRecord(HMSAppView.getCurrUserID());
-                    System.out.println();
+                    break;
+
+                case 2:
+                    this.handleUpdatePersonalInfo();
             }
         } while (choice != 9);
 
+    }
+
+    public void handleUpdatePersonalInfo() {
+        System.out.println("Please key in the latest PhoneNo & EmailAddress");
+        System.out.print("Email Address: ");
+        String updateEmailAddress = Helper.readString();
+        System.out.print("Phone No: ");
+        String updatePhoneNo = Helper.readString();
+
+        PatientManager.updatePersonalInformation(updateEmailAddress, updatePhoneNo, HMSAppView.getCurrUserID());
     }
 
     public void viewTitle() { System.out.println("Patient Menu"); }
