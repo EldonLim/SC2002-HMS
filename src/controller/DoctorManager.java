@@ -51,7 +51,7 @@ public class DoctorManager {
                 index++;
 
                 // print out all past medical records
-                for (MedicalRecord medicalRecord: medRecord) {
+                for (MedicalRecord medicalRecord : medRecord) {
                     System.out.println("Date of Visit: " + medicalRecord.getDateOfVisit());
                     System.out.println("Diagnosis: " + medicalRecord.getDiagnosis());
                     System.out.println("Treatment Plan: " + medicalRecord.getTreatments());
@@ -60,5 +60,26 @@ public class DoctorManager {
         }
     }
 
-    public void
+    public void updateMedicalRecord(String patientID, Enum data) {
+        int found = 0;
+
+        for (Patient patient : patientList) {
+            if (patientID == patient.getID()) {
+                found = 1;
+                // should we add another parameter "date" to know which medical record to
+                // update?
+                MedicalRecordManager.updateMedicalRecord(patientID, data);
+            }
+        }
+
+        // successfully updated medical record, print the latest version
+        if (found > 0) {
+            System.out.println("Sucessfully updated medical record for patient " + patientID + "!");
+            System.out.println("Updated medical record:");
+            viewMedicalRecord(patientID);
+        } else {
+            System.out.println("Patient not found!");
+        }
+
+    }
 }
