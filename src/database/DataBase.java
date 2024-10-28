@@ -1,4 +1,5 @@
 package database;
+
 import using.*;
 import model.*;
 
@@ -47,17 +48,20 @@ public class DataBase {
 
                 switch (role) {
                     case ADMINISTRATOR:
-                        user = new Adminstrator(inputData[1], staffID, initialState? "password" : inputData[5], role, Gender.fromString(inputData[3]), Integer.parseInt(inputData[4]));
+                        user = new Adminstrator(inputData[1], staffID, initialState ? "password" : inputData[5], role,
+                                Gender.fromString(inputData[3]), Integer.parseInt(inputData[4]));
                         numberofAdminstrator++;
                         break;
 
                     case DOCTOR:
-                        user = new Doctor(inputData[1], staffID, initialState? "password" : inputData[5], role, Gender.fromString(inputData[3]), Integer.parseInt(inputData[4]));
+                        user = new Doctor(inputData[1], staffID, initialState ? "password" : inputData[5], role,
+                                Gender.fromString(inputData[3]), Integer.parseInt(inputData[4]));
                         numberofDoctor++;
                         break;
 
                     case PHARMACIST:
-                        user = new Pharmacist(inputData[1], staffID, initialState? "password" : inputData[5], role, Gender.fromString(inputData[3]), Integer.parseInt(inputData[4]));
+                        user = new Pharmacist(inputData[1], staffID, initialState ? "password" : inputData[5], role,
+                                Gender.fromString(inputData[3]), Integer.parseInt(inputData[4]));
                         numberOfPharmacist++;
                         break;
                 }
@@ -65,49 +69,58 @@ public class DataBase {
                 Users.put(staffID, user);
 
             }
-        }
-        catch (IOException e) {
+        } catch (IOException e) {
             e.printStackTrace();
             return false;
         }
         return true;
     }
+
     public boolean readPatientCSVFile(FileType fileType) {
-       String filePath = folderPath + fileType.getFileName() + fileExtension;
+        String filePath = folderPath + fileType.getFileName() + fileExtension;
 
-       try (BufferedReader br = new BufferedReader(new FileReader(filePath))) {
-           String line = br.readLine();
-           String[] headers = line.split(",");
-           boolean initialState = headers.length == 6;
+        try (BufferedReader br = new BufferedReader(new FileReader(filePath))) {
+            String line = br.readLine();
+            String[] headers = line.split(",");
+            boolean initialState = headers.length == 6;
 
-           while ((line = br.readLine()) != null) {
-               String[] inputData = line.split(",");
+            while ((line = br.readLine()) != null) {
+                String[] inputData = line.split(",");
 
-               String patientID = inputData[0];
-               User user = new Patient(inputData[1], patientID, initialState? "password" : inputData[6], Role.PATIENT, Gender.fromString(inputData[3]), BloodType.fromString(inputData[4]), initialState? "" : inputData[7], inputData[5]);
-               // might change the casting
-               MedicalRecord medicalRecord = new MedicalRecord((Patient) user);
-               ((Patient) user).setMedicalRecord(medicalRecord);
+                String patientID = inputData[0];
+                User user = new Patient(inputData[1], patientID, initialState ? "password" : inputData[6], Role.PATIENT,
+                        Gender.fromString(inputData[3]), BloodType.fromString(inputData[4]),
+                        initialState ? "" : inputData[7], inputData[5]);
+                // might change the casting
+                MedicalRecord medicalRecord = new MedicalRecord((Patient) user);
+                ((Patient) user).setMedicalRecord(medicalRecord);
 
-               numberOfPatient++;
-               Users.put(patientID, user);
-               MedicalRecords.put(patientID, medicalRecord);
-           }
+                numberOfPatient++;
+                Users.put(patientID, user);
+                MedicalRecords.put(patientID, medicalRecord);
+            }
 
-       }
-       catch (IOException e) {
-           e.printStackTrace();
-           return false;
-       }
-       return true;
+        } catch (IOException e) {
+            e.printStackTrace();
+            return false;
+        }
+        return true;
     }
 
-    public static int getNumberOfPatient() { return numberOfPatient; }
+    public static int getNumberOfPatient() {
+        return numberOfPatient;
+    }
 
-    public static int getNumberofDoctor() { return numberofDoctor; }
+    public static int getNumberofDoctor() {
+        return numberofDoctor;
+    }
 
-    public static int getNumberofAdminstrator() { return numberofAdminstrator; }
+    public static int getNumberofAdminstrator() {
+        return numberofAdminstrator;
+    }
 
-    public static int getNumberOfPharmacist() { return numberOfPharmacist; }
+    public static int getNumberOfPharmacist() {
+        return numberOfPharmacist;
+    }
 
 }

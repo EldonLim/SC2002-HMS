@@ -9,6 +9,7 @@ import java.util.List;
 public class MedicalRecord {
 
     private final Patient patient; // Composition with patient
+    private final String dateOfVisit;
     private final String patientID;
     private final String name;
     private final String dateOfBirth;
@@ -21,6 +22,7 @@ public class MedicalRecord {
     private List<String> treatments;
 
     public MedicalRecord(Patient patient, List<String> diagnosis, List<String> treatments) {
+        this.dateOfVisit = AppointmentOutcome.getDate();
         this.patient = patient;
         this.patientID = patient.getID();
         this.name = patient.getName();
@@ -46,26 +48,64 @@ public class MedicalRecord {
         treatments = null;
     }
 
-    public Patient getPatient() { return patient; }
-    public List<String> getDiagnosis() { return new ArrayList<>(diagnosis); }
-    public String getPatientID() { return patientID; }
-    public List<String> getTreatments() { return new ArrayList<>(treatments); }
+    public String getDateOfVisit() {
+        return dateOfVisit;
+    }
 
-    public Gender getGender() { return gender; }
-    public String getName() { return name; }
-    public BloodType getBloodType() { return bloodType; }
-    public String getEmailAddress() { return emailAddress; }
-    public String getDateOfBirth() { return dateOfBirth; }
-    public String getPhoneNo() { return phoneNo; }
+    public Patient getPatient() {
+        return patient;
+    }
 
-    public void setEmailAddress(String emailAddress) { this.emailAddress = emailAddress; }
-    public void setPhoneNo(String phoneNo) { this.phoneNo = phoneNo; }
+    public List<String> getDiagnosis() {
+        return new ArrayList<>(diagnosis);
+    }
+
+    public String getPatientID() {
+        return patientID;
+    }
+
+    public List<String> getTreatments() {
+        return new ArrayList<>(treatments);
+    }
+
+    public Gender getGender() {
+        return gender;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public BloodType getBloodType() {
+        return bloodType;
+    }
+
+    public String getEmailAddress() {
+        return emailAddress;
+    }
+
+    public String getDateOfBirth() {
+        return dateOfBirth;
+    }
+
+    public String getPhoneNo() {
+        return phoneNo;
+    }
+
+    public void setEmailAddress(String emailAddress) {
+        this.emailAddress = emailAddress;
+    }
+
+    public void setPhoneNo(String phoneNo) {
+        this.phoneNo = phoneNo;
+    }
 
     public void addDiagnosis(String diagnosis_) {
         if (diagnosis == null)
             diagnosis = new ArrayList<>();
         diagnosis.add(diagnosis_);
     }
+
     public void addTreatment(String treatment) {
         if (treatments == null)
             treatments = new ArrayList<>();
