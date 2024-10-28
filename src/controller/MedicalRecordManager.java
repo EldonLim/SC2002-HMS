@@ -1,5 +1,7 @@
 package controller;
 
+import java.util.ArrayList;
+
 import database.DataBase;
 import model.MedicalRecord;
 
@@ -8,44 +10,32 @@ public class MedicalRecordManager {
     public MedicalRecordManager() {
     }
 
-    public static MedicalRecord getMedicalRecord(String patientID) {
+    public static ArrayList<MedicalRecord> getMedicalRecord(String patientID) {
         int found = 0;
+        ArrayList<MedicalRecord> medicalRecords = new ArrayList<MedicalRecord>();
+
         // go through the patient list to search for the patient ID
         for (Patient patient : patientList) {
-            // patient found, print out his/her basic info first
+            // patient found, add his/her medical record into the array storing all his/her
+            // medical records
             if (patientID == patient.getID()) {
                 found = 1;
-                System.out.println("Medical Record: ");
-                Stystem.out.println("------------------");
-                System.out.println("Patient Personal Info: ");
-                System.out.println("Name: " + Database.MedicalRecord.getName());
-                System.out.println("Patient ID: " + Database.MedicalRecord.getPatientID());
-                System.out.println("Date Of Birth: " + Database.MedicalRecord.getDateOfBirth());
-                System.out.println("Gender: " + Database.MedicalRecord.getGender());
-                System.out.println("Phone Number: " + Database.MedicalRecord.getPhoneNo());
-                System.out.println("Email Address: " + Database.MedicalRecord.getEmailAddress());
-                System.out.println("Blood Type: " + Database.MedicalRecord.getBloodType());
-                break;
+
+                medicalRecords.add(patient.getMedicalRecord());
             }
-            System.out.println("Patient ID not found!");
         }
 
-        // print out all past medical records
-        if (found == 1) {
-            for (Patient patient : patientList) {
-                System.out.println("Date of Visit: " + Database.MedicalRecord.getDateOfVisit);
-                System.out.println("Diagnosis: " + Database.MedicalRecord.getDiagnosis());
-                System.out.println("Treatment Plan: " + Database.MedicalRecord.getTreatments());
-            }
+        if (found < 1) {
+            System.out.println("Patient ID not found!");
         }
     }
 
     public static String getTreatments(String patientID) {
-        return DataBase.MedicalRecords.getTreatments;
+        return DataBase.MedicalRecords.getTreatments();
     }
 
     public static String getDiagnosis(String patientID) {
-        return DataBase.MedicalRecords.getDiagnosis;
+        return DataBase.MedicalRecords.getDiagnosis();
     }
 
     public static void addTreatment(String treatment) {
