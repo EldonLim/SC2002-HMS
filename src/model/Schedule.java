@@ -1,11 +1,14 @@
 package model;
 
+import using.Availability;
+
 import java.util.HashMap;
 
 public class Schedule {
 
     private Doctor doctor;
-    private HashMap<String, Boolean> schedule;
+    private String doctorID;
+    private HashMap<Integer, Availability> schedule;
 
     public static final int START_TIME = 9;
     public static final int END_TIME = 17;
@@ -17,10 +20,19 @@ public class Schedule {
     }
 
     public void initializeSchedule() {
-        for (int i = START_TIME; i < END_TIME; i++) {
-            String timeSlot = String.format("%d:00", i);
-            schedule.put(timeSlot, true);
-        }
+        for (int i = START_TIME; i < END_TIME; i++)
+            schedule.put(i, Availability.AVAILABLE);
     }
 
+    public void setDoctor(Doctor doctor) {
+        this.doctor = doctor;
+        doctorID = doctor.getID();
+    }
+
+    public Doctor getDoctor() { return doctor; }
+
+    public void setDoctorID(String doctorID) { this.doctorID = doctorID; }
+    public String getDoctorID() { return doctorID; }
+
+    public HashMap<Integer, Availability> getSchedule() { return schedule; }
 }

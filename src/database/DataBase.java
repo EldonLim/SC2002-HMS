@@ -17,6 +17,10 @@ public class DataBase {
     public static HashMap<String, User> Users = new HashMap<String, User>();
     public static HashMap<String, MedicalRecord> MedicalRecords = new HashMap<>();
 
+    // For the purpose of easy of writing back to database.
+    // When update need to update both Schedules and the schedule within every doctor
+    public static HashMap<String, Schedule> Schedules = new HashMap<>();
+
     public static int numberOfPatient = 0;
     public static int numberofDoctor = 0;
     public static int numberofAdminstrator = 0;
@@ -27,9 +31,23 @@ public class DataBase {
             System.err.println("Fail to read" + FileType.PATIENTFILE.getFileName());
         if (!readStaffCSVFile(FileType.STAFFFILE))
             System.err.println("Fail to read" + FileType.STAFFFILE.getFileName());
+
+        // for initial case where we only have 3 files, initialize the schedule for each doctor
+        initializeDoctorSchedule();
     }
 
-    public boolean readStaffCSVFile(FileType fileType) {
+    public static void initializeDoctorSchedule() {
+        for (User user : Users.values())
+            if (user.getRole() == Role.DOCTOR) {
+                Schedule schedule = new Schedule();
+                schedule.setDoctor((Doctor) user);
+                ((Doctor) user).setSchedule(schedule);
+
+                Schedules.put(user.getID(), schedule);
+            }
+    }
+
+    public static boolean readStaffCSVFile(FileType fileType) {
         String filePath = folderPath + fileType.getFileName() + fileExtension;
 
         try (BufferedReader br = new BufferedReader(new FileReader(filePath))) {
@@ -72,7 +90,7 @@ public class DataBase {
         }
         return true;
     }
-    public boolean readPatientCSVFile(FileType fileType) {
+    public static boolean readPatientCSVFile(FileType fileType) {
        String filePath = folderPath + fileType.getFileName() + fileExtension;
 
        try (BufferedReader br = new BufferedReader(new FileReader(filePath))) {

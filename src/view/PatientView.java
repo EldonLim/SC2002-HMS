@@ -1,5 +1,6 @@
 package view;
 
+import controller.DoctorManager;
 import controller.PatientManager;
 import helper.Helper;
 
@@ -36,6 +37,10 @@ public class PatientView implements View{
                 case 2:
                     this.handleUpdatePersonalInfo();
                     break;
+
+                case 3:
+                    this.viewAvailableAppointmentSlots();
+                    break;
             }
         } while (choice != 9);
 
@@ -53,4 +58,8 @@ public class PatientView implements View{
     }
 
     public void viewTitle() { System.out.println("Patient Menu"); }
+
+    public void viewAvailableAppointmentSlots() {
+        DoctorManager.printAllAvailableSlots();
+    }
 }
