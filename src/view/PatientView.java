@@ -35,6 +35,7 @@ public class PatientView implements View{
 
                 case 2:
                     this.handleUpdatePersonalInfo();
+                    break;
             }
         } while (choice != 9);
 
@@ -48,6 +49,7 @@ public class PatientView implements View{
         String updatePhoneNo = Helper.readString();
 
         PatientManager.updatePersonalInformation(updateEmailAddress, updatePhoneNo, HMSAppView.getCurrUserID());
+        System.out.println("Updated Successfully");
     }
 
     public void viewTitle() { System.out.println("Patient Menu"); }
