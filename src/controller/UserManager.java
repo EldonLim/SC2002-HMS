@@ -1,5 +1,6 @@
 package controller;
 import database.DataBase;
+import view.HMSAppView;
 
 public class UserManager {
 
@@ -9,5 +10,10 @@ public class UserManager {
             return DataBase.Users.get(id).getPassword().equals(password);
         }
         return false;
+    }
+
+    public static void resetPassword(String newPassword) {
+        DataBase.Users.get(HMSAppView.getCurrUserID()).setPassword(newPassword);
+        System.out.println("Password Reset Successfully");
     }
 }

@@ -5,6 +5,8 @@ import helper.Helper;
 import controller.*;
 import using.*;
 
+import javax.xml.crypto.Data;
+
 public class HMSAppView implements View{
 
     protected static PatientView patientView;
@@ -54,6 +56,14 @@ public class HMSAppView implements View{
 
         System.out.println("Login Successful");
         Helper.pauseApplication();
+
+        if (DataBase.Users.get(currUserID).getPassword().equals("password")) {
+            System.out.println("Please reset password for first time login");
+            System.out.print("New password: ");
+            String password = Helper.readString();
+
+            UserManager.resetPassword(password);
+        }
 
         this.handleLogin();
 
