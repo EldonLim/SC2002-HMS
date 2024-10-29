@@ -5,9 +5,11 @@ import java.util.ArrayList;
 import model.Doctor;
 import model.MedicalRecord;
 import model.Patient;
+import using.Gender;
+import using.Role;
 
 public class DoctorManager {
-    public void viewMedicalRecord(String doctorID) {
+    public static void viewMedicalRecord(String doctorID) {
         int found = 0;
 
         // an array to store all patients under a specific doctor
@@ -60,7 +62,7 @@ public class DoctorManager {
         }
     }
 
-    public void updateMedicalRecord(String patientID, Enum data) {
+    public static void updateMedicalRecord(String patientID, Enum data) {
         int found = 0;
 
         for (Patient patient : patientList) {
@@ -80,6 +82,19 @@ public class DoctorManager {
         } else {
             System.out.println("Patient not found!");
         }
+    }
 
+    public static void viewPersonalSchedule(String doctorID) {
+        for (Doctor doctor : doctorList) {
+            if (doctorID == doctor.getID()) {
+                System.out.println("Your schedule for the upcoming 7 days:");
+                System.out.println(doctor.getSchedule());
+                break;
+            }
+        }
+    }
+
+    public static void setAvailability(Doctor doctor) {
+        DocScheduleManager.setDoctorAvailability(doctor);
     }
 }
