@@ -16,17 +16,21 @@ public class DataBase {
 
     public static HashMap<String, User> Users = new HashMap<String, User>();
     public static HashMap<String, MedicalRecord> MedicalRecords = new HashMap<>();
+    public static HashMap<String, Medicine> Medicines = new HashMap<>();
 
     public static int numberOfPatient = 0;
     public static int numberofDoctor = 0;
     public static int numberofAdminstrator = 0;
     public static int numberOfPharmacist = 0;
+    public static int numberOfMedicine = 0;
 
     public DataBase() {
         if (!readPatientCSVFile(FileType.PATIENTFILE))
             System.err.println("Fail to read" + FileType.PATIENTFILE.getFileName());
         if (!readStaffCSVFile(FileType.STAFFFILE))
             System.err.println("Fail to read" + FileType.STAFFFILE.getFileName());
+        if (!readMedicineCSVFile(FileType.MEDICINEFILE))
+            System.err.println("Fail to read" + FileType.MEDICINEFILE.getFileName());
     }
 
     public boolean readStaffCSVFile(FileType fileType) {
@@ -102,6 +106,32 @@ public class DataBase {
        return true;
     }
 
+    public boolean readMedicineCSVFile(FileType fileType){
+        String filePath = folderPath + fileType.getFileName() + fileExtension;
+
+        try (BufferedReader br = new BufferedReader(new FileReader(filePath))) {
+            String line = br.readLine();
+            String[] headers = line.split(",");
+            boolean initialState = headers.length == 3;
+ 
+            while ((line = br.readLine()) != null) {
+                String[] inputData = line.split(",");
+ 
+                String medicineName = inputData[0];
+                Medicine medicine = new Medicine(inputData[0], Integer.parseInt(inputData[1]), Integer.parseInt(inputData[2]));
+ 
+                numberOfMedicine++;
+                Medicines.put(medicineName, medicine);
+            }
+ 
+        }
+        catch (IOException e) {
+            e.printStackTrace();
+            return false;
+        }
+        return true;
+    }
+
     public static int getNumberOfPatient() { return numberOfPatient; }
 
     public static int getNumberofDoctor() { return numberofDoctor; }
@@ -109,5 +139,7 @@ public class DataBase {
     public static int getNumberofAdminstrator() { return numberofAdminstrator; }
 
     public static int getNumberOfPharmacist() { return numberOfPharmacist; }
+
+    public static int getNumberOfMedicine() { return numberOfMedicine; }
 
 }
