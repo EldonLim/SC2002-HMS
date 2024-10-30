@@ -13,11 +13,14 @@ import model.Doctor;
 import java.util.ArrayList;
 import java.util.List;
 
+// Association with doctorManager class
+// DocScheduleManager manages schedule
 public class DocScheduleManager {
     public enum Availability {
         AVAILABLE,
         NOT_AVAILABLE,
-        APPOINTMENT
+        CONFIRMED_APPOINTMENT,
+        PENDING_APPOINTMENT
     }
 
     // schedule will show the doctor's schedule for the next 7 days
