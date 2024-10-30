@@ -31,6 +31,7 @@ public class DataBase {
             System.err.println("Fail to read" + FileType.STAFFFILE.getFileName());
         if (!readMedicineCSVFile(FileType.MEDICINEFILE))
             System.err.println("Fail to read" + FileType.MEDICINEFILE.getFileName());
+            
     }
 
     public boolean readStaffCSVFile(FileType fileType) {
