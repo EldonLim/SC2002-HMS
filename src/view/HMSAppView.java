@@ -60,6 +60,7 @@ public class HMSAppView implements View{
             String password = Helper.readString();
 
             UserManager.resetPassword(password);
+            System.out.println();
         }
 
         this.handleLogin();

@@ -1,5 +1,7 @@
 package view;
 
+import controller.DoctorManager;
+import database.DataBase;
 import helper.Helper;
 
 public class DoctorView implements View{
@@ -28,10 +30,28 @@ public class DoctorView implements View{
             choice = Helper.readInt();
             System.out.println();
 
+            switch (choice) {
+                case 1:
+                    handlePatientViewMedicalRecord();
+                    break;
+                case 2:
+                case 3:
+                    DoctorManager.viewPersonalSchedule(DataBase.getCurrUserID());
+                    break;
+                case 4:
+                case 5:
+                case 6:
+                case 7:
+                case 8:
+            }
         } while (choice != 8);
 
     }
 
     @Override
     public void viewTitle() { System.out.println("Doctor Menu"); }
+
+    public static void handlePatientViewMedicalRecord() {
+        DoctorManager.viewMedicalRecord(DataBase.getCurrUserID());
+    }
 }

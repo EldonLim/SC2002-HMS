@@ -2,7 +2,9 @@ package using;
 
 public enum Availability {
     AVAILABLE("Available"),
-    NOT_AVAILABLE("Not Available");
+    NOT_AVAILABLE("Not Available"),
+    PENDING_APPOINTMENT("Pending Appointment"),
+    CONFIRMED_APPOINTMENT("Confirmed Appointment");
 
     private final String label;
 
