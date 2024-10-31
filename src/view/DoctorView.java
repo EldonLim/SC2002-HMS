@@ -3,6 +3,7 @@ package view;
 import controller.DoctorManager;
 import database.DataBase;
 import helper.Helper;
+import model.Doctor;
 
 public class DoctorView implements View{
 
@@ -33,13 +34,15 @@ public class DoctorView implements View{
 
             switch (choice) {
                 case 1:
-                    handlePatientViewMedicalRecord();
+                    this.handlePatientViewMedicalRecord();
                     break;
                 case 2:
                 case 3:
                     DoctorManager.viewPersonalSchedule(DataBase.getCurrUserID());
                     break;
                 case 4:
+                    this.handleSetAvailability();
+                    break;
                 case 5:
                 case 6:
                 case 7:
@@ -55,4 +58,10 @@ public class DoctorView implements View{
     public static void handlePatientViewMedicalRecord() {
         DoctorManager.viewMedicalRecord(DataBase.getCurrUserID());
     }
+
+    public static void handleSetAvailability() {
+        System.out.println("SET UNAVAILABLE SLOT");
+        DoctorManager.setAvailability((Doctor) DataBase.getUsers().get(DataBase.getCurrUserID()));
+    }
+
 }

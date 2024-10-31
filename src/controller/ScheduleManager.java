@@ -30,7 +30,7 @@ public class ScheduleManager {
             schedule.getWeeklySlots().entrySet().stream()
                     .sorted(Map.Entry.comparingByKey()) // Sort by date key
                     .forEach(dayEntry -> {
-                        System.out.printf("| %-15s ", dayEntry.getValue().get(finalHour) == Availability.AVAILABLE? "Available" : "Not Available");
+                        System.out.printf("| %-15s ", dayEntry.getValue().get(finalHour));
                     });
             System.out.println(); // Move to the next line after each time slot
         }

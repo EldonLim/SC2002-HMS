@@ -31,7 +31,7 @@ public class HMSAppView implements View{
         System.out.println("========================================");
     }
 
-    public void loginView() {
+    public static void loginView() {
         boolean validate = false;
 
         while (!validate) {
@@ -65,11 +65,11 @@ public class HMSAppView implements View{
             Helper.pauseApplication();
         }
 
-        this.handleLogin();
+        handleLogin();
 
     }
 
-    public void handleLogin() {
+    public static void handleLogin() {
         Role role = DataBase.getUsers().get(DataBase.getCurrUserID()).getRole();
 
         switch (role) {

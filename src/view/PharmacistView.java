@@ -31,19 +31,20 @@ public class PharmacistView implements View{
 
             switch (choice) {
                 case 1:
-                    this.displayAppointmentOutcome();
+                    displayAppointmentOutcome();
                     break;
 
                 case 2:
-                    this.updatePrescriptionStatus();
+                    updatePrescriptionStatus();
                     break;
 
                 case 3:
-                    this.viewMedicationInventory();
+                    viewMedicationInventory();
                     break;
 
                 case 4:
-                    this.submitReplenishmentRequest();
+                    submitReplenishmentRequest();
+                    break;
             }
 
         } while (choice != 5);
@@ -53,7 +54,7 @@ public class PharmacistView implements View{
     public void updatePrescriptionStatus() {}
     public void viewMedicationInventory() { PharmacistManager.viewInventory(); }
 
-    public void submitReplenishmentRequest() {
+    public static void submitReplenishmentRequest() {
         if (submittedRequest())  System.out.println("Replenishment request already submitted");
         else if(!InventoryManager.checkInventoryLowStock()) System.out.println("No Medicine Low In Stock");
         else {
@@ -67,7 +68,7 @@ public class PharmacistView implements View{
 
         do {
             System.out.println("Submit Replenishment Request (y/n):");
-            choice = (char) Helper.readChar();
+            choice = Helper.readChar();
 
             if (choice != 'y' || choice != 'n')
                 System.out.println("Invalid Choice!\nPlease Try Again!!");

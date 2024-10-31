@@ -39,27 +39,27 @@ public class PatientView implements View{
                     break;
 
                 case 2:
-                    this.handleUpdatePersonalInfo();
+                    handleUpdatePersonalInfo();
                     break;
 
                 case 3:
-                    this.viewAvailableAppointmentSlots();
+                    viewAvailableAppointmentSlots();
                     break;
 
                 case 4:
-                    this.handleScheduleAnAppointment();
+                    handleScheduleAnAppointment();
                     break;
 
                 case 5:
-                    this.handleRescheduleAppointment();
+                    handleRescheduleAppointment();
                     break;
 
                 case 6:
-                    this.handleCancelAppointment();
+                    handleCancelAppointment();
                     break;
 
                 case 7:
-                    this.viewScheduledAppointment();
+                    viewScheduledAppointment();
                     break;
 
             }
@@ -70,7 +70,7 @@ public class PatientView implements View{
 
     }
 
-    public void handleUpdatePersonalInfo() {
+    public static void handleUpdatePersonalInfo() {
         System.out.println("Please key in the latest PhoneNo & EmailAddress");
         System.out.print("Email Address: ");
         String updateEmailAddress = Helper.readString();
@@ -83,12 +83,12 @@ public class PatientView implements View{
 
     public void viewTitle() { System.out.println("Patient Menu"); }
 
-    public void viewAvailableAppointmentSlots() {
+    public static void viewAvailableAppointmentSlots() {
         DoctorManager.printAllAvailableSlots();
     }
 
-    public void handleScheduleAnAppointment(){
-        this.viewAvailableAppointmentSlots();
+    public static void handleScheduleAnAppointment(){
+        viewAvailableAppointmentSlots();
         System.out.println("Each Time Slot is 1 Hour");
         System.out.print("Please Enter the Date (dd/mm/yy): ");
         String date = Helper.readString();
@@ -102,7 +102,7 @@ public class PatientView implements View{
         System.out.println("Appointment Schedule Successfully");
     }
 
-    public void handleCancelAppointment() {
+    public static void handleCancelAppointment() {
         System.out.println("CANCEL APPOINTMENT");
         AppointmentManager.cancel_viewPatientScheduledAppointments((Patient) DataBase.getUsers().get(DataBase.getCurrUserID()));
         System.out.print("Please Enter the Appointment ID: ");
@@ -114,13 +114,13 @@ public class PatientView implements View{
         System.out.println("Appointment Cancel Successfully");
     }
 
-    public void handleRescheduleAppointment() {
+    public static void handleRescheduleAppointment() {
         System.out.println("RESCHEDULE APPOINTMENT");
         AppointmentManager.viewPatientScheduledAppointments((Patient) DataBase.getUsers().get(DataBase.getCurrUserID()));
         System.out.print("Please Enter the Appointment ID: ");
         String appointmentID = Helper.readString();
 
-        this.viewAvailableAppointmentSlots();
+        viewAvailableAppointmentSlots();
 
         System.out.print("Please Enter the Date (dd/mm/yy): ");
         String date = Helper.readString();
@@ -133,6 +133,6 @@ public class PatientView implements View{
         System.out.println("Appointment Reschedule Successfully");
     }
 
-    public void viewScheduledAppointment() {
+    public static void viewScheduledAppointment() {
         AppointmentManager.viewPatientScheduledAppointments((Patient) DataBase.getUsers().get(DataBase.getCurrUserID())); }
     }

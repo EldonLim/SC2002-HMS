@@ -22,10 +22,7 @@ public class Helper {
         return userInput;
     }
 
-    public static int readChar() {
-        char userInput = sc.nextLine().toLowerCase().charAt(0);
-        return userInput;
-    }
+    public static char readChar() { return sc.nextLine().toLowerCase().charAt(0); }
 
     public static void clearInputBuffer() { sc.nextLine(); }
 }
