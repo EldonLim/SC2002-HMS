@@ -2,6 +2,7 @@ package database;
 import using.*;
 import model.*;
 
+import java.io.File;
 import java.lang.reflect.GenericDeclaration;
 import java.util.HashMap;
 import java.io.BufferedReader;
@@ -16,6 +17,7 @@ public class DataBase {
 
     public static HashMap<String, User> Users = new HashMap<String, User>();
     public static HashMap<String, MedicalRecord> MedicalRecords = new HashMap<>();
+    public static HashMap<String, Medicine> Medicines = new HashMap<>();
 
     // For the purpose of easy of writing back to database.
     // When update need to update both Schedules and the schedule within every doctor
@@ -31,7 +33,8 @@ public class DataBase {
             System.err.println("Fail to read" + FileType.PATIENTFILE.getFileName());
         if (!readStaffCSVFile(FileType.STAFFFILE))
             System.err.println("Fail to read" + FileType.STAFFFILE.getFileName());
-
+        if (!readMedicineFile(FileType.MEDICINEFILE))
+            System.err.println("Fail to read" + FileType.MEDICINEFILE.getFileName());
         // for initial case where we only have 3 files, initialize the schedule for each doctor
         initializeDoctorSchedule();
     }
@@ -45,6 +48,35 @@ public class DataBase {
 
                 Schedules.put(user.getID(), schedule);
             }
+    }
+
+    public static boolean readMedicineFile(FileType fileType) {
+        String filePath = folderPath + fileType.getFileName() + fileExtension;
+
+        try (BufferedReader br = new BufferedReader(new FileReader(filePath))) {
+            String line = br.readLine();
+            String[] headers = line.split(",");
+
+            boolean initialState = headers.length == 3;
+
+            while ((line = br.readLine()) != null) {
+                String[] inputData = line.split(",");
+
+                String medicineName = inputData[0];
+                Medicine medicine = null;
+
+                if (initialState)
+                    medicine = new Medicine(medicineName, Integer.parseInt(inputData[1]), Integer.parseInt(inputData[2]));
+                else
+                    medicine = new Medicine(medicineName, Integer.parseInt(inputData[1]), Integer.parseInt(inputData[2]), inputData[3].equals("True"), inputData[4].equals("True"));
+
+                Medicines.put(medicineName, medicine);
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+            return false;
+        }
+        return true;
     }
 
     public static boolean readStaffCSVFile(FileType fileType) {

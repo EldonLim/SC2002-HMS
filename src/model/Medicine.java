@@ -22,6 +22,13 @@ public class Medicine {
         checkStockLevel(); // Initialize lowStockAlert and requestAddStock
     }
 
+    public Medicine(String medicineName, int stock, int lowStockThreshold, boolean lowStockAlert, boolean requestAddStock) {
+        this.medicineName = medicineName;
+        this.stock = stock;
+        this.lowStockThreshold = lowStockThreshold;
+        this.lowStockAlert = lowStockAlert;
+        this.requestAddStock = requestAddStock;
+    }
     /**
      * Gets the medicine name.
      *
