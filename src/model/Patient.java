@@ -1,6 +1,8 @@
 package model;
 import using.*;
 
+import java.util.List;
+
 public class Patient extends User{
 
     private String dateOfBirth;
@@ -8,6 +10,7 @@ public class Patient extends User{
     private String phoneNo;
     private String emailAddress;
     private MedicalRecord medicalRecord; // Composition
+    private List<Appointment> appointments;
 
     public Patient(String name, String id, String password, Role role, Gender gender, BloodType bloodType, String phoneNo, String emailAddress, String dateOfBirth) {
         super(name, id, password, role, gender);

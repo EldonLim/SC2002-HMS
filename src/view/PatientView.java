@@ -42,6 +42,10 @@ public class PatientView implements View{
                 case 3:
                     this.viewAvailableAppointmentSlots();
                     break;
+
+                case 4:
+                    this.handleScheduleAnAppointment();
+
             }
         } while (choice != 9);
 
@@ -62,5 +66,19 @@ public class PatientView implements View{
 
     public void viewAvailableAppointmentSlots() {
         DoctorManager.printAllAvailableSlots();
+    }
+
+    public void handleScheduleAnAppointment(){
+        this.viewAvailableAppointmentSlots();
+        System.out.println("Each Time Slot is 1 Hour");
+        System.out.print("Please Enter the Date (dd/mm/yy): ");
+        String date = Helper.readString();
+        System.out.print("Please Enter Doctor Name: ");
+        String doctorName = Helper.readString();
+        System.out.print("Please Enter the Slot in 24Hour Format (13 stands for 1pm): ");
+        int timeSlot = Helper.readInt();
+
+
+
     }
 }
