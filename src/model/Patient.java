@@ -1,6 +1,7 @@
 package model;
 import using.*;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class Patient extends User{
@@ -19,6 +20,7 @@ public class Patient extends User{
         this.emailAddress = emailAddress;
         this.dateOfBirth = dateOfBirth;
         medicalRecord = null;
+        appointments = new ArrayList<>();
     }
 
     public String getDateOfBirth() { return dateOfBirth; }
@@ -32,4 +34,9 @@ public class Patient extends User{
 
     public void setMedicalRecord(MedicalRecord medicalRecord) { this.medicalRecord = medicalRecord; }
     public MedicalRecord getMedicalRecord() { return medicalRecord; }
+
+    public void addAppointment(Appointment appointment) { appointments.add(appointment); }
+    public void removeAppointment(Appointment appointment) { appointments.add(appointment); }
+
+    public List<Appointment> getAppointments() { return appointments; }
 }

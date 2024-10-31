@@ -25,6 +25,7 @@ public class PharmacistView implements View{
         do {
             this.viewTitle();
             this.printViewMenu();
+            System.out.print("Please Enter Your Choice: ");
             choice = Helper.readInt();
             System.out.println();
 

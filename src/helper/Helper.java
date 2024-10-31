@@ -17,7 +17,6 @@ public class Helper {
     }
 
     public static int readInt() {
-        System.out.print("Please Enter Your Choice: ");
         int userInput = sc.nextInt();
         sc.nextLine(); // clear buffer
         return userInput;
@@ -27,4 +26,6 @@ public class Helper {
         char userInput = sc.nextLine().toLowerCase().charAt(0);
         return userInput;
     }
+
+    public static void clearInputBuffer() { sc.nextLine(); }
 }

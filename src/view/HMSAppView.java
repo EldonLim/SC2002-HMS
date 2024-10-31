@@ -51,6 +51,7 @@ public class HMSAppView implements View{
 
         }
 
+        System.out.println();
         System.out.println("Login Successful");
         Helper.pauseApplication();
 
@@ -61,6 +62,7 @@ public class HMSAppView implements View{
 
             UserManager.resetPassword(password);
             System.out.println();
+            Helper.pauseApplication();
         }
 
         this.handleLogin();
@@ -95,6 +97,7 @@ public class HMSAppView implements View{
 
         do {
             this.printViewMenu();
+            System.out.print("Please Enter Your Choice: ");
             choice = Helper.readInt();
             System.out.println();
 

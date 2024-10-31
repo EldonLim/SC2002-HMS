@@ -1,9 +1,11 @@
 package view;
 
+import controller.AppointmentManager;
 import controller.DoctorManager;
 import controller.PatientManager;
 import database.DataBase;
 import helper.Helper;
+import model.Patient;
 
 public class PatientView implements View{
 
@@ -27,6 +29,7 @@ public class PatientView implements View{
         do {
             this.viewTitle();
             this.printViewMenu();
+            System.out.print("Please Enter Your Choice: ");
             choice = Helper.readInt();
             System.out.println();
 
@@ -45,8 +48,24 @@ public class PatientView implements View{
 
                 case 4:
                     this.handleScheduleAnAppointment();
+                    break;
+
+                case 5:
+                    this.handleRescheduleAppointment();
+                    break;
+
+                case 6:
+                    this.handleCancelAppointment();
+                    break;
+
+                case 7:
+                    this.viewScheduledAppointment();
+                    break;
 
             }
+
+            Helper.pauseApplication();
+
         } while (choice != 9);
 
     }
@@ -78,7 +97,14 @@ public class PatientView implements View{
         System.out.print("Please Enter the Slot in 24Hour Format (13 stands for 1pm): ");
         int timeSlot = Helper.readInt();
 
+        AppointmentManager.scheduleAppointment(doctorName, date, timeSlot);
 
+    }
 
+    public void handleCancelAppointment() {}
+    public void handleRescheduleAppointment() {}
+    public void viewScheduledAppointment() {
+        Patient patient = (Patient) DataBase.getUsers().get(DataBase.getCurrUserID());
+        AppointmentManager.viewPatientScheduledAppointments(patient);
     }
 }
