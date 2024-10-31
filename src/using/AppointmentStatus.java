@@ -2,7 +2,9 @@ package using;
 
 public enum AppointmentStatus {
     PENDING("Pending"),
-    DONE("Done");
+    CONFIRMED("Confirmed"),
+    CANCEL("Cancelled"),
+    COMPLETED("Completed");
 
     private final String label;
 

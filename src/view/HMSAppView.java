@@ -2,10 +2,11 @@ package view;
 
 import database.DataBase;
 import helper.Helper;
+import model.Doctor;
+import model.Patient;
 import controller.*;
 import using.*;
 
-import javax.xml.crypto.Data;
 
 public class HMSAppView implements View{
 
@@ -50,6 +51,7 @@ public class HMSAppView implements View{
                 System.out.println("Invalid Username or Password");
                 System.out.println("Please try again");
                 Helper.pauseApplication();
+                Helper.readString();  // clear input buffer
             }
 
         }
@@ -74,7 +76,7 @@ public class HMSAppView implements View{
 
         switch (role) {
             case Role.PATIENT:
-                patientView.handleView();
+                patientView.handleView((Patient) DataBase.Users.get(currUserID));
                 break;
 
             case Role.ADMINISTRATOR:
@@ -82,7 +84,7 @@ public class HMSAppView implements View{
                 break;
 
             case Role.DOCTOR:
-                doctorView.handleView();
+                doctorView.handleView((Doctor) DataBase.Users.get(currUserID));
                 break;
 
             case Role.PHARMACIST:
@@ -105,8 +107,10 @@ public class HMSAppView implements View{
                     this.loginView();
                     break;
                 case 2:
+                    break;
                 case 3:
                     System.out.println("Thanks For Using HMSApp");
+                    break;
             }
         } while (choice != 3);
     }

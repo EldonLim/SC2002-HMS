@@ -7,12 +7,15 @@ public class Helper {
     private static final Scanner sc = new Scanner(System.in);
 
     public static String readString() {
-        return sc.nextLine();
+        return sc.nextLine().trim();
     }
 
     public static void pauseApplication() {
         System.out.println("Press <Enter> to continue......");
-        try { System.in.read(); }
+        try { 
+            System.in.read();
+            sc.nextLine(); 
+        }
         catch (Exception e) {}
     }
 
@@ -22,4 +25,11 @@ public class Helper {
         sc.nextLine(); // clear buffer
         return userInput;
     }
+
+    public static char readChar(){
+        char userInput = sc.next().charAt(0);
+        return userInput;
+    }
+
+    public static void clearInputBuffer() { sc.nextLine(); }
 }

@@ -1,8 +1,11 @@
 package view;
 
+import controller.AppointmentManager;
 import controller.DoctorManager;
 import controller.PatientManager;
+import database.DataBase;
 import helper.Helper;
+import model.Patient;
 
 public class PatientView implements View{
 
@@ -20,7 +23,7 @@ public class PatientView implements View{
         System.out.println("9. Logout");
     }
 
-    public void handleView() {
+    public void handleView(Patient patient) {
         int choice;
 
         do {
@@ -31,29 +34,49 @@ public class PatientView implements View{
 
             switch (choice) {
                 case 1:
-                    PatientManager.getMedicalRecord(HMSAppView.getCurrUserID());
+                    PatientManager.getMedicalRecord(patient.getID());
                     break;
 
                 case 2:
-                    this.handleUpdatePersonalInfo();
+                    this.handleUpdatePersonalInfo(patient.getID());
                     break;
 
                 case 3:
                     this.viewAvailableAppointmentSlots();
                     break;
+
+                case 4:
+                    this.handleScheduleAnAppointment(patient.getID());
+                    break;
+
+                case 5:
+                    this.handleRescheduleAppointment();
+                    break;
+
+                case 6:
+                    this.handleCancelAppointment();
+                    break;
+
+                case 7:
+                    this.viewScheduledAppointment(patient.getID());
+                    break;
+
             }
+
+            Helper.pauseApplication();
+
         } while (choice != 9);
 
     }
 
-    public void handleUpdatePersonalInfo() {
+    public void handleUpdatePersonalInfo(String patientID) {
         System.out.println("Please key in the latest PhoneNo & EmailAddress");
         System.out.print("Email Address: ");
         String updateEmailAddress = Helper.readString();
         System.out.print("Phone No: ");
         String updatePhoneNo = Helper.readString();
 
-        PatientManager.updatePersonalInformation(updateEmailAddress, updatePhoneNo, HMSAppView.getCurrUserID());
+        PatientManager.updatePersonalInformation(updateEmailAddress, updatePhoneNo, patientID);
         System.out.println("Updated Successfully");
     }
 
@@ -61,5 +84,26 @@ public class PatientView implements View{
 
     public void viewAvailableAppointmentSlots() {
         DoctorManager.printAllAvailableSlots();
+    }
+
+    public void handleScheduleAnAppointment(String patientID){
+        this.viewAvailableAppointmentSlots();
+        System.out.println("Each Time Slot is 1 Hour");
+        System.out.print("Please Enter the Date (dd/mm/yy): ");
+        String date = Helper.readString();
+        System.out.print("Please Enter Doctor Name: ");
+        String doctorName = Helper.readString();
+        System.out.print("Please Enter the Slot in 24Hour Format (13 stands for 1pm): ");
+        int timeSlot = Helper.readInt();
+
+        AppointmentManager.scheduleAppointment(patientID, doctorName, date, timeSlot);
+
+    }
+
+    public void handleCancelAppointment() {}
+    public void handleRescheduleAppointment() {}
+    public void viewScheduledAppointment(String patientID) {
+        Patient patient = (Patient) DataBase.Users.get(patientID);
+        AppointmentManager.viewPatientScheduledAppointments(patient);
     }
 }

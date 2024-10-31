@@ -2,6 +2,7 @@ package database;
 import using.*;
 import model.*;
 
+import java.util.ArrayList;
 import java.lang.reflect.GenericDeclaration;
 import java.util.HashMap;
 import java.io.BufferedReader;
@@ -9,13 +10,15 @@ import java.io.IOException;
 import java.io.FileReader;
 import java.util.function.DoubleConsumer;
 
+
 public class DataBase {
 
-    private static final String folderPath = "./src/database/data/";
+    private static final String folderPath = "./data/";
     private static final String fileExtension = ".csv";
 
     public static HashMap<String, User> Users = new HashMap<String, User>();
     public static HashMap<String, MedicalRecord> MedicalRecords = new HashMap<>();
+    public static HashMap<String, Medicine> MedicineList = new HashMap<String, Medicine>();
 
     // For the purpose of easy of writing back to database.
     // When update need to update both Schedules and the schedule within every doctor
@@ -31,21 +34,23 @@ public class DataBase {
             System.err.println("Fail to read" + FileType.PATIENTFILE.getFileName());
         if (!readStaffCSVFile(FileType.STAFFFILE))
             System.err.println("Fail to read" + FileType.STAFFFILE.getFileName());
+        if (!readMedicineCSVFile(FileType.MEDICINEFILE))
+            System.err.println("Fail to read" + FileType.MEDICINEFILE.getFileName());
 
         // for initial case where we only have 3 files, initialize the schedule for each doctor
-        initializeDoctorSchedule();
+        // initializeDoctorSchedule();
     }
 
-    public static void initializeDoctorSchedule() {
-        for (User user : Users.values())
-            if (user.getRole() == Role.DOCTOR) {
-                Schedule schedule = new Schedule();
-                schedule.setDoctor((Doctor) user);
-                ((Doctor) user).setSchedule(schedule);
+    // public static void initializeDoctorSchedule() {
+    //     for (User user : Users.values())
+    //         if (user.getRole() == Role.DOCTOR) {
+    //             Schedule schedule = new Schedule();
+    //             schedule.setDoctor((Doctor) user);
+    //             ((Doctor) user).setSchedule(schedule);
 
-                Schedules.put(user.getID(), schedule);
-            }
-    }
+    //             Schedules.put(user.getID(), schedule);
+    //         }
+    // }
 
     public static boolean readStaffCSVFile(FileType fileType) {
         String filePath = folderPath + fileType.getFileName() + fileExtension;
@@ -118,6 +123,28 @@ public class DataBase {
            return false;
        }
        return true;
+    }
+    public static boolean readMedicineCSVFile(FileType fileType) {
+        String filePath = folderPath + fileType.getFileName() + fileExtension;
+
+        try (BufferedReader br = new BufferedReader(new FileReader(filePath))) {
+            String line = br.readLine();
+ 
+            while ((line = br.readLine()) != null) {
+                String[] inputData = line.split(",");
+ 
+                String medicineName = inputData[0];
+                Medicine medicine = new Medicine(inputData[0], Integer.valueOf(inputData[1]), Integer.valueOf(inputData[2]));
+ 
+                MedicineList.put(medicineName, medicine);
+            }
+ 
+        }
+        catch (IOException e) {
+            e.printStackTrace();
+            return false;
+        }
+        return true;
     }
 
     public static int getNumberOfPatient() { return numberOfPatient; }

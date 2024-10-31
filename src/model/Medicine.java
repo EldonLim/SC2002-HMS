@@ -1,11 +1,14 @@
 package model;
 
+import using.StockReplenishmentStatus;
+
 public class Medicine {
     private String medicineName;
     private int stock;
     private int lowStockThreshold;
     private boolean lowStockAlert;
-    private boolean requestAddStock;
+    private StockReplenishmentStatus stockReplenishmentStatus;
+    private int orderQuantity;
 
     /**
      * Constructs a Medicine object.
@@ -18,7 +21,8 @@ public class Medicine {
         this.medicineName = medicineName;
         this.stock = stock;
         this.lowStockThreshold = lowStockThreshold;
-        this.requestAddStock = false;
+        stockReplenishmentStatus = StockReplenishmentStatus.NOACTION;
+        orderQuantity = 0;
         checkStockLevel(); // Initialize lowStockAlert and requestAddStock
     }
 
@@ -29,6 +33,22 @@ public class Medicine {
      */
     public String getMedicineName() { return medicineName; }
     public int getStock() { return stock; }
+
+    public void setOrderQuantity(int quantity) {
+        this.orderQuantity = quantity;
+    }
+
+    public int getOrderQuantity() {
+        return orderQuantity;
+    }
+
+    public void setRequestAddStock(){
+        this.stockReplenishmentStatus = StockReplenishmentStatus.REQUESTED;
+    }
+
+    public void setApproveAddStock(){
+        this.stockReplenishmentStatus = StockReplenishmentStatus.APPROVED;
+    }
 
     public void setStock(int stock) {
         this.stock = stock;
@@ -44,5 +64,5 @@ public class Medicine {
 
     public void checkStockLevel() { lowStockAlert = stock <= lowStockThreshold; }
     public boolean getLowStockAlert() { return lowStockAlert; }
-    public boolean getRequestAddStock() { return requestAddStock; }
+    public String getRequestAddStock() { return stockReplenishmentStatus.getLabel(); }
 }
