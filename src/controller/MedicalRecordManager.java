@@ -9,7 +9,7 @@ public class MedicalRecordManager {
     public MedicalRecordManager() {}
 
     public static void getMedicalRecord(String patientID) {
-        MedicalRecord medicalRecord = DataBase.MedicalRecords.get(patientID);
+        MedicalRecord medicalRecord = DataBase.getMedicalRecords().get(patientID);
 
         if (medicalRecord == null) {
             System.out.println("No record of this patient");

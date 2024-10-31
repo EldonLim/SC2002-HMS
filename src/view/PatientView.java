@@ -2,6 +2,7 @@ package view;
 
 import controller.DoctorManager;
 import controller.PatientManager;
+import database.DataBase;
 import helper.Helper;
 
 public class PatientView implements View{
@@ -31,7 +32,7 @@ public class PatientView implements View{
 
             switch (choice) {
                 case 1:
-                    PatientManager.getMedicalRecord(HMSAppView.getCurrUserID());
+                    PatientManager.getMedicalRecord(DataBase.getCurrUserID());
                     break;
 
                 case 2:
@@ -53,7 +54,7 @@ public class PatientView implements View{
         System.out.print("Phone No: ");
         String updatePhoneNo = Helper.readString();
 
-        PatientManager.updatePersonalInformation(updateEmailAddress, updatePhoneNo, HMSAppView.getCurrUserID());
+        PatientManager.updatePersonalInformation(updateEmailAddress, updatePhoneNo, DataBase.getCurrUserID());
         System.out.println("Updated Successfully");
     }
 

@@ -14,7 +14,7 @@ public class ScheduleManager {
     public ScheduleManager() {}
 
     public static void printSchedule(String doctorID) {
-        System.out.println("Doctor " + DataBase.Users.get(doctorID).getName());
+        System.out.println("Doctor " + DataBase.getUsers().get(doctorID).getName());
         DataBase.Schedules.get(doctorID).getSchedule().entrySet().stream()
                 .filter(entry -> entry.getValue() == Availability.AVAILABLE)
                 .sorted(java.util.Comparator.comparingInt(HashMap.Entry::getKey))

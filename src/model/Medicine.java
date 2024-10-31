@@ -49,7 +49,13 @@ public class Medicine {
         checkStockLevel(); // Update lowStockAlert and requestAddStock
     }
 
-    public void checkStockLevel() { lowStockAlert = stock <= lowStockThreshold; }
+    public boolean checkStockLevel() {
+        lowStockAlert = stock <= lowStockThreshold;
+        return this.getLowStockAlert();
+    }
+
     public boolean getLowStockAlert() { return lowStockAlert; }
     public boolean getRequestAddStock() { return requestAddStock; }
+
+    public void setRequestAddStock() { this.requestAddStock = true; }
 }

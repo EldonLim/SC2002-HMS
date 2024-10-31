@@ -15,18 +15,20 @@ public class DataBase {
     private static final String folderPath = "./src/database/data/";
     private static final String fileExtension = ".csv";
 
-    public static HashMap<String, User> Users = new HashMap<String, User>();
-    public static HashMap<String, MedicalRecord> MedicalRecords = new HashMap<>();
-    public static HashMap<String, Medicine> Medicines = new HashMap<>();
+    private static HashMap<String, User> Users = new HashMap<String, User>();
+    private static HashMap<String, MedicalRecord> MedicalRecords = new HashMap<>();
+    private static HashMap<String, Medicine> Medicines = new HashMap<>();
+
+    private static String currUserID;
 
     // For the purpose of easy of writing back to database.
     // When update need to update both Schedules and the schedule within every doctor
     public static HashMap<String, Schedule> Schedules = new HashMap<>();
 
-    public static int numberOfPatient = 0;
-    public static int numberofDoctor = 0;
-    public static int numberofAdminstrator = 0;
-    public static int numberOfPharmacist = 0;
+    private static int numberOfPatient = 0;
+    private static int numberofDoctor = 0;
+    private static int numberofAdminstrator = 0;
+    private static int numberOfPharmacist = 0;
 
     public DataBase() {
         if (!readPatientCSVFile(FileType.PATIENTFILE))
@@ -153,11 +155,14 @@ public class DataBase {
     }
 
     public static int getNumberOfPatient() { return numberOfPatient; }
-
     public static int getNumberofDoctor() { return numberofDoctor; }
-
     public static int getNumberofAdminstrator() { return numberofAdminstrator; }
-
     public static int getNumberOfPharmacist() { return numberOfPharmacist; }
+    public static String getCurrUserID() { return currUserID; }
+    public static void setCurrUserID(String currUserID_) { currUserID = currUserID_; }
 
+    public static HashMap<String, MedicalRecord> getMedicalRecords() { return MedicalRecords; }
+    public static HashMap<String, User> getUsers() { return Users; }
+    public static HashMap<String, Medicine> getMedicines() { return Medicines; }
+    public static HashMap<String, Schedule> getSchedules() { return Schedules; }
 }

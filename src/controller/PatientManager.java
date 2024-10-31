@@ -11,7 +11,7 @@ public class PatientManager {
     }
 
     public static void updatePersonalInformation(String emailAddress, String phoneNo, String patientID) {
-        Patient patient = (Patient) DataBase.Users.get(patientID);
+        Patient patient = (Patient) DataBase.getUsers().get(patientID);
 
         patient.setEmailAddress(emailAddress);
         patient.setPhoneNo(phoneNo);

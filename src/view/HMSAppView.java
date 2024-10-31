@@ -14,9 +14,6 @@ public class HMSAppView implements View{
     protected static DoctorView doctorView;
     protected static PharmacistView pharmacistView;
 
-    //protected String currUserID;
-    private static String currUserID;
-
     public HMSAppView() {
         patientView = new PatientView();
         adminstratorView = new AdminstratorView();
@@ -40,11 +37,11 @@ public class HMSAppView implements View{
         while (!validate) {
             System.out.println("Login Page (The password for first time user is \"password\")");
             System.out.print("ID: ");
-            currUserID = Helper.readString();
+            DataBase.setCurrUserID(Helper.readString());
             System.out.print("Password: ");
             String password = Helper.readString();
 
-            validate = UserManager.validateUser(currUserID, password);
+            validate = UserManager.validateUser(DataBase.getCurrUserID(), password);
 
             if (!validate) {
                 System.out.println("Invalid Username or Password");
@@ -57,7 +54,7 @@ public class HMSAppView implements View{
         System.out.println("Login Successful");
         Helper.pauseApplication();
 
-        if (DataBase.Users.get(currUserID).getPassword().equals("password")) {
+        if (DataBase.getUsers().get(DataBase.getCurrUserID()).getPassword().equals("password")) {
             System.out.println("Please reset password for first time login");
             System.out.print("New password: ");
             String password = Helper.readString();
@@ -70,7 +67,7 @@ public class HMSAppView implements View{
     }
 
     public void handleLogin() {
-        Role role = DataBase.Users.get(currUserID).getRole();
+        Role role = DataBase.getUsers().get(DataBase.getCurrUserID()).getRole();
 
         switch (role) {
             case Role.PATIENT:
@@ -115,6 +112,4 @@ public class HMSAppView implements View{
        System.out.println("2. Register");
        System.out.println("3. Exit");
     }
-
-    public static String getCurrUserID() { return currUserID; }
 }
