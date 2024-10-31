@@ -5,32 +5,61 @@ import model.Doctor;
 import model.Schedule;
 import using.Availability;
 
-import java.util.Comparator;
-import java.util.HashMap;
 import java.util.Map;
 
-// Depndency with DoctorManager
 public class ScheduleManager {
-
-    private static java.util.Comparator<Object> Comparator;
 
     public ScheduleManager() {}
 
     public static void printDoctorSchedule(String doctorID) {
         System.out.println("Doctor " + DataBase.getUsers().get(doctorID).getName());
         Schedule schedule = ((Doctor) DataBase.getUsers().get(doctorID)).getSchedule();
-        schedule.getSlots().entrySet().stream()
-                .filter(entry -> entry.getValue() == Availability.AVAILABLE)
-                .sorted(java.util.Comparator.comparingInt(Map.Entry::getKey))
-                .forEach(entry -> System.out.printf("%2d:00 - %2d:00\n", entry.getKey(), entry.getKey() + 1));
+
+        // Print header row with dates in natural order (already sorted)
+        System.out.print("Time Slot     ");
+        schedule.getWeeklySlots().keySet().stream()
+                .sorted()
+                .forEach(date -> System.out.printf("| %-15s ", date));
+        System.out.println();
+
+        // Print each time slot row with availability across dates
+        for (int hour = Schedule.START_TIME; hour < Schedule.END_TIME; hour++) {
+            System.out.printf("%2d:00 - %2d:00 ", hour, hour + 1);
+
+            int finalHour = hour;
+            schedule.getWeeklySlots().entrySet().stream()
+                    .sorted(Map.Entry.comparingByKey()) // Sort by date key
+                    .forEach(dayEntry -> {
+                        System.out.printf("| %-15s ", dayEntry.getValue().get(finalHour) == Availability.AVAILABLE? "Available" : "Not Available");
+                    });
+            System.out.println(); // Move to the next line after each time slot
+        }
         System.out.println();
     }
 
     public static void printPersonalSchedule(String doctorID) {
         Schedule schedule = ((Doctor) DataBase.getUsers().get(doctorID)).getSchedule();
-        schedule.getSlots().entrySet().stream()
-                .sorted(java.util.Comparator.comparingInt(Map.Entry::getKey))
-                .forEach(entry -> System.out.printf("%2d:00 - %2d:00 %s\n", entry.getKey(), entry.getKey() + 1, entry.getValue().getLabel()));
+        System.out.println("Personal Schedule:");
+
+        // Print header row with dates in natural order (already sorted)
+        System.out.print("Time Slot     ");
+        schedule.getWeeklySlots().keySet().stream()
+                .sorted()
+                .forEach(date -> System.out.printf("| %-10s ", date));
+        System.out.println();
+
+        // Print each time slot row with availability across dates
+        for (int hour = Schedule.START_TIME; hour < Schedule.END_TIME; hour++) {
+            System.out.printf("%2d:00 - %2d:00 ", hour, hour + 1);
+
+            int finalHour = hour;
+            schedule.getWeeklySlots().entrySet().stream()
+                    .sorted(Map.Entry.comparingByKey()) // Sort by date key
+                    .forEach(dayEntry -> {
+                        System.out.printf("| %-10s ", dayEntry.getValue().get(finalHour).getLabel());
+                    });
+            System.out.println(); // Move to the next line after each time slot
+        }
         System.out.println();
     }
 }
