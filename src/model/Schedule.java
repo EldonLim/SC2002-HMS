@@ -47,6 +47,7 @@ public class Schedule {
 
     public HashMap<String, HashMap<Integer, Availability>> getWeeklySlots() { return weeklySlots; }
 
+    public void setAvailabilityForParticularDate_Time (String date, int time, Availability availability) { weeklySlots.get(date).put(time, availability); }
     public void setDoctor(Doctor user) {
     }
 }

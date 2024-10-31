@@ -25,4 +25,9 @@ public class Appointment {
     public int getTimeSlot() { return timeSlot; }
     public String getAppointmentID() { return appointmentID; }
     public Doctor getDoctor() { return doctor; }
+
+    public void setAppointmentID(String appointmentID) { this.appointmentID = appointmentID; }
+    public void setDate(String date) { this.date = date; }
+    public void setTimeSlot(int timeSlot) { this.timeSlot = timeSlot; }
+    public void setAppointmentStatus(AppointmentStatus appointmentStatus) { this.appointmentStatus = appointmentStatus; }
 }

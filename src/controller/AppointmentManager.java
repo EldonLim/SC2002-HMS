@@ -6,6 +6,7 @@ import model.Doctor;
 import model.Patient;
 import model.User;
 import using.AppointmentStatus;
+import using.Availability;
 
 import java.util.Map;
 
@@ -29,11 +30,61 @@ public class AppointmentManager {
     }
 
     public static void viewPatientScheduledAppointments(Patient patient) {
-        for (Appointment appointment : patient.getAppointments())
-            if (appointment.getAppointmentStatus() != AppointmentStatus.COMPLETED) {
+        if (patient.getAppointments().isEmpty()) {
+            System.out.println("No Scheduled Appointment");
+            return;
+        }
+
+        System.out.println("SCHEDULED APPOINTMENTS");
+        for (Appointment appointment : patient.getAppointments()) {
                 System.out.println("Appointment ID: " + appointment.getAppointmentID());
                 System.out.println("Date: " + appointment.getDate());
-                System.out.printf("Time Slot: 2%d:00 - 2%d:00\n", appointment.getTimeSlot(), appointment.getTimeSlot() + 1);
+                System.out.printf("Time Slot: %2d:00 - %2d:00\n", appointment.getTimeSlot(), appointment.getTimeSlot() + 1);
+                System.out.println("Doctor: " + appointment.getDoctor().getName());
+                System.out.println("Appointment Status: " + appointment.getAppointmentStatus().getLabel());
+                System.out.println();
+            }
+    }
+
+    public static void rescheduleAppointment(Patient patient, String appointmentID, String date, int timeSlot) {
+       Appointment appointment = null;
+
+       for (Appointment appointment_ : patient.getAppointments())
+           if ((appointment_.getAppointmentID().equals(appointmentID)) && appointment_.getAppointmentStatus() != AppointmentStatus.COMPLETED){
+               appointment = appointment_;
+               break;
+           }
+
+       appointment.setAppointmentID(patient.getID() + date.replace("/", "") + Integer.toString(timeSlot));
+       appointment.setDate(date);
+       appointment.setTimeSlot(timeSlot);
+       appointment.setAppointmentStatus(AppointmentStatus.PENDING);
+
+       appointment.getDoctor().getSchedule().setAvailabilityForParticularDate_Time(date, timeSlot, Availability.AVAILABLE);
+    }
+
+    public static void cancelAppointment(Patient patient, String appointmentID) {
+        Appointment appointment = null;
+
+        for (Appointment appointment_ : patient.getAppointments())
+            if (appointment_.getAppointmentID().equals(appointmentID) && appointment_.getAppointmentStatus() != AppointmentStatus.COMPLETED) {
+                appointment = appointment_;
+                break;
+            }
+
+        Doctor doctor = appointment.getDoctor();
+        doctor.getSchedule().setAvailabilityForParticularDate_Time(appointment.getDate(), appointment.getTimeSlot(), Availability.AVAILABLE);
+
+        doctor.getAppointments().remove(appointment);
+        patient.getAppointments().remove(appointment);
+    }
+
+    public static void cancel_viewPatientScheduledAppointments(Patient patient) {
+        for (Appointment appointment : patient.getAppointments())
+            if (appointment.getAppointmentStatus() != AppointmentStatus.CANCEL && appointment.getAppointmentStatus() != AppointmentStatus.COMPLETED) {
+                System.out.println("Appointment ID: " + appointment.getAppointmentID());
+                System.out.println("Date: " + appointment.getDate());
+                System.out.printf("Time Slot: %2d:00 - %2d:00\n", appointment.getTimeSlot(), appointment.getTimeSlot() + 1);
                 System.out.println("Doctor: " + appointment.getDoctor().getName());
                 System.out.println("Appointment Status: " + appointment.getAppointmentStatus().getLabel());
                 System.out.println();

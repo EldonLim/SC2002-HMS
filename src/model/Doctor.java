@@ -23,6 +23,7 @@ public class Doctor extends Staff{
     public void addPatient(Patient patient) { patientList.add(patient); }
     public void removePatient(Patient patient) { patientList.remove(patient); }
 
+    public List<Appointment> getAppointments() { return appointments; }
     public void addAppointment(Appointment appointment) { appointments.add(appointment); }
     public void removeAppointment(Appointment appointment) { appointments.remove(appointment); }
 }

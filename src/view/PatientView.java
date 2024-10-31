@@ -99,12 +99,40 @@ public class PatientView implements View{
 
         AppointmentManager.scheduleAppointment(doctorName, date, timeSlot);
 
+        System.out.println("Appointment Schedule Successfully");
     }
 
-    public void handleCancelAppointment() {}
-    public void handleRescheduleAppointment() {}
-    public void viewScheduledAppointment() {
-        Patient patient = (Patient) DataBase.getUsers().get(DataBase.getCurrUserID());
-        AppointmentManager.viewPatientScheduledAppointments(patient);
+    public void handleCancelAppointment() {
+        System.out.println("CANCEL APPOINTMENT");
+        AppointmentManager.cancel_viewPatientScheduledAppointments((Patient) DataBase.getUsers().get(DataBase.getCurrUserID()));
+        System.out.print("Please Enter the Appointment ID: ");
+        String appointmentID = Helper.readString();
+
+        AppointmentManager.cancelAppointment((Patient) DataBase.getUsers().get(DataBase.getCurrUserID()),
+                                             appointmentID);
+
+        System.out.println("Appointment Cancel Successfully");
     }
-}
+
+    public void handleRescheduleAppointment() {
+        System.out.println("RESCHEDULE APPOINTMENT");
+        AppointmentManager.viewPatientScheduledAppointments((Patient) DataBase.getUsers().get(DataBase.getCurrUserID()));
+        System.out.print("Please Enter the Appointment ID: ");
+        String appointmentID = Helper.readString();
+
+        this.viewAvailableAppointmentSlots();
+
+        System.out.print("Please Enter the Date (dd/mm/yy): ");
+        String date = Helper.readString();
+        System.out.print("Please Enter the Slot in 24Hour Format (13 stands for 1pm): ");
+        int timeSlot = Helper.readInt();
+
+        AppointmentManager.rescheduleAppointment((Patient) DataBase.getUsers().get(DataBase.getCurrUserID()),
+                                                 appointmentID, date, timeSlot);
+
+        System.out.println("Appointment Reschedule Successfully");
+    }
+
+    public void viewScheduledAppointment() {
+        AppointmentManager.viewPatientScheduledAppointments((Patient) DataBase.getUsers().get(DataBase.getCurrUserID())); }
+    }
