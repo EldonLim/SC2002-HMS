@@ -1,12 +1,14 @@
 package controller;
 
 import database.DataBase;
+import helper.Helper;
 import model.Appointment;
 import model.Doctor;
 import model.Patient;
 import model.User;
 import using.AppointmentStatus;
 import using.Availability;
+import using.Role;
 
 import java.util.Map;
 
@@ -68,6 +70,14 @@ public class AppointmentManager {
        appointment.getDoctor().getSchedule().setAvailabilityForParticularDate_Time(date, timeSlot, Availability.AVAILABLE);
     }
 
+    public static void viewAppointmentDetail(Appointment appointment, Role role) {
+        System.out.println("Appointment ID: " + appointment.getAppointmentID());
+        System.out.println("Date: " + appointment.getDate());
+        System.out.printf("Time Slot: %2d:00 - %2d:00\n", appointment.getTimeSlot(), appointment.getTimeSlot() + 1);
+        System.out.println(role == Role.DOCTOR? "Patient: " + appointment.getPatient().getName() : "Doctor: " + appointment.getDoctor().getName());
+        System.out.println();
+    }
+
     public static void cancelAppointment(Patient patient, String appointmentID) {
         Appointment appointment = null;
 
@@ -94,5 +104,28 @@ public class AppointmentManager {
                 System.out.println("Appointment Status: " + appointment.getAppointmentStatus().getLabel());
                 System.out.println();
             }
+    }
+
+    public static void handleDoctorAppointmentRequest(Doctor doctor) {
+        boolean existsPendingAppointment = false;
+        for (Appointment appointment : doctor.getAppointments())
+            if (appointment.getAppointmentStatus() == AppointmentStatus.PENDING) {
+                existsPendingAppointment = true;
+                viewAppointmentDetail(appointment, doctor.getRole());
+                System.out.print("Accept Appointment (y/n): ");
+                char choice = Helper.readChar();
+
+                if (choice == 'y') {
+                    appointment.setAppointmentStatus(AppointmentStatus.CONFIRM);
+                    doctor.getSchedule().getWeeklySlots().get(appointment.getDate()).put(appointment.getTimeSlot(), Availability.NOT_AVAILABLE);
+                }
+                else {
+                    appointment.setAppointmentStatus(AppointmentStatus.CANCEL);
+                    doctor.getAppointments().remove(appointment);
+                }
+            }
+
+        if (!existsPendingAppointment)
+            System.out.println("No Pending Appointment");
     }
 }

@@ -49,6 +49,13 @@ public class DoctorManager {
 
             if (choice == 'n') break;
 
+            System.out.println();
         } while (true);
+
+        Helper.pauseApplication();
+    }
+
+    public static void handleAppointmentRequest(Doctor doctor) {
+        AppointmentManager.handleDoctorAppointmentRequest(doctor);
     }
 }

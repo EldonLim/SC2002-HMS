@@ -92,17 +92,19 @@ public class PatientView implements View{
         do {
             viewAvailableAppointmentSlots();
             System.out.println("Each Time Slot is 1 Hour");
-            System.out.print("Please Enter the Date (dd/mm/yy): ");
-            String date = Helper.readString();
             System.out.print("Please Enter Doctor Name: ");
             String doctorName = Helper.readString();
+            System.out.print("Please Enter the Date (dd/mm/yy): ");
+            String date = Helper.readString();
             System.out.print("Please Enter the Slot in 24Hour Format (13 stands for 1pm): ");
             int timeSlot = Helper.readInt();
 
             bookappointment = AppointmentManager.scheduleAppointment(doctorName, date, timeSlot);
             if (!bookappointment) {
+                System.out.println();
                 System.out.println("Doctor is not available at that time");
                 System.out.println("Please another appointment according to the schedule");
+                Helper.pauseApplication();
             }
         } while (!bookappointment);
 

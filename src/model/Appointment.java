@@ -25,6 +25,7 @@ public class Appointment {
     public int getTimeSlot() { return timeSlot; }
     public String getAppointmentID() { return appointmentID; }
     public Doctor getDoctor() { return doctor; }
+    public Patient getPatient() { return patient; }
 
     public void setAppointmentID(String appointmentID) { this.appointmentID = appointmentID; }
     public void setDate(String date) { this.date = date; }

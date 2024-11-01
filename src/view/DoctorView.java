@@ -41,9 +41,11 @@ public class DoctorView implements View{
                     DoctorManager.viewPersonalSchedule(DataBase.getCurrUserID());
                     break;
                 case 4:
-                    this.handleSetAvailability();
+                    handleSetAvailability();
                     break;
                 case 5:
+                    handleAcceptDeclineAppointment();
+                    break;
                 case 6:
                 case 7:
                 case 8:
@@ -64,4 +66,7 @@ public class DoctorView implements View{
         DoctorManager.setAvailability((Doctor) DataBase.getUsers().get(DataBase.getCurrUserID()));
     }
 
+    public static void handleAcceptDeclineAppointment() {
+        DoctorManager.handleAppointmentRequest((Doctor) DataBase.getUsers().get(DataBase.getCurrUserID()));
+    }
 }
