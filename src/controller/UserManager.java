@@ -6,9 +6,8 @@ public class UserManager {
 
     public UserManager() {}
     public static boolean validateUser(String id, String password) {
-        if (DataBase.getUsers().containsKey(id)) {
+        if (DataBase.getUsers().containsKey(id))
             return DataBase.getUsers().get(id).getPassword().equals(password);
-        }
         return false;
     }
 

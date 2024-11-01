@@ -10,6 +10,7 @@ public class Appointment {
     private String appointmentID; //PatientID|DATE|TIME
     private Patient patient;
     private Doctor doctor;
+    private AppointmentOutcome appointmentOutcome;
 
     public Appointment(String date, int timeSlot, Patient patient, Doctor doctor) {
         this.date = date;
@@ -31,4 +32,11 @@ public class Appointment {
     public void setDate(String date) { this.date = date; }
     public void setTimeSlot(int timeSlot) { this.timeSlot = timeSlot; }
     public void setAppointmentStatus(AppointmentStatus appointmentStatus) { this.appointmentStatus = appointmentStatus; }
+
+    public void setAppointmentOutcome(AppointmentOutcome appointmentOutcome) {
+        this.appointmentOutcome = appointmentOutcome;
+        appointmentStatus = AppointmentStatus.COMPLETED;
+    }
+
+    public AppointmentOutcome getAppointmentOutcome() { return appointmentOutcome; }
 }

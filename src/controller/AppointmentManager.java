@@ -2,13 +2,8 @@ package controller;
 
 import database.DataBase;
 import helper.Helper;
-import model.Appointment;
-import model.Doctor;
-import model.Patient;
-import model.User;
-import using.AppointmentStatus;
-import using.Availability;
-import using.Role;
+import model.*;
+import using.*;
 
 import java.util.List;
 import java.util.Map;
@@ -132,4 +127,24 @@ public class AppointmentManager {
     }
 
     public static List<Appointment> getDoctorUpComingAppointments (Doctor doctor) { return doctor.getAppointments(); }
+
+    public static void recordAppointOutcome(String appointmentID, String service, String consultationNotes, String medicineName) {
+        Doctor doctor = (Doctor) DataBase.getUsers().get(DataBase.getCurrUserID());
+        Appointment appointment = doctor.getAppointments().stream().filter(appointment_ -> appointment_.getAppointmentID().equals(appointmentID)).findFirst().orElse(null);
+
+        AppointmentOutcome appointmentOutcome = new AppointmentOutcome(appointment.getDate(), Service.fromString(service), consultationNotes, appointmentID, medicineName, MedicationStatus.PENDING);
+        appointment.setAppointmentOutcome(appointmentOutcome);
+
+        // delete from doctor
+        doctor.removeAppointment(appointment);
+        appointment.getPatient().getMedicalRecord().addAppointmentOutcomes(appointmentOutcome);
+    }
+
+    public static void printAppointmentOutcome(AppointmentOutcome appointmentOutcome) {
+        System.out.println("Date: " + appointmentOutcome.getDate());
+        System.out.println("Service: " + appointmentOutcome.getService());
+        System.out.println("Medicine: " + appointmentOutcome.getMedicine());
+        System.out.println("Consultation Note:" + appointmentOutcome.getConsultationNotes());
+        System.out.println();
+    }
 }

@@ -11,6 +11,7 @@ import using.AppointmentStatus;
 import using.Role;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 public class DoctorView implements View{
 
@@ -51,16 +52,23 @@ public class DoctorView implements View{
                 case 3:
                     DoctorManager.viewPersonalSchedule(DataBase.getCurrUserID());
                     break;
+
                 case 4:
                     handleSetAvailability();
                     break;
+
                 case 5:
                     handleAcceptDeclineAppointment();
                     break;
+
                 case 6:
                     handleViewUpComingAppointment();
                     break;
+
                 case 7:
+                    handleRecordAppointmentOutcome();
+                    break;
+
                 case 8:
             }
 
@@ -115,12 +123,66 @@ public class DoctorView implements View{
     public static void handleViewUpComingAppointment() {
         List<Appointment> upComingAppointments = DoctorManager.handleGetDoctorUpComingAppointment((Doctor) DataBase.getUsers().get(DataBase.getCurrUserID()));
 
-        if (upComingAppointments.isEmpty())
+        if (upComingAppointments.isEmpty()) {
             System.out.println("No Upcoming Appointments\n");
+            return;
+        }
 
         System.out.println("Upcoming Appointments: ");
         for (Appointment appointment : upComingAppointments)
             if (appointment.getAppointmentStatus() == AppointmentStatus.CONFIRM)
                 AppointmentManager.viewAppointmentDetail(appointment, Role.DOCTOR);
+    }
+
+    public static void handleRecordAppointmentOutcome() {
+        List<Appointment> upcomingConfirmedAppointments =
+                DoctorManager.handleGetDoctorUpComingAppointment((Doctor) DataBase.getUsers().get(DataBase.getCurrUserID()))
+                        .stream()
+                        .filter(appointment -> appointment.getAppointmentStatus() == AppointmentStatus.CONFIRM)
+                        .collect(Collectors.toList());
+
+        if (upcomingConfirmedAppointments.isEmpty()) {
+            System.out.println("No Appointments\n");
+            return;
+        }
+
+        System.out.println("RECORD APPOINTMENT OUTCOME");
+        System.out.println("List of Appointments: ");
+        for (Appointment appointment : upcomingConfirmedAppointments) {
+            System.out.println("Appointment ID: " + appointment.getAppointmentID());
+            System.out.println("Date: " + appointment.getDate());
+            System.out.printf("Time Sloe: %2d:00 - %2d:00\n", appointment.getTimeSlot(), appointment.getTimeSlot() + 1);
+            System.out.println("Patient Name: " + appointment.getPatient().getName());
+            System.out.println();
+        }
+
+        String appointmentID;
+
+        do {
+            System.out.print("Please Enter the Appointment ID: ");
+            appointmentID = Helper.readString();
+
+            String appointmentID_ = appointmentID;
+            boolean isValidAppointmentID = upcomingConfirmedAppointments.stream()
+                    .anyMatch(appointment -> appointment.getAppointmentID().equals(appointmentID_));
+
+            if (!isValidAppointmentID) {
+                System.out.println("There is no appointment with this ID");
+                System.out.println("Please Enter Again!!");
+                continue;
+            }
+            break;
+        } while (true);
+
+        System.out.print("Type of Services (X-Ray, Blood Test, Consultation or Other): ");
+        String service = Helper.readString();
+        System.out.print("Medicine: ");
+        String medicine = Helper.readString();
+        System.out.print("Consultation Notes: ");
+        String consultationNotes = Helper.readString();
+
+        AppointmentManager.recordAppointOutcome(appointmentID, service, consultationNotes, medicine);
+
+        System.out.println("Record Updated Successfully\ng");
     }
 }

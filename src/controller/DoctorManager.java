@@ -3,6 +3,7 @@ package controller;
 import database.DataBase;
 import helper.Helper;
 import model.Appointment;
+import model.AppointmentOutcome;
 import model.Doctor;
 import model.Patient;
 import using.Availability;
@@ -31,9 +32,11 @@ public class DoctorManager {
             return;
         }
 
-        for (Patient patient : doctor.getPatientList())
+        for (Patient patient : doctor.getPatientList()) {
             MedicalRecordManager.printMedicalRecord(patient.getID());
-
+            if (!patient.getMedicalRecord().getAppointmentOutcomes().isEmpty())
+                patient.getMedicalRecord().getAppointmentOutcomes().forEach(AppointmentManager::printAppointmentOutcome);
+        }
     }
 
     public static void viewPersonalSchedule(String doctorID) {
@@ -65,4 +68,5 @@ public class DoctorManager {
     public static List<Patient> getAllPatientUnderCare(Doctor doctor) { return doctor.getPatientList(); }
     public static void handleUpdateMedicalRecord(Patient patient, String diagnosis, String treatment) { MedicalRecordManager.updateMedicalRecord(patient, diagnosis, treatment);}
     public static List<Appointment> handleGetDoctorUpComingAppointment(Doctor doctor) { return AppointmentManager.getDoctorUpComingAppointments(doctor); }
+
 }

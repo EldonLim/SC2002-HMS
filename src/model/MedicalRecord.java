@@ -20,6 +20,8 @@ public class MedicalRecord {
     private List<String> diagnosis;
     private List<String> treatments;
 
+    private List<AppointmentOutcome> appointmentOutcomes;
+
     public MedicalRecord(Patient patient, List<String> diagnosis, List<String> treatments) {
         this.patient = patient;
         this.patientID = patient.getID();
@@ -31,8 +33,10 @@ public class MedicalRecord {
         this.bloodType = patient.getBloodType();
         this.diagnosis = new ArrayList<>(diagnosis);
         this.treatments = new ArrayList<>(treatments);
+        this.appointmentOutcomes = new ArrayList<>();
     }
 
+    // First time reading the file
     public MedicalRecord(Patient patient) {
         this.patient = patient;
         this.patientID = patient.getID();
@@ -44,6 +48,7 @@ public class MedicalRecord {
         this.bloodType = patient.getBloodType();
         this.diagnosis = new ArrayList<>();
         this.treatments = new ArrayList<>();
+        this.appointmentOutcomes = new ArrayList<>();
     }
 
     public Patient getPatient() { return patient; }
@@ -64,4 +69,6 @@ public class MedicalRecord {
     public void addDiagnosis(String diagnosis_) { diagnosis.add(diagnosis_); }
     public void addTreatment(String treatment) { treatments.add(treatment); }
 
+    public void addAppointmentOutcomes(AppointmentOutcome appointmentOutcome) { appointmentOutcomes.add(appointmentOutcome); };
+    public List<AppointmentOutcome> getAppointmentOutcomes() { return appointmentOutcomes; }
 }

@@ -120,13 +120,9 @@ public class DataBase {
 
                String patientID = inputData[0];
                User user = new Patient(inputData[1], patientID, initialState? "password" : inputData[6], Role.PATIENT, Gender.fromString(inputData[3]), BloodType.fromString(inputData[4]), initialState? "" : inputData[7], inputData[5], inputData[2]);
-               // might change the casting
-//               MedicalRecord medicalRecord = new MedicalRecord((Patient) user);
-//               ((Patient) user).setMedicalRecord(medicalRecord);
 
                numberOfPatient++;
                Users.put(patientID, user);
-//               MedicalRecords.put(patientID, medicalRecord);
            }
 
        }
