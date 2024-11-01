@@ -83,7 +83,7 @@ public class AdminstratorView implements View{
     }
 
     public void addOrRemoveStaffs() {
-        System.out.println("Enter 1 to add staff, 2 to remove staff: ");
+        System.out.println("Enter 1 to add staff, 2 to remove staff, 3 to skip: ");
         int res = Helper.readInt();
         if (res == 1){
             System.out.println("Enter staff name: ");
@@ -108,12 +108,12 @@ public class AdminstratorView implements View{
 
             AdministratorManager.addUser(name, id, "password", role, gender, age);
             System.out.println("Staff added!");
-        } else {
+        } else if (res == 2){
             System.out.println("Enter staff id: ");
             String staffId = Helper.readString();
             AdministratorManager.removeUser(staffId);
             System.out.println("Staff has been removed!");
-        }
+        } 
     }
     
     public void listMedicine(){
