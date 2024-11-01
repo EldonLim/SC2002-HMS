@@ -19,7 +19,7 @@ public class ScheduleManager {
         System.out.print("Time Slot     ");
         schedule.getWeeklySlots().keySet().stream()
                 .sorted()
-                .forEach(date -> System.out.printf("| %-20s ", date));
+                .forEach(date -> System.out.printf("| %-15s ", date));
         System.out.println();
 
         // Print each time slot row with availability across dates
@@ -30,7 +30,7 @@ public class ScheduleManager {
             schedule.getWeeklySlots().entrySet().stream()
                     .sorted(Map.Entry.comparingByKey()) // Sort by date key
                     .forEach(dayEntry -> {
-                        System.out.printf("| %-20s ", dayEntry.getValue().get(finalHour));
+                        System.out.printf("| %-15s ", dayEntry.getValue().get(finalHour));
                     });
             System.out.println(); // Move to the next line after each time slot
         }
@@ -45,7 +45,7 @@ public class ScheduleManager {
         System.out.print("Time Slot     ");
         schedule.getWeeklySlots().keySet().stream()
                 .sorted()
-                .forEach(date -> System.out.printf("| %-20s ", date));
+                .forEach(date -> System.out.printf("| %-15s ", date));
         System.out.println();
 
         // Print each time slot row with availability across dates
@@ -56,7 +56,7 @@ public class ScheduleManager {
             schedule.getWeeklySlots().entrySet().stream()
                     .sorted(Map.Entry.comparingByKey()) // Sort by date key
                     .forEach(dayEntry -> {
-                        System.out.printf("| %-20s ", dayEntry.getValue().get(finalHour).getLabel());
+                        System.out.printf("| %-15s ", dayEntry.getValue().get(finalHour).getLabel());
                     });
             System.out.println(); // Move to the next line after each time slot
         }

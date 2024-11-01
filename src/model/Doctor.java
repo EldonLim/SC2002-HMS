@@ -10,10 +10,12 @@ public class Doctor extends Staff{
     private List<Patient> patientList;
     private List<Appointment> appointments;
 
+    // For first time reading the file
     public Doctor(String name, String id, String password, Role role, Gender gender, int age) {
         super(name, id, password, gender, role, age);
         patientList = new ArrayList<>();
         appointments = new ArrayList<>();
+        schedule = new Schedule(this);
     }
 
     public Schedule getSchedule() { return schedule; }

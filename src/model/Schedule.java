@@ -18,7 +18,8 @@ public class Schedule {
 
     public static final int TOTAL_DAYS = 5; // Number of days in the schedule
 
-    public Schedule() {
+    public Schedule(Doctor doctor) {
+        this.doctor = doctor;
         weeklySlots = new HashMap<>();
         this.initializeWeeklySchedule();
     }
@@ -41,10 +42,6 @@ public class Schedule {
     }
 
     public Doctor getDoctor() { return doctor; }
-
-    public void setDoctorID(String doctorID) { this.doctorID = doctorID; }
-    public String getDoctorID() { return doctorID; }
-
     public HashMap<String, HashMap<Integer, Availability>> getWeeklySlots() { return weeklySlots; }
 
     public void setAvailabilityForParticularDate_Time (String date, int time, Availability availability) { weeklySlots.get(date).put(time, availability); }

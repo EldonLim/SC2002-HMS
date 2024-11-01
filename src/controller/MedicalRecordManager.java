@@ -9,7 +9,7 @@ public class MedicalRecordManager {
     public MedicalRecordManager() {}
 
     public static void printMedicalRecord(String patientID) {
-        MedicalRecord medicalRecord = DataBase.getMedicalRecords().get(patientID);
+        MedicalRecord medicalRecord = ((Patient) DataBase.getUsers().get(patientID)).getMedicalRecord();
 
         if (medicalRecord == null) {
             System.out.println("No record of this patient");
@@ -28,19 +28,19 @@ public class MedicalRecordManager {
         System.out.println("Blood Type: " + patient.getBloodType().getLabel());
         if (!medicalRecord.getDiagnosis().isEmpty()) {
             String concat_diagnosis = String.join(", ", medicalRecord.getDiagnosis());
-            System.out.println(concat_diagnosis);
+            System.out.println("Diagnosis: " + concat_diagnosis);
         }
         if (!medicalRecord.getTreatments().isEmpty()) {
             String concat_treatments = String.join(", ", medicalRecord.getTreatments());
-            System.out.println(concat_treatments);
+            System.out.println("Treatments: " + concat_treatments);
         }
 
         System.out.println();
     }
 
-    public static void updateMedicalRecord(Patient patient, String diagnosis_, String treatment_) {
-        patient.getMedicalRecord().addDiagnosis(diagnosis_);
-        patient.getMedicalRecord().addTreatment(treatment_);
+    public static void updateMedicalRecord(Patient patient, String diagnosis, String treatment) {
+        patient.getMedicalRecord().addDiagnosis(diagnosis);
+        patient.getMedicalRecord().addTreatment(treatment);
     }
 
 }

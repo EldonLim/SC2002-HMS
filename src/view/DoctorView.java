@@ -1,10 +1,14 @@
 package view;
 
+import controller.AppointmentManager;
 import controller.DoctorManager;
 import database.DataBase;
 import helper.Helper;
+import model.Appointment;
 import model.Doctor;
 import model.Patient;
+import using.AppointmentStatus;
+import using.Role;
 
 import java.util.List;
 
@@ -54,6 +58,8 @@ public class DoctorView implements View{
                     handleAcceptDeclineAppointment();
                     break;
                 case 6:
+                    handleViewUpComingAppointment();
+                    break;
                 case 7:
                 case 8:
             }
@@ -66,48 +72,55 @@ public class DoctorView implements View{
 
     @Override
     public void viewTitle() { System.out.println("Doctor Menu"); }
-
-    public static void handlePatientViewMedicalRecord() {
-        DoctorManager.viewMedicalRecord(DataBase.getCurrUserID());
-    }
+    public static void handlePatientViewMedicalRecord() { DoctorManager.viewMedicalRecord(DataBase.getCurrUserID()); }
 
     public static void handleSetAvailability() {
         System.out.println("SET UNAVAILABLE SLOT");
         DoctorManager.setAvailability((Doctor) DataBase.getUsers().get(DataBase.getCurrUserID()));
     }
-
-    public static void handleAcceptDeclineAppointment() {
-        DoctorManager.handleAppointmentRequest((Doctor) DataBase.getUsers().get(DataBase.getCurrUserID()));
-    }
+    public static void handleAcceptDeclineAppointment() { DoctorManager.handleAppointmentRequest((Doctor) DataBase.getUsers().get(DataBase.getCurrUserID())); }
 
     public static void handleUpdatePatientMedicalRecord() {
-        System.out.println("UPDATE PATIENT MEDICAL RECORD");
         List <Patient> patients = DoctorManager.getAllPatientUnderCare((Doctor) DataBase.getUsers().get(DataBase.getCurrUserID()));
+
         if (patients.isEmpty())
             System.out.println("No Patient Under Your Care");
         else {
+            System.out.println("UPDATE PATIENT MEDICAL RECORD");
             System.out.println("Patients Under Your Care:");
             for (Patient patient : patients)
-                System.out.println(patient.getName() + "(" + patient.getID() + ")");
+                System.out.println(patient.getName() + " (" + patient.getID() + ")");
 
             do {
                 System.out.print("Please Enter Patient ID: ");
                 String patientID = Helper.readString();
 
                 if (!patients.contains((Patient) DataBase.getUsers().get(patientID))) {
-                    System.out.println("No such patient, please key in again");
+                    System.out.println("\nNo such patient, please key in again\n");
                     continue;
                 }
 
                 System.out.print("Diagnosis: ");
-                String diagnosis_ = Helper.readString();
+                String diagnosis = Helper.readString();
                 System.out.print("Treatment: ");
-                String treatment_ = Helper.readString();
+                String treatment = Helper.readString();
 
-                DoctorManager.handleUpdateMedicalRecord((Patient) DataBase.getUsers().get(patientID), diagnosis_, treatment_);
+                DoctorManager.handleUpdateMedicalRecord((Patient) DataBase.getUsers().get(patientID), diagnosis, treatment);
                 break;
             } while (true);
         }
-        Helper.pauseApplication();
+        System.out.println();
+    }
+
+    public static void handleViewUpComingAppointment() {
+        List<Appointment> upComingAppointments = DoctorManager.handleGetDoctorUpComingAppointment((Doctor) DataBase.getUsers().get(DataBase.getCurrUserID()));
+
+        if (upComingAppointments.isEmpty())
+            System.out.println("No Upcoming Appointments\n");
+
+        System.out.println("Upcoming Appointments: ");
+        for (Appointment appointment : upComingAppointments)
+            if (appointment.getAppointmentStatus() == AppointmentStatus.CONFIRM)
+                AppointmentManager.viewAppointmentDetail(appointment, Role.DOCTOR);
     }
 }

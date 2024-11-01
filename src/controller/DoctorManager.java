@@ -2,6 +2,7 @@ package controller;
 
 import database.DataBase;
 import helper.Helper;
+import model.Appointment;
 import model.Doctor;
 import model.Patient;
 import using.Availability;
@@ -21,7 +22,14 @@ public class DoctorManager {
     }
 
     public static void viewMedicalRecord(String doctorID) {
+
         Doctor doctor = (Doctor) DataBase.getUsers().get(doctorID);
+
+        if (doctor.getPatientList().isEmpty()) {
+            System.out.println("No Patient Under Your Care");
+            System.out.println();
+            return;
+        }
 
         for (Patient patient : doctor.getPatientList())
             MedicalRecordManager.printMedicalRecord(patient.getID());
@@ -49,13 +57,12 @@ public class DoctorManager {
 
             System.out.println();
         } while (true);
-
-        Helper.pauseApplication();
     }
 
     public static void handleAppointmentRequest(Doctor doctor) { AppointmentManager.handleDoctorAppointmentRequest(doctor); }
     public static void addPatientUnderCare(Doctor doctor, Patient patient) { doctor.addPatient(patient); }
     public static void removePatientUnderCare(Doctor doctor, Patient patient) { doctor.removePatient(patient); }
     public static List<Patient> getAllPatientUnderCare(Doctor doctor) { return doctor.getPatientList(); }
-    public static void handleUpdateMedicalRecord(Patient patient, String diagnosis_, String treatment) {}
+    public static void handleUpdateMedicalRecord(Patient patient, String diagnosis, String treatment) { MedicalRecordManager.updateMedicalRecord(patient, diagnosis, treatment);}
+    public static List<Appointment> handleGetDoctorUpComingAppointment(Doctor doctor) { return AppointmentManager.getDoctorUpComingAppointments(doctor); }
 }

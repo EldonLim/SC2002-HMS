@@ -10,6 +10,7 @@ import using.AppointmentStatus;
 import using.Availability;
 import using.Role;
 
+import java.util.List;
 import java.util.Map;
 
 public class AppointmentManager {
@@ -25,7 +26,8 @@ public class AppointmentManager {
                     break;
                 }
 
-        if (doctor.getSchedule().getWeeklySlots().get(date).get(timeSlot).equals(Availability.NOT_AVAILABLE))
+        Availability doctor_availability = doctor.getSchedule().getWeeklySlots().get(date).get(timeSlot);
+        if (doctor_availability == Availability.NOT_AVAILABLE || doctor_availability == Availability.BOOKED)
             return false;
 
         Patient patient = (Patient) DataBase.getUsers().get(DataBase.getCurrUserID());;
@@ -43,14 +45,9 @@ public class AppointmentManager {
         }
 
         System.out.println("SCHEDULED APPOINTMENTS");
-        for (Appointment appointment : patient.getAppointments()) {
-                System.out.println("Appointment ID: " + appointment.getAppointmentID());
-                System.out.println("Date: " + appointment.getDate());
-                System.out.printf("Time Slot: %2d:00 - %2d:00\n", appointment.getTimeSlot(), appointment.getTimeSlot() + 1);
-                System.out.println("Doctor: " + appointment.getDoctor().getName());
-                System.out.println("Appointment Status: " + appointment.getAppointmentStatus().getLabel());
-                System.out.println();
-            }
+        for (Appointment appointment : patient.getAppointments())
+                viewAppointmentDetail(appointment, Role.PATIENT);
+
     }
 
     public static void rescheduleAppointment(Patient patient, String appointmentID, String date, int timeSlot) {
@@ -75,6 +72,8 @@ public class AppointmentManager {
         System.out.println("Date: " + appointment.getDate());
         System.out.printf("Time Slot: %2d:00 - %2d:00\n", appointment.getTimeSlot(), appointment.getTimeSlot() + 1);
         System.out.println(role == Role.DOCTOR? "Patient: " + appointment.getPatient().getName() : "Doctor: " + appointment.getDoctor().getName());
+        if (role == Role.PATIENT)
+            System.out.println("Appointment Status: " + appointment.getAppointmentStatus().getLabel());
         System.out.println();
     }
 
@@ -119,7 +118,7 @@ public class AppointmentManager {
 
                 if (choice == 'y') {
                     appointment.setAppointmentStatus(AppointmentStatus.CONFIRM);
-                    doctor.getSchedule().getWeeklySlots().get(appointment.getDate()).put(appointment.getTimeSlot(), Availability.NOT_AVAILABLE);
+                    doctor.getSchedule().getWeeklySlots().get(appointment.getDate()).put(appointment.getTimeSlot(), Availability.BOOKED);
                     DoctorManager.addPatientUnderCare(doctor, appointment.getPatient());
                 }
                 else {
@@ -131,4 +130,6 @@ public class AppointmentManager {
         if (!existsPendingAppointment)
             System.out.println("No Pending Appointment");
     }
+
+    public static List<Appointment> getDoctorUpComingAppointments (Doctor doctor) { return doctor.getAppointments(); }
 }

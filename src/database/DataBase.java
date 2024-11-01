@@ -16,14 +16,10 @@ public class DataBase {
     private static final String fileExtension = ".csv";
 
     private static HashMap<String, User> Users = new HashMap<String, User>();
-    private static HashMap<String, MedicalRecord> MedicalRecords = new HashMap<>();
+//    private static HashMap<String, MedicalRecord> MedicalRecords = new HashMap<>();
     private static HashMap<String, Medicine> Medicines = new HashMap<>();
 
     private static String currUserID;
-
-    // For the purpose of easy of writing back to database.
-    // When update need to update both Schedules and the schedule within every doctor
-    public static HashMap<String, Schedule> Schedules = new HashMap<>();
 
     private static int numberOfPatient = 0;
     private static int numberofDoctor = 0;
@@ -37,19 +33,6 @@ public class DataBase {
             System.err.println("Fail to read" + FileType.STAFFFILE.getFileName());
         if (!readMedicineFile(FileType.MEDICINEFILE))
             System.err.println("Fail to read" + FileType.MEDICINEFILE.getFileName());
-        // for initial case where we only have 3 files, initialize the schedule for each doctor
-        initializeDoctorSchedule();
-    }
-
-    public static void initializeDoctorSchedule() {
-        for (User user : Users.values())
-            if (user.getRole() == Role.DOCTOR) {
-                Schedule schedule = new Schedule();
-                schedule.setDoctor((Doctor) user);
-                ((Doctor) user).setSchedule(schedule);
-
-                Schedules.put(user.getID(), schedule);
-            }
     }
 
     public static boolean readMedicineFile(FileType fileType) {
@@ -138,12 +121,12 @@ public class DataBase {
                String patientID = inputData[0];
                User user = new Patient(inputData[1], patientID, initialState? "password" : inputData[6], Role.PATIENT, Gender.fromString(inputData[3]), BloodType.fromString(inputData[4]), initialState? "" : inputData[7], inputData[5], inputData[2]);
                // might change the casting
-               MedicalRecord medicalRecord = new MedicalRecord((Patient) user);
-               ((Patient) user).setMedicalRecord(medicalRecord);
+//               MedicalRecord medicalRecord = new MedicalRecord((Patient) user);
+//               ((Patient) user).setMedicalRecord(medicalRecord);
 
                numberOfPatient++;
                Users.put(patientID, user);
-               MedicalRecords.put(patientID, medicalRecord);
+//               MedicalRecords.put(patientID, medicalRecord);
            }
 
        }
@@ -161,8 +144,7 @@ public class DataBase {
     public static String getCurrUserID() { return currUserID; }
     public static void setCurrUserID(String currUserID_) { currUserID = currUserID_; }
 
-    public static HashMap<String, MedicalRecord> getMedicalRecords() { return MedicalRecords; }
+//    public static HashMap<String, MedicalRecord> getMedicalRecords() { return MedicalRecords; }
     public static HashMap<String, User> getUsers() { return Users; }
     public static HashMap<String, Medicine> getMedicines() { return Medicines; }
-    public static HashMap<String, Schedule> getSchedules() { return Schedules; }
 }

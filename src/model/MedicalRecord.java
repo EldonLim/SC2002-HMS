@@ -42,8 +42,8 @@ public class MedicalRecord {
         this.phoneNo = patient.getPhoneNo();
         this.emailAddress = patient.getEmailAddress();
         this.bloodType = patient.getBloodType();
-        diagnosis = null;
-        treatments = null;
+        this.diagnosis = new ArrayList<>();
+        this.treatments = new ArrayList<>();
     }
 
     public Patient getPatient() { return patient; }
@@ -61,15 +61,7 @@ public class MedicalRecord {
     public void setEmailAddress(String emailAddress) { this.emailAddress = emailAddress; }
     public void setPhoneNo(String phoneNo) { this.phoneNo = phoneNo; }
 
-    public void addDiagnosis(String diagnosis_) {
-        if (diagnosis == null)
-            diagnosis = new ArrayList<>();
-        diagnosis.add(diagnosis_);
-    }
-    public void addTreatment(String treatment) {
-        if (treatments == null)
-            treatments = new ArrayList<>();
-        treatments.add(treatment);
-    }
+    public void addDiagnosis(String diagnosis_) { diagnosis.add(diagnosis_); }
+    public void addTreatment(String treatment) { treatments.add(treatment); }
 
 }

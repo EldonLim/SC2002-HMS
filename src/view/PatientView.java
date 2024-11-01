@@ -109,6 +109,7 @@ public class PatientView implements View{
         } while (!bookappointment);
 
         System.out.println("Appointment Schedule Successfully");
+        System.out.println();
     }
 
     public static void handleCancelAppointment() {
@@ -120,7 +121,7 @@ public class PatientView implements View{
         AppointmentManager.cancelAppointment((Patient) DataBase.getUsers().get(DataBase.getCurrUserID()),
                                              appointmentID);
 
-        System.out.println("Appointment Cancel Successfully");
+        System.out.println("Appointment Cancel Successfully\n");
     }
 
     public static void handleRescheduleAppointment() {

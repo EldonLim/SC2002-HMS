@@ -2,6 +2,7 @@ package using;
 
 public enum Availability {
     AVAILABLE("Available"),
+    BOOKED("Booked"),
     NOT_AVAILABLE("Not Available");
 //    PENDING_APPOINTMENT("Pending Appointment"),
 //    CONFIRMED_APPOINTMENT("Confirmed Appointment");
