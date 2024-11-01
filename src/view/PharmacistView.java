@@ -85,7 +85,7 @@ public class PharmacistView implements View{
 
         for (Map.Entry<String, Medicine> entry : DataBase.getMedicines().entrySet())
             if (InventoryManager.checkMedicineStockLevel(entry.getKey()))
-                System.out.println(count + ". " + entry.getValue().getMedicineName());
+                System.out.println(count++ + ". " + entry.getValue().getMedicineName());
 
     }
 

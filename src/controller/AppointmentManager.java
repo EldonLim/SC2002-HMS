@@ -14,7 +14,7 @@ public class AppointmentManager {
 
     public AppointmentManager() {}
 
-    public static void scheduleAppointment(String doctorName, String date, int timeSlot) {
+    public static boolean scheduleAppointment(String doctorName, String date, int timeSlot) {
         Doctor doctor = null;
         for (Map.Entry<String, User> entry : DataBase.getUsers().entrySet())
             if (entry.getValue() instanceof Doctor)
@@ -22,11 +22,16 @@ public class AppointmentManager {
                     doctor = (Doctor) entry.getValue();
                     break;
                 }
+
+        if (doctor.getSchedule().getWeeklySlots().get(date).get(timeSlot).equals(Availability.NOT_AVAILABLE))
+            return false;
+
         Patient patient = (Patient) DataBase.getUsers().get(DataBase.getCurrUserID());;
         Appointment appointment = new Appointment(date, timeSlot, patient, doctor);
 
         patient.addAppointment(appointment);
         doctor.addAppointment(appointment);
+        return true;
     }
 
     public static void viewPatientScheduledAppointments(Patient patient) {
