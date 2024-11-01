@@ -27,7 +27,7 @@ public class DoctorManager {
         Doctor doctor = (Doctor) DataBase.getUsers().get(doctorID);
 
         if (doctor.getPatientList().isEmpty()) {
-            System.out.println("No Patient Under Your Care");
+            System.out.println("\nNo Patient Under Your Care");
             System.out.println();
             return;
         }

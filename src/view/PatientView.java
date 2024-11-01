@@ -68,6 +68,7 @@ public class PatientView implements View{
     }
 
     public static void handleUpdatePersonalInfo() {
+        System.out.println("UPDATE PERSONAL INFORMATION");
         System.out.println("Please key in the latest PhoneNo & EmailAddress");
         System.out.print("Email Address: ");
         String updateEmailAddress = Helper.readString();
@@ -81,10 +82,12 @@ public class PatientView implements View{
     public void viewTitle() { System.out.println("Patient Menu"); }
 
     public static void handleViewAvailableAppointmentSlots() {
+        System.out.println("VIEW DOCTORS' AVAILABLE SLOTS");
         DoctorManager.printAllAvailableSlots();
     }
 
     public static void handleScheduleAnAppointment(){
+        System.out.println("SCHEDULE APPOINTMENT");
         boolean bookappointment;
         do {
             handleViewAvailableAppointmentSlots();
@@ -104,9 +107,7 @@ public class PatientView implements View{
                 Helper.pauseApplication();
             }
         } while (!bookappointment);
-
-        System.out.println("Appointment Schedule Successfully");
-        System.out.println();
+        System.out.println("Appointment Schedule Successfully\n");
     }
 
     public static void handleCancelAppointment() {
@@ -123,7 +124,9 @@ public class PatientView implements View{
 
     public static void handleRescheduleAppointment() {
         System.out.println("RESCHEDULE APPOINTMENT");
-        AppointmentManager.viewPatientScheduledAppointments((Patient) DataBase.getUsers().get(DataBase.getCurrUserID()));
+        if (AppointmentManager.viewPatientScheduledAppointments((Patient) DataBase.getUsers().get(DataBase.getCurrUserID())))
+            return;
+
         System.out.print("Please Enter the Appointment ID: ");
         String appointmentID = Helper.readString();
 
@@ -140,13 +143,17 @@ public class PatientView implements View{
         System.out.println("Appointment Reschedule Successfully");
     }
 
-    public static void handleViewPatientScheduledAppointment() { AppointmentManager.viewPatientScheduledAppointments((Patient) DataBase.getUsers().get(DataBase.getCurrUserID())); }
+    public static void handleViewPatientScheduledAppointment() {
+        System.out.println("VIEW PATIENT'S SCHEDULED APPOINTMENTS");
+        AppointmentManager.viewPatientScheduledAppointments((Patient) DataBase.getUsers().get(DataBase.getCurrUserID()));
+    }
 
     public static void handleViewPastAppointmentRecords() {
+        System.out.println("PAST APPOINTMENT RECORDS");
         List<AppointmentOutcome> appointmentOutcomeList = ((Patient) DataBase.getUsers().get(DataBase.getCurrUserID())).getMedicalRecord().getAppointmentOutcomes();
 
         if (appointmentOutcomeList.isEmpty()) {
-            System.out.println("There is no past appointment outcome records\n");
+            System.out.println("\nThere is no past appointment outcome records\n");
             return;
         }
 

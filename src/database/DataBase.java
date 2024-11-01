@@ -124,7 +124,6 @@ public class DataBase {
                numberOfPatient++;
                Users.put(patientID, user);
            }
-
        }
        catch (IOException e) {
            e.printStackTrace();

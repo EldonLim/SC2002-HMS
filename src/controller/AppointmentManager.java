@@ -33,16 +33,16 @@ public class AppointmentManager {
         return true;
     }
 
-    public static void viewPatientScheduledAppointments(Patient patient) {
+    public static boolean viewPatientScheduledAppointments(Patient patient) {
         if (patient.getAppointments().isEmpty()) {
             System.out.println("No Scheduled Appointment");
-            return;
+            return true;
         }
 
         System.out.println("SCHEDULED APPOINTMENTS");
         for (Appointment appointment : patient.getAppointments())
                 viewAppointmentDetail(appointment, Role.PATIENT);
-
+        return false;
     }
 
     public static void rescheduleAppointment(Patient patient, String appointmentID, String date, int timeSlot) {
@@ -103,36 +103,45 @@ public class AppointmentManager {
     }
 
     public static void handleDoctorAppointmentRequest(Doctor doctor) {
-        boolean existsPendingAppointment = false;
-        for (Appointment appointment : doctor.getAppointments())
-            if (appointment.getAppointmentStatus() == AppointmentStatus.PENDING) {
-                existsPendingAppointment = true;
-                viewAppointmentDetail(appointment, doctor.getRole());
-                System.out.print("Accept Appointment (y/n): ");
-                char choice = Helper.readChar();
+        final boolean[] noPendingAppointment = {true};
+        doctor.getAppointments().stream()
+                .filter(appointment -> appointment.getAppointmentStatus() == AppointmentStatus.PENDING)
+                .forEach(appointment -> {
+                    viewAppointmentDetail(appointment, doctor.getRole());
+                    noPendingAppointment[0] = false;
+                    // Handling multiple patients booked the exact same time slot
+                    if (doctor.getSchedule().getWeeklySlots().get(appointment.getDate()).get(appointment.getTimeSlot()) == Availability.BOOKED) {
+                        System.out.println("This timeslot is booked by another patient");
+                        appointment.setAppointmentStatus(AppointmentStatus.CANCEL);
+                        doctor.removeAppointment(appointment);
+                    }
+                    else {
+                        System.out.print("Accept Appointment (y/n): ");
+                        char choice = Helper.readChar();
+                        if (choice == 'y') {
+                            appointment.setAppointmentStatus(AppointmentStatus.CONFIRM);
+                            doctor.getSchedule().getWeeklySlots().get(appointment.getDate()).put(appointment.getTimeSlot(),
+                                                                      Availability.BOOKED);
+                            DoctorManager.addPatientUnderCare(doctor, appointment.getPatient());
+                        } else {
+                            appointment.setAppointmentStatus(AppointmentStatus.CANCEL);
+                            doctor.getAppointments().remove(appointment);
+                        }
+                    }
+                });
 
-                if (choice == 'y') {
-                    appointment.setAppointmentStatus(AppointmentStatus.CONFIRM);
-                    doctor.getSchedule().getWeeklySlots().get(appointment.getDate()).put(appointment.getTimeSlot(), Availability.BOOKED);
-                    DoctorManager.addPatientUnderCare(doctor, appointment.getPatient());
-                }
-                else {
-                    appointment.setAppointmentStatus(AppointmentStatus.CANCEL);
-                    doctor.getAppointments().remove(appointment);
-                }
-            }
-
-        if (!existsPendingAppointment)
-            System.out.println("No Pending Appointment");
+        if (noPendingAppointment[0])
+            System.out.println("\nNo Pending Appointment");
     }
 
     public static List<Appointment> getDoctorUpComingAppointments (Doctor doctor) { return doctor.getAppointments(); }
 
-    public static void recordAppointOutcome(String appointmentID, String service, String consultationNotes, String medicineName) {
+    public static void recordAppointmentOutcome(String appointmentID, String service, String consultationNotes, String medicineName) {
         Doctor doctor = (Doctor) DataBase.getUsers().get(DataBase.getCurrUserID());
         Appointment appointment = doctor.getAppointments().stream().filter(appointment_ -> appointment_.getAppointmentID().equals(appointmentID)).findFirst().orElse(null);
 
-        AppointmentOutcome appointmentOutcome = new AppointmentOutcome(appointment.getDate(), Service.fromString(service), consultationNotes, appointmentID, medicineName, MedicationStatus.PENDING);
+        AppointmentOutcome appointmentOutcome = new AppointmentOutcome(appointment.getDate(), Service.fromString(service), consultationNotes,
+                                                                       appointmentID, medicineName, MedicationStatus.PENDING);
         appointment.setAppointmentOutcome(appointmentOutcome);
 
         // delete from doctor

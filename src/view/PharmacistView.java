@@ -1,12 +1,17 @@
 package view;
 
+import controller.AppointmentManager;
 import controller.InventoryManager;
 import controller.PatientManager;
 import controller.PharmacistManager;
 import database.DataBase;
 import helper.Helper;
+import model.AppointmentOutcome;
 import model.Medicine;
+import model.Patient;
+import model.User;
 
+import java.util.List;
 import java.util.Map;
 
 public class PharmacistView implements View{
@@ -31,30 +36,49 @@ public class PharmacistView implements View{
 
             switch (choice) {
                 case 1:
-                    displayAppointmentOutcome();
+                    handleDisplayAppointmentOutcome();
                     break;
 
                 case 2:
-                    updatePrescriptionStatus();
+                    handleUpdatePrescriptionStatus();
                     break;
 
                 case 3:
-                    viewMedicationInventory();
+                    handleViewMedicationInventory();
                     break;
 
                 case 4:
-                    submitReplenishmentRequest();
+                    handleSubmitReplenishmentRequest();
                     break;
             }
-
+            Helper.pauseApplication();
         } while (choice != 5);
     }
 
-    public void displayAppointmentOutcome() {}
-    public void updatePrescriptionStatus() {}
-    public void viewMedicationInventory() { PharmacistManager.viewInventory(); }
+    public void handleDisplayAppointmentOutcome() {
+        System.out.println("DISPLAY APPOINTMENT OUTCOMES");
+        boolean foundAppointOutcome = false;
+        for (Map.Entry<String, User> entry : DataBase.getUsers().entrySet()) {
+           if (entry.getValue() instanceof Patient && !(((Patient) entry.getValue()).getMedicalRecord().getAppointmentOutcomes().isEmpty())) {
+               foundAppointOutcome = true;
+               System.out.println("Patient Name: " + entry.getValue().getName());
+               System.out.println("Patient ID: " + entry.getValue().getID());
+               System.out.println("-----------------------------------------");
 
-    public static void submitReplenishmentRequest() {
+               for (AppointmentOutcome appointmentOutcome : ((Patient) entry.getValue()).getMedicalRecord().getAppointmentOutcomes()) {
+                   System.out.println("AppointOutcome ID: " + appointmentOutcome.getAppointmentOutcomeID());
+                   AppointmentManager.printAppointmentOutcome(appointmentOutcome);
+               }
+           }
+        }
+
+        if (!foundAppointOutcome)
+            System.out.println("\nNo Appointment Outcome Record Stored");
+    }
+    public void handleUpdatePrescriptionStatus() {}
+    public void handleViewMedicationInventory() { PharmacistManager.viewInventory(); }
+
+    public static void handleSubmitReplenishmentRequest() {
         if (submittedRequest())  System.out.println("Replenishment request already submitted");
         else if(!InventoryManager.checkInventoryLowStock()) System.out.println("No Medicine Low In Stock");
         else {
