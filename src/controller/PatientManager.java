@@ -7,7 +7,7 @@ import model.Patient;
 public class PatientManager {
 
     public static void getMedicalRecord(String patientID) {
-        MedicalRecordManager.getMedicalRecord(patientID);
+        MedicalRecordManager.printMedicalRecord(patientID);
     }
 
     public static void updatePersonalInformation(String emailAddress, String phoneNo, String patientID) {

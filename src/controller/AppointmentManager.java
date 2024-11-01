@@ -89,6 +89,8 @@ public class AppointmentManager {
 
         Doctor doctor = appointment.getDoctor();
         doctor.getSchedule().setAvailabilityForParticularDate_Time(appointment.getDate(), appointment.getTimeSlot(), Availability.AVAILABLE);
+        if (doctor.getPatientList().contains(patient))
+            DoctorManager.removePatientUnderCare(doctor, patient);
 
         doctor.getAppointments().remove(appointment);
         patient.getAppointments().remove(appointment);
@@ -118,6 +120,7 @@ public class AppointmentManager {
                 if (choice == 'y') {
                     appointment.setAppointmentStatus(AppointmentStatus.CONFIRM);
                     doctor.getSchedule().getWeeklySlots().get(appointment.getDate()).put(appointment.getTimeSlot(), Availability.NOT_AVAILABLE);
+                    DoctorManager.addPatientUnderCare(doctor, appointment.getPatient());
                 }
                 else {
                     appointment.setAppointmentStatus(AppointmentStatus.CANCEL);

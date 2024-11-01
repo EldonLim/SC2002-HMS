@@ -3,12 +3,10 @@ package controller;
 import database.DataBase;
 import helper.Helper;
 import model.Doctor;
-import model.MedicalRecord;
 import model.Patient;
-import model.User;
 import using.Availability;
 
-import javax.print.Doc;
+import java.util.List;
 
 public class DoctorManager {
 
@@ -26,7 +24,7 @@ public class DoctorManager {
         Doctor doctor = (Doctor) DataBase.getUsers().get(doctorID);
 
         for (Patient patient : doctor.getPatientList())
-            MedicalRecordManager.getMedicalRecord(patient.getID());
+            MedicalRecordManager.printMedicalRecord(patient.getID());
 
     }
 
@@ -55,7 +53,9 @@ public class DoctorManager {
         Helper.pauseApplication();
     }
 
-    public static void handleAppointmentRequest(Doctor doctor) {
-        AppointmentManager.handleDoctorAppointmentRequest(doctor);
-    }
+    public static void handleAppointmentRequest(Doctor doctor) { AppointmentManager.handleDoctorAppointmentRequest(doctor); }
+    public static void addPatientUnderCare(Doctor doctor, Patient patient) { doctor.addPatient(patient); }
+    public static void removePatientUnderCare(Doctor doctor, Patient patient) { doctor.removePatient(patient); }
+    public static List<Patient> getAllPatientUnderCare(Doctor doctor) { return doctor.getPatientList(); }
+    public static void handleUpdateMedicalRecord(Patient patient, String diagnosis_, String treatment) {}
 }

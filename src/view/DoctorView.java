@@ -4,6 +4,9 @@ import controller.DoctorManager;
 import database.DataBase;
 import helper.Helper;
 import model.Doctor;
+import model.Patient;
+
+import java.util.List;
 
 public class DoctorView implements View{
 
@@ -34,9 +37,13 @@ public class DoctorView implements View{
 
             switch (choice) {
                 case 1:
-                    this.handlePatientViewMedicalRecord();
+                    handlePatientViewMedicalRecord();
                     break;
+
                 case 2:
+                    handleUpdatePatientMedicalRecord();
+                    break;
+
                 case 3:
                     DoctorManager.viewPersonalSchedule(DataBase.getCurrUserID());
                     break;
@@ -50,6 +57,9 @@ public class DoctorView implements View{
                 case 7:
                 case 8:
             }
+
+            Helper.pauseApplication();
+
         } while (choice != 8);
 
     }
@@ -68,5 +78,36 @@ public class DoctorView implements View{
 
     public static void handleAcceptDeclineAppointment() {
         DoctorManager.handleAppointmentRequest((Doctor) DataBase.getUsers().get(DataBase.getCurrUserID()));
+    }
+
+    public static void handleUpdatePatientMedicalRecord() {
+        System.out.println("UPDATE PATIENT MEDICAL RECORD");
+        List <Patient> patients = DoctorManager.getAllPatientUnderCare((Doctor) DataBase.getUsers().get(DataBase.getCurrUserID()));
+        if (patients.isEmpty())
+            System.out.println("No Patient Under Your Care");
+        else {
+            System.out.println("Patients Under Your Care:");
+            for (Patient patient : patients)
+                System.out.println(patient.getName() + "(" + patient.getID() + ")");
+
+            do {
+                System.out.print("Please Enter Patient ID: ");
+                String patientID = Helper.readString();
+
+                if (!patients.contains((Patient) DataBase.getUsers().get(patientID))) {
+                    System.out.println("No such patient, please key in again");
+                    continue;
+                }
+
+                System.out.print("Diagnosis: ");
+                String diagnosis_ = Helper.readString();
+                System.out.print("Treatment: ");
+                String treatment_ = Helper.readString();
+
+                DoctorManager.handleUpdateMedicalRecord((Patient) DataBase.getUsers().get(patientID), diagnosis_, treatment_);
+                break;
+            } while (true);
+        }
+        Helper.pauseApplication();
     }
 }
