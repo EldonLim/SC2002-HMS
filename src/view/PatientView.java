@@ -5,7 +5,10 @@ import controller.DoctorManager;
 import controller.PatientManager;
 import database.DataBase;
 import helper.Helper;
+import model.AppointmentOutcome;
 import model.Patient;
+
+import java.util.List;
 
 public class PatientView implements View{
 
@@ -34,40 +37,34 @@ public class PatientView implements View{
             System.out.println();
 
             switch (choice) {
-                case 1:
-                    PatientManager.getMedicalRecord(DataBase.getCurrUserID());
-                    break;
+                case 1: PatientManager.getMedicalRecord(DataBase.getCurrUserID());
+                        break;
 
-                case 2:
-                    handleUpdatePersonalInfo();
-                    break;
+                case 2: handleUpdatePersonalInfo();
+                        break;
 
-                case 3:
-                    viewAvailableAppointmentSlots();
-                    break;
+                case 3: handleViewAvailableAppointmentSlots();
+                        break;
 
-                case 4:
-                    handleScheduleAnAppointment();
-                    break;
+                case 4: handleScheduleAnAppointment();
+                        break;
 
-                case 5:
-                    handleRescheduleAppointment();
-                    break;
+                case 5: handleRescheduleAppointment();
+                        break;
 
-                case 6:
-                    handleCancelAppointment();
-                    break;
+                case 6: handleCancelAppointment();
+                        break;
 
-                case 7:
-                    viewScheduledAppointment();
-                    break;
+                case 7: handleViewPatientScheduledAppointment();
+                        break;
 
+                case 8: handleViewPastAppointmentRecords();
+                        break;
+
+                case 9: System.out.println("Thanks for Using HMS\n");
             }
-
             Helper.pauseApplication();
-
         } while (choice != 9);
-
     }
 
     public static void handleUpdatePersonalInfo() {
@@ -83,14 +80,14 @@ public class PatientView implements View{
 
     public void viewTitle() { System.out.println("Patient Menu"); }
 
-    public static void viewAvailableAppointmentSlots() {
+    public static void handleViewAvailableAppointmentSlots() {
         DoctorManager.printAllAvailableSlots();
     }
 
     public static void handleScheduleAnAppointment(){
         boolean bookappointment;
         do {
-            viewAvailableAppointmentSlots();
+            handleViewAvailableAppointmentSlots();
             System.out.println("Each Time Slot is 1 Hour");
             System.out.print("Please Enter Doctor Name: ");
             String doctorName = Helper.readString();
@@ -130,7 +127,7 @@ public class PatientView implements View{
         System.out.print("Please Enter the Appointment ID: ");
         String appointmentID = Helper.readString();
 
-        viewAvailableAppointmentSlots();
+        handleViewAvailableAppointmentSlots();
 
         System.out.print("Please Enter the Date (dd/mm/yy): ");
         String date = Helper.readString();
@@ -143,6 +140,17 @@ public class PatientView implements View{
         System.out.println("Appointment Reschedule Successfully");
     }
 
-    public static void viewScheduledAppointment() {
-        AppointmentManager.viewPatientScheduledAppointments((Patient) DataBase.getUsers().get(DataBase.getCurrUserID())); }
+    public static void handleViewPatientScheduledAppointment() { AppointmentManager.viewPatientScheduledAppointments((Patient) DataBase.getUsers().get(DataBase.getCurrUserID())); }
+
+    public static void handleViewPastAppointmentRecords() {
+        List<AppointmentOutcome> appointmentOutcomeList = ((Patient) DataBase.getUsers().get(DataBase.getCurrUserID())).getMedicalRecord().getAppointmentOutcomes();
+
+        if (appointmentOutcomeList.isEmpty()) {
+            System.out.println("There is no past appointment outcome records\n");
+            return;
+        }
+
+        System.out.println("PAST APPOINTMENT OUTCOME RECORDS:");
+        appointmentOutcomeList.forEach(AppointmentManager::printAppointmentOutcome);
     }
+}

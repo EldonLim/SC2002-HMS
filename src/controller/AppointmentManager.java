@@ -144,7 +144,7 @@ public class AppointmentManager {
         System.out.println("Date: " + appointmentOutcome.getDate());
         System.out.println("Service: " + appointmentOutcome.getService());
         System.out.println("Medicine: " + appointmentOutcome.getMedicine());
-        System.out.println("Consultation Note:" + appointmentOutcome.getConsultationNotes());
+        System.out.println("Consultation Note: " + appointmentOutcome.getConsultationNotes());
         System.out.println();
     }
 }

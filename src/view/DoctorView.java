@@ -41,41 +41,31 @@ public class DoctorView implements View{
             System.out.println();
 
             switch (choice) {
-                case 1:
-                    handlePatientViewMedicalRecord();
-                    break;
+                case 1: handlePatientViewMedicalRecord();
+                        break;
 
-                case 2:
-                    handleUpdatePatientMedicalRecord();
-                    break;
+                case 2: handleUpdatePatientMedicalRecord();
+                        break;
 
-                case 3:
-                    DoctorManager.viewPersonalSchedule(DataBase.getCurrUserID());
-                    break;
+                case 3: DoctorManager.viewPersonalSchedule(DataBase.getCurrUserID());
+                        break;
 
-                case 4:
-                    handleSetAvailability();
-                    break;
+                case 4: handleSetAvailability();
+                        break;
 
-                case 5:
-                    handleAcceptDeclineAppointment();
-                    break;
+                case 5: handleAcceptDeclineAppointment();
+                        break;
 
-                case 6:
-                    handleViewUpComingAppointment();
-                    break;
+                case 6: handleViewUpComingAppointment();
+                        break;
 
-                case 7:
-                    handleRecordAppointmentOutcome();
-                    break;
+                case 7: handleRecordAppointmentOutcome();
+                        break;
 
-                case 8:
+                case 8: System.out.println("Thanks for Using HMS\n");
             }
-
             Helper.pauseApplication();
-
         } while (choice != 8);
-
     }
 
     @Override
@@ -151,7 +141,7 @@ public class DoctorView implements View{
         for (Appointment appointment : upcomingConfirmedAppointments) {
             System.out.println("Appointment ID: " + appointment.getAppointmentID());
             System.out.println("Date: " + appointment.getDate());
-            System.out.printf("Time Sloe: %2d:00 - %2d:00\n", appointment.getTimeSlot(), appointment.getTimeSlot() + 1);
+            System.out.printf("Time Slot: %2d:00 - %2d:00\n", appointment.getTimeSlot(), appointment.getTimeSlot() + 1);
             System.out.println("Patient Name: " + appointment.getPatient().getName());
             System.out.println();
         }
@@ -183,6 +173,6 @@ public class DoctorView implements View{
 
         AppointmentManager.recordAppointOutcome(appointmentID, service, consultationNotes, medicine);
 
-        System.out.println("Record Updated Successfully\ng");
+        System.out.println("Record Updated Successfully\n");
     }
 }
