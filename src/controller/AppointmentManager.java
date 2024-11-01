@@ -146,7 +146,7 @@ public class AppointmentManager {
 
         // delete from doctor
         doctor.removeAppointment(appointment);
-        appointment.getPatient().getMedicalRecord().addAppointmentOutcomes(appointmentOutcome);
+        appointment.getPatient().getMedicalRecord().addAppointmentOutcomes(appointmentOutcome, appointmentID);
     }
 
     public static void printAppointmentOutcome(AppointmentOutcome appointmentOutcome) {
@@ -154,6 +154,5 @@ public class AppointmentManager {
         System.out.println("Service: " + appointmentOutcome.getService());
         System.out.println("Medicine: " + appointmentOutcome.getMedicine());
         System.out.println("Consultation Note: " + appointmentOutcome.getConsultationNotes());
-        System.out.println();
     }
 }

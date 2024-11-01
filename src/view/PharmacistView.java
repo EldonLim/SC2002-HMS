@@ -10,6 +10,7 @@ import model.AppointmentOutcome;
 import model.Medicine;
 import model.Patient;
 import model.User;
+import using.MedicationStatus;
 
 import java.util.List;
 import java.util.Map;
@@ -50,32 +51,13 @@ public class PharmacistView implements View{
                 case 4:
                     handleSubmitReplenishmentRequest();
                     break;
+
+                case 5: System.out.println("Thanks for Using HMS\n");
             }
             Helper.pauseApplication();
         } while (choice != 5);
     }
 
-    public void handleDisplayAppointmentOutcome() {
-        System.out.println("DISPLAY APPOINTMENT OUTCOMES");
-        boolean foundAppointOutcome = false;
-        for (Map.Entry<String, User> entry : DataBase.getUsers().entrySet()) {
-           if (entry.getValue() instanceof Patient && !(((Patient) entry.getValue()).getMedicalRecord().getAppointmentOutcomes().isEmpty())) {
-               foundAppointOutcome = true;
-               System.out.println("Patient Name: " + entry.getValue().getName());
-               System.out.println("Patient ID: " + entry.getValue().getID());
-               System.out.println("-----------------------------------------");
-
-               for (AppointmentOutcome appointmentOutcome : ((Patient) entry.getValue()).getMedicalRecord().getAppointmentOutcomes()) {
-                   System.out.println("AppointOutcome ID: " + appointmentOutcome.getAppointmentOutcomeID());
-                   AppointmentManager.printAppointmentOutcome(appointmentOutcome);
-               }
-           }
-        }
-
-        if (!foundAppointOutcome)
-            System.out.println("\nNo Appointment Outcome Record Stored");
-    }
-    public void handleUpdatePrescriptionStatus() {}
     public void handleViewMedicationInventory() { PharmacistManager.viewInventory(); }
 
     public static void handleSubmitReplenishmentRequest() {
@@ -120,5 +102,72 @@ public class PharmacistView implements View{
 
         return true;
     }
+    public static void handleDisplayAppointmentOutcome() {
+        System.out.println("DISPLAY APPOINTMENT OUTCOME");
+
+        boolean foundAppointOutcome = false;
+        printAppointmentOutcomesForPatients(false);
+
+        if (!foundAppointOutcome) System.out.println("\nNo Appointment Outcome Record Stored");
+    }
+
+    public static void handleUpdatePrescriptionStatus() {
+        System.out.println("UPDATE PRESCRIPTION STATUS");
+        boolean hasPendingPrescription = printAppointmentOutcomesForPatients(true);
+
+        if (!hasPendingPrescription) {
+            System.out.println("No Pending Prescription\n");
+            return;
+        }
+
+        do {
+            System.out.print("\nPlease Enter the AppointmentOutcome ID: ");
+            String appointmentOutcomeID = Helper.readString();
+            String patientID = appointmentOutcomeID.substring(0, 5);
+
+            if (DataBase.getUsers().containsKey(patientID) &&
+                    ((Patient) DataBase.getUsers().get(patientID)).getMedicalRecord().getAppointmentOutcomes().containsKey(appointmentOutcomeID)) {
+                AppointmentOutcome outcome = ((Patient) DataBase.getUsers().get(patientID)).getMedicalRecord().getAppointmentOutcomes().get(appointmentOutcomeID);
+
+                if (outcome.getMedicationStatus() == MedicationStatus.PENDING) {
+                    outcome.setMedicationStatus(MedicationStatus.DISPENDED);
+                    System.out.println("Updated Successfully\n");
+                }
+                else System.out.println("The medicine for this appointment had dispended\n");
+            }
+            else System.out.println("This appointment outcome is not recorded in the system\n");
+
+
+            System.out.print("Update other appointment outcome prescription status (y/n)?: ");
+            char choice = Helper.readChar();
+            if (choice != 'y') break;
+
+        } while (true);
+    }
+
+    private static boolean printAppointmentOutcomesForPatients(boolean onlyPending) {
+        boolean foundAppointOutcome = false;
+
+        for (User user : DataBase.getUsers().values())
+            if (user instanceof Patient) {
+                Patient patient = (Patient) user;
+                if (!patient.getMedicalRecord().getAppointmentOutcomes().isEmpty()) {
+                    foundAppointOutcome = true;
+                    System.out.println("Patient Name: " + patient.getName());
+                    System.out.println("Patient ID: " + patient.getID());
+                    System.out.println("-----------------------------------------");
+                    for (AppointmentOutcome outcome : patient.getMedicalRecord().getAppointmentOutcomes().values())
+                        if (!onlyPending || outcome.getMedicationStatus() == MedicationStatus.PENDING) {
+                            System.out.println("AppointOutcome ID: " + outcome.getAppointmentOutcomeID());
+                            AppointmentManager.printAppointmentOutcome(outcome);
+                            System.out.println("Prescription Status: " + outcome.getMedicationStatus().getLabel());
+                        }
+
+                }
+            }
+
+        return foundAppointOutcome;
+    }
+
     public void viewTitle() { System.out.println("Pharmacist Menu"); }
 }

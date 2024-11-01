@@ -8,6 +8,7 @@ import helper.Helper;
 import model.AppointmentOutcome;
 import model.Patient;
 
+import java.util.HashMap;
 import java.util.List;
 
 public class PatientView implements View{
@@ -150,7 +151,7 @@ public class PatientView implements View{
 
     public static void handleViewPastAppointmentRecords() {
         System.out.println("PAST APPOINTMENT RECORDS");
-        List<AppointmentOutcome> appointmentOutcomeList = ((Patient) DataBase.getUsers().get(DataBase.getCurrUserID())).getMedicalRecord().getAppointmentOutcomes();
+        HashMap<String, AppointmentOutcome> appointmentOutcomeList = ((Patient) DataBase.getUsers().get(DataBase.getCurrUserID())).getMedicalRecord().getAppointmentOutcomes();
 
         if (appointmentOutcomeList.isEmpty()) {
             System.out.println("\nThere is no past appointment outcome records\n");
@@ -158,6 +159,6 @@ public class PatientView implements View{
         }
 
         System.out.println("PAST APPOINTMENT OUTCOME RECORDS:");
-        appointmentOutcomeList.forEach(AppointmentManager::printAppointmentOutcome);
+        appointmentOutcomeList.values().forEach(AppointmentManager::printAppointmentOutcome);
     }
 }

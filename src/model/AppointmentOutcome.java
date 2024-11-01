@@ -26,10 +26,11 @@ public class AppointmentOutcome {
     public String getConsultationNotes() { return consultationNotes; }
     public String getAppointmentOutcomeID() { return appointmentOutcomeID;}
     public String getMedicine() { return medicine; }
+    public MedicationStatus getMedicationStatus() { return medicationStatus; }
 
     public void setDate(String date) { this.date = date; }
     public void setService(Service service) { this.service = service; }
     public void setConsultationNotes(String consultationNotes) { this.consultationNotes = consultationNotes; }
     public void setAppointmentOutcomeID(String appointmentOutcomeID) { this.appointmentOutcomeID = appointmentOutcomeID; }
-
+    public void setMedicationStatus(MedicationStatus medicationStatus) { this.medicationStatus = medicationStatus; }
 }

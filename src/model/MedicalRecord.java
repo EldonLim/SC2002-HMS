@@ -4,6 +4,7 @@ import using.BloodType;
 import using.Gender;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 public class MedicalRecord {
@@ -20,7 +21,8 @@ public class MedicalRecord {
     private List<String> diagnosis;
     private List<String> treatments;
 
-    private List<AppointmentOutcome> appointmentOutcomes;
+    //private List<AppointmentOutcome> appointmentOutcomes;
+    private HashMap<String, AppointmentOutcome> appointmentOutcomes;
 
     public MedicalRecord(Patient patient, List<String> diagnosis, List<String> treatments) {
         this.patient = patient;
@@ -33,7 +35,8 @@ public class MedicalRecord {
         this.bloodType = patient.getBloodType();
         this.diagnosis = new ArrayList<>(diagnosis);
         this.treatments = new ArrayList<>(treatments);
-        this.appointmentOutcomes = new ArrayList<>();
+//        this.appointmentOutcomes = new ArrayList<>();
+        this.appointmentOutcomes = new HashMap<>();
     }
 
     // First time reading the file
@@ -48,7 +51,8 @@ public class MedicalRecord {
         this.bloodType = patient.getBloodType();
         this.diagnosis = new ArrayList<>();
         this.treatments = new ArrayList<>();
-        this.appointmentOutcomes = new ArrayList<>();
+//        this.appointmentOutcomes = new ArrayList<>();
+        this.appointmentOutcomes = new HashMap<>();
     }
 
     public Patient getPatient() { return patient; }
@@ -69,6 +73,8 @@ public class MedicalRecord {
     public void addDiagnosis(String diagnosis_) { diagnosis.add(diagnosis_); }
     public void addTreatment(String treatment) { treatments.add(treatment); }
 
-    public void addAppointmentOutcomes(AppointmentOutcome appointmentOutcome) { appointmentOutcomes.add(appointmentOutcome); };
-    public List<AppointmentOutcome> getAppointmentOutcomes() { return appointmentOutcomes; }
+//    public void addAppointmentOutcomes(AppointmentOutcome appointmentOutcome) { appointmentOutcomes.add(appointmentOutcome); };
+//    public List<AppointmentOutcome> getAppointmentOutcomes() { return appointmentOutcomes; }
+    public void addAppointmentOutcomes(AppointmentOutcome appointmentOutcome, String appointmentOutcomeID) { appointmentOutcomes.put(appointmentOutcomeID, appointmentOutcome); }
+    public HashMap<String, AppointmentOutcome> getAppointmentOutcomes() { return appointmentOutcomes; }
 }

@@ -148,9 +148,9 @@ public class DoctorView implements View{
         System.out.println("List of Appointments: ");
         for (Appointment appointment : upcomingConfirmedAppointments) {
             System.out.println("Appointment ID: " + appointment.getAppointmentID());
+            System.out.println("Patient Name: " + appointment.getPatient().getName());
             System.out.println("Date: " + appointment.getDate());
             System.out.printf("Time Slot: %2d:00 - %2d:00\n", appointment.getTimeSlot(), appointment.getTimeSlot() + 1);
-            System.out.println("Patient Name: " + appointment.getPatient().getName());
             System.out.println();
         }
 

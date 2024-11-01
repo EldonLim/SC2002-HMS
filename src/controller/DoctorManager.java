@@ -23,19 +23,16 @@ public class DoctorManager {
     }
 
     public static void viewMedicalRecord(String doctorID) {
-
         Doctor doctor = (Doctor) DataBase.getUsers().get(doctorID);
-
         if (doctor.getPatientList().isEmpty()) {
             System.out.println("\nNo Patient Under Your Care");
             System.out.println();
             return;
         }
-
         for (Patient patient : doctor.getPatientList()) {
             MedicalRecordManager.printMedicalRecord(patient.getID());
             if (!patient.getMedicalRecord().getAppointmentOutcomes().isEmpty())
-                patient.getMedicalRecord().getAppointmentOutcomes().forEach(AppointmentManager::printAppointmentOutcome);
+                patient.getMedicalRecord().getAppointmentOutcomes().values().forEach(AppointmentManager::printAppointmentOutcome);
         }
     }
 
