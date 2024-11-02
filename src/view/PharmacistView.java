@@ -148,20 +148,18 @@ public class PharmacistView implements View{
         for (User user : DataBase.getUsers().values())
             if (user instanceof Patient) {
                 Patient patient = (Patient) user;
-                if (!patient.getMedicalRecord().getAppointmentOutcomes().isEmpty()) {
-                    foundAppointOutcome = true;
-                    System.out.println("Patient Name: " + patient.getName());
-                    System.out.println("Patient ID: " + patient.getID());
-                    System.out.println("-----------------------------------------");
+                if (!patient.getMedicalRecord().getAppointmentOutcomes().isEmpty())
                     for (AppointmentOutcome outcome : patient.getMedicalRecord().getAppointmentOutcomes().values())
                         if (!onlyPending || outcome.getMedicationStatus() == MedicationStatus.PENDING) {
+                            foundAppointOutcome = true;
+                            System.out.println("Patient Name: " + patient.getName());
+                            System.out.println("Patient ID: " + patient.getID());
+                            System.out.println("-----------------------------------------");
                             System.out.println("AppointOutcome ID: " + outcome.getAppointmentOutcomeID());
                             AppointmentManager.printAppointmentOutcome(outcome);
                             System.out.println("Prescription Status: " + outcome.getMedicationStatus().getLabel());
                             System.out.println();
                         }
-
-                }
             }
 
         return foundAppointOutcome;
