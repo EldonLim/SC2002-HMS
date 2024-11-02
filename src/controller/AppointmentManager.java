@@ -167,4 +167,5 @@ public class AppointmentManager {
         System.out.println("Medicine: " + appointmentOutcome.getMedicine());
         System.out.println("Consultation Note: " + appointmentOutcome.getConsultationNotes());
     }
+
 }

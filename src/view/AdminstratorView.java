@@ -128,6 +128,7 @@ public class AdminstratorView implements View {
         System.out.println("-------------------------------------------------------");
         for (Staff staff : staffList)
             System.out.printf("%-10s %-15s %-15s %-5d %-10s\n", staff.getID(), staff.getName(), staff.getRole().getLabel(), staff.getAge(), staff.getGender().getLabel());
+        System.out.println();
     }
 
     public static void listStaffByRole() {

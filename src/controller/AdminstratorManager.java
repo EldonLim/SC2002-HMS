@@ -3,6 +3,7 @@ package controller;
 import database.DataBase;
 import helper.Helper;
 import model.*;
+import using.BloodType;
 import using.Gender;
 import using.Role;
 
@@ -91,5 +92,17 @@ public class AdminstratorManager {
         medicine.setLowStockThreshold(quantity);
 
         System.out.println("Low Stock Alert for " + medicineName + " is updated to " + quantity);
+    }
+
+    public static void registerNewPatient(String name, String phoneNo, String emailAddress, BloodType bloodType, String dateOfBirth, Gender gender) {
+        String patientID = String.format("P1%03d", DataBase.getNumberOfPatient() + 1);
+        DataBase.increasePatientCount();
+
+        Patient patient = new Patient(name, patientID, "password", Role.PATIENT, gender, bloodType, phoneNo, emailAddress, dateOfBirth);
+        DataBase.getUsers().put(patientID, patient);
+        System.out.println("Register Successfully");
+
+        System.out.println("ID: " + patient.getID());
+        System.out.println("Password: " + patient.getPassword());
     }
 }

@@ -8,7 +8,7 @@ public enum BloodType {
     O_NEGATIVE("O-"),
     O_POSITIVE("O+"),
     AB_NEGATIVE("AB-"),
-    AB_POSITIVE("AB+S");
+    AB_POSITIVE("AB+");
 
     private final String label;
 
