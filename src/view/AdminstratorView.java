@@ -1,8 +1,13 @@
 package view;
 
 import controller.AdminstratorManager;
+import controller.AppointmentManager;
+import database.DataBase;
 import helper.Helper;
+import model.Appointment;
+import model.Patient;
 import model.Staff;
+import model.User;
 import using.Gender;
 import using.Role;
 
@@ -41,7 +46,7 @@ public class AdminstratorView implements View{
 
             switch (choice) {
                 case 1: handleViewManageStaff(); break;
-                case 2:
+                case 2: handleViewAllPatientsAppointment(); break;
                 case 3:
                 case 4:
                 case 5: System.out.println("Thanks for Using HMS");
@@ -116,9 +121,7 @@ public class AdminstratorView implements View{
         printStaff(AdminstratorManager.getAllStaffByGender(genderPick));
     }
 
-    public static void listAllStaff() {
-        printStaff(AdminstratorManager.getAllStaff());
-    }
+    public static void listAllStaff() { printStaff(AdminstratorManager.getAllStaff()); }
 
     public static void printStaff(List<Staff> staffList) {
         System.out.printf("%-10s %-15s %-15s %-5s %-10s\n", "Staff ID", "Name", "Role", "Age", "Gender");
@@ -219,5 +222,16 @@ public class AdminstratorView implements View{
 
         System.out.println("Staff Removed Successfully");
         Helper.pauseApplication();
+    }
+
+    public static void handleViewAllPatientsAppointment() {
+        System.out.println("VIEW ALL PATIENTS APPOINTMENT");
+
+        DataBase.getUsers().values().stream()
+                .filter(user -> user instanceof Patient)
+                .map(user -> (Patient) user)
+                .forEach(patient -> patient.getAppointments().forEach(appointment ->
+                        AppointmentManager.viewAppointmentDetail(appointment, Role.ADMINISTRATOR)
+                ));
     }
 }

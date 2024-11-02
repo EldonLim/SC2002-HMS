@@ -62,7 +62,7 @@ public class DoctorView implements View{
     @Override
     public void viewTitle() { System.out.println("\nDoctor Menu"); }
     public static void handlePatientViewMedicalRecord() {
-        System.out.println("VIEW PATIENTS MEDICAL RECORD");
+        System.out.println("\nVIEW PATIENTS MEDICAL RECORD");
         DoctorManager.viewMedicalRecord(DataBase.getCurrUserID());
     }
 
@@ -110,13 +110,14 @@ public class DoctorView implements View{
 
     public static void handleViewUpComingAppointment() {
         List<Appointment> upComingAppointments = DoctorManager.handleGetDoctorUpComingAppointment((Doctor) DataBase.getUsers().get(DataBase.getCurrUserID()));
+        boolean confirmedAppointment = upComingAppointments.stream().anyMatch(appointment -> appointment.getAppointmentStatus() == AppointmentStatus.CONFIRM);
 
-        if (upComingAppointments.isEmpty()) {
-            System.out.println("No Upcoming Appointments\n");
+        if (!confirmedAppointment) {
+            System.out.println("No Upcoming Appointments");
             return;
         }
 
-        System.out.println("Upcoming Appointments: ");
+        System.out.println("\nVIEW UPCOMMING APPOINTMENTS");
         for (Appointment appointment : upComingAppointments)
             if (appointment.getAppointmentStatus() == AppointmentStatus.CONFIRM)
                 AppointmentManager.viewAppointmentDetail(appointment, Role.DOCTOR);

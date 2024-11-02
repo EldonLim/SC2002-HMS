@@ -43,30 +43,14 @@ public class PatientView implements View{
             }
 
             switch (choice) {
-                case 1: PatientManager.getMedicalRecord(DataBase.getCurrUserID());
-                        break;
-
-                case 2: handleUpdatePersonalInfo();
-                        break;
-
-                case 3: handleViewAvailableAppointmentSlots();
-                        break;
-
-                case 4: handleScheduleAnAppointment();
-                        break;
-
-                case 5: handleRescheduleAppointment();
-                        break;
-
-                case 6: handleCancelAppointment();
-                        break;
-
-                case 7: handleViewPatientScheduledAppointment();
-                        break;
-
-                case 8: handleViewPastAppointmentRecords();
-                        break;
-
+                case 1: PatientManager.getMedicalRecord(DataBase.getCurrUserID()); break;
+                case 2: handleUpdatePersonalInfo(); break;
+                case 3: handleViewAvailableAppointmentSlots(); break;
+                case 4: handleScheduleAnAppointment(); break;
+                case 5: handleRescheduleAppointment(); break;
+                case 6: handleCancelAppointment(); break;
+                case 7: handleViewPatientScheduledAppointment(); break;
+                case 8: handleViewPastAppointmentRecords(); break;
                 case 9: System.out.println("Thanks for Using HMS");
             }
             Helper.pauseApplication();
@@ -74,7 +58,7 @@ public class PatientView implements View{
     }
 
     public static void handleUpdatePersonalInfo() {
-        System.out.println("UPDATE PERSONAL INFORMATION");
+        System.out.println("\nUPDATE PERSONAL INFORMATION");
         System.out.println("Please key in the latest PhoneNo & EmailAddress");
         System.out.print("Email Address: ");
         String updateEmailAddress = Helper.readString();
@@ -88,12 +72,12 @@ public class PatientView implements View{
     public void viewTitle() { System.out.println("Patient Menu"); }
 
     public static void handleViewAvailableAppointmentSlots() {
-        System.out.println("VIEW DOCTORS' AVAILABLE SLOTS");
+        System.out.println("\nVIEW DOCTORS' AVAILABLE SLOTS");
         DoctorManager.printAllAvailableSlots();
     }
 
     public static void handleScheduleAnAppointment(){
-        System.out.println("SCHEDULE APPOINTMENT");
+        System.out.println("\nSCHEDULE APPOINTMENT");
         boolean bookappointment;
         do {
             handleViewAvailableAppointmentSlots();
@@ -117,7 +101,7 @@ public class PatientView implements View{
     }
 
     public static void handleCancelAppointment() {
-        System.out.println("CANCEL APPOINTMENT");
+        System.out.println("\nCANCEL APPOINTMENT");
         AppointmentManager.cancel_viewPatientScheduledAppointments((Patient) DataBase.getUsers().get(DataBase.getCurrUserID()));
         System.out.print("Please Enter the Appointment ID: ");
         String appointmentID = Helper.readString();
@@ -129,7 +113,7 @@ public class PatientView implements View{
     }
 
     public static void handleRescheduleAppointment() {
-        System.out.println("RESCHEDULE APPOINTMENT");
+        System.out.println("\nRESCHEDULE APPOINTMENT");
         if (AppointmentManager.viewPatientScheduledAppointments((Patient) DataBase.getUsers().get(DataBase.getCurrUserID())))
             return;
 
@@ -150,12 +134,12 @@ public class PatientView implements View{
     }
 
     public static void handleViewPatientScheduledAppointment() {
-        System.out.println("VIEW PATIENT'S SCHEDULED APPOINTMENTS");
+        System.out.println("\nVIEW PATIENT'S SCHEDULED APPOINTMENTS");
         AppointmentManager.viewPatientScheduledAppointments((Patient) DataBase.getUsers().get(DataBase.getCurrUserID()));
     }
 
     public static void handleViewPastAppointmentRecords() {
-        System.out.println("PAST APPOINTMENT RECORDS");
+        System.out.println("\nPAST APPOINTMENT RECORDS");
         HashMap<String, AppointmentOutcome> appointmentOutcomeList = ((Patient) DataBase.getUsers().get(DataBase.getCurrUserID())).getMedicalRecord().getAppointmentOutcomes();
 
         if (appointmentOutcomeList.isEmpty()) {

@@ -22,8 +22,8 @@ public class AppointmentManager {
                 }
 
         Availability doctor_availability = doctor.getSchedule().getWeeklySlots().get(date).get(timeSlot);
-        if (doctor_availability == Availability.NOT_AVAILABLE || doctor_availability == Availability.BOOKED)
-            return false;
+
+        if (doctor_availability == Availability.NOT_AVAILABLE || doctor_availability == Availability.BOOKED) return false;
 
         Patient patient = (Patient) DataBase.getUsers().get(DataBase.getCurrUserID());;
         Appointment appointment = new Appointment(date, timeSlot, patient, doctor);
@@ -66,11 +66,25 @@ public class AppointmentManager {
         System.out.println("Appointment ID: " + appointment.getAppointmentID());
         System.out.println("Date: " + appointment.getDate());
         System.out.printf("Time Slot: %2d:00 - %2d:00\n", appointment.getTimeSlot(), appointment.getTimeSlot() + 1);
-        System.out.println(role == Role.DOCTOR? "Patient: " + appointment.getPatient().getName() : "Doctor: " + appointment.getDoctor().getName());
-        if (role == Role.PATIENT)
+
+        if (role == Role.ADMINISTRATOR) {
+            System.out.println("Doctor: " + appointment.getDoctor().getName());
+            System.out.println("Patient: " + appointment.getPatient().getName());
             System.out.println("Appointment Status: " + appointment.getAppointmentStatus().getLabel());
-        System.out.println();
+            if (appointment.getAppointmentOutcome() != null && appointment.getAppointmentStatus() == AppointmentStatus.COMPLETED) {
+                System.out.println("Service: " + appointment.getAppointmentOutcome().getService().getLabel());
+                System.out.println("Medicine: " + appointment.getAppointmentOutcome().getMedicine());
+                System.out.println("Medication Status: " + appointment.getAppointmentOutcome().getMedicationStatus().getLabel());
+                System.out.println("Consultation Note: " + appointment.getAppointmentOutcome().getConsultationNotes());
+            }
+        }
+        else if (role == Role.DOCTOR) System.out.println("Patient: " + appointment.getPatient().getName());
+        else if (role == Role.PATIENT) {
+            System.out.println("Doctor: " + appointment.getDoctor().getName());
+            System.out.println("Appointment Status: " + appointment.getAppointmentStatus().getLabel());
+        }
     }
+
 
     public static void cancelAppointment(Patient patient, String appointmentID) {
         Appointment appointment = null;

@@ -5,7 +5,7 @@ import model.Medicine;
 
 public class InventoryManager {
 
-    private final static int NUMBER_OF_MEDICINE_DISPENDED = 50;
+    private final static int NUMBER_OF_MEDICINE_DISPENDED = 20;
 
     public InventoryManager() {}
 

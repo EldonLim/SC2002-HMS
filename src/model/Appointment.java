@@ -19,6 +19,7 @@ public class Appointment {
         this.doctor = doctor;
         this.appointmentStatus = AppointmentStatus.PENDING;
         this.appointmentID = patient.getID() + date.replace("/", "") + Integer.toString(timeSlot);
+        appointmentOutcome = null;
     }
 
     public AppointmentStatus getAppointmentStatus() { return appointmentStatus; }

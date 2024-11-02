@@ -107,6 +107,7 @@ public class DataBase {
         }
         return true;
     }
+
     public static boolean readPatientCSVFile(FileType fileType) {
        String filePath = folderPath + fileType.getFileName() + fileExtension;
 
