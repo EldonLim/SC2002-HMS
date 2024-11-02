@@ -142,4 +142,13 @@ public class DataBase {
 //    public static HashMap<String, MedicalRecord> getMedicalRecords() { return MedicalRecords; }
     public static HashMap<String, User> getUsers() { return Users; }
     public static HashMap<String, Medicine> getMedicines() { return Medicines; }
+
+    public static void increaseDoctorCount() { numberofDoctor++; }
+    public static void increasePharmacistCount() { numberOfPharmacist++; }
+    public static void increaseAdminstratorCount() { numberofAdminstrator++; }
+    public static void increasePatientCount() { numberOfPatient++; }
+    public static void decreaseDoctorCount() { numberofDoctor--; }
+    public static void decreasePharmacistCount() { numberOfPatient--; }
+    public static void decreaseAdminstratorCount() { numberofAdminstrator--; }
+    public static void decreasePatientCount() { numberofDoctor--; }
 }

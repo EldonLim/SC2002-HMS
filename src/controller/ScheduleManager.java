@@ -39,7 +39,7 @@ public class ScheduleManager {
 
     public static void printPersonalSchedule(String doctorID) {
         Schedule schedule = ((Doctor) DataBase.getUsers().get(doctorID)).getSchedule();
-        System.out.println("Personal Schedule:");
+        System.out.println("\nPersonal Schedule:");
 
         // Print header row with dates in natural order (already sorted)
         System.out.print("Time Slot     ");
@@ -60,6 +60,5 @@ public class ScheduleManager {
                     });
             System.out.println(); // Move to the next line after each time slot
         }
-        System.out.println();
     }
 }

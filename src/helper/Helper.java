@@ -11,7 +11,7 @@ public class Helper {
     }
 
     public static void pauseApplication() {
-        System.out.println("Press <Enter> to continue......");
+        System.out.println("\nPress <Enter> to continue......");
         try { System.in.read(); }
         catch (Exception e) {}
     }

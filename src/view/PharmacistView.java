@@ -34,38 +34,31 @@ public class PharmacistView implements View{
             this.printViewMenu();
             System.out.print("Please Enter Your Choice: ");
             choice = Helper.readInt();
-            System.out.println();
+
+            while (choice < 1 || choice > 5) {
+                System.out.println("\nInvalid choice. Please try again.");
+                System.out.print("Please Enter your Choice: ");
+                choice = Helper.readInt();
+            }
 
             switch (choice) {
-                case 1:
-                    handleDisplayAppointmentOutcome();
-                    break;
-
-                case 2:
-                    handleUpdatePrescriptionStatus();
-                    break;
-
-                case 3:
-                    handleViewMedicationInventory();
-                    break;
-
-                case 4:
-                    handleSubmitReplenishmentRequest();
-                    break;
-
-                case 5: System.out.println("Thanks for Using HMS\n");
+                case 1: handleDisplayAppointmentOutcome(); break;
+                case 2: handleUpdatePrescriptionStatus(); break;
+                case 3: handleViewMedicationInventory(); break;
+                case 4: handleSubmitReplenishmentRequest(); break;
+                case 5: System.out.println("Thanks for Using HMS");
             }
             Helper.pauseApplication();
         } while (choice != 5);
     }
 
     public void handleViewMedicationInventory() {
-        System.out.println("MEDICAL INVENTORY");
+        System.out.println("\nMEDICAL INVENTORY");
         PharmacistManager.viewInventory();
     }
 
     public static void handleSubmitReplenishmentRequest() {
-        System.out.println("SUBMIT REPLENISHMENT REQUEST");
+        System.out.println("\nSUBMIT REPLENISHMENT REQUEST");
 
         if (!InventoryManager.checkInventoryLowStock()) System.out.println("No Medicine Low In Stock\n");
         else if (submittedRequest()) System.out.println("Replenishment request already submitted\n");
@@ -93,7 +86,7 @@ public class PharmacistView implements View{
     }
 
     public static void displayLowStockMeds() {
-        System.out.println("Medicines Low In Stock:");
+        System.out.println("\nMedicines Low In Stock:");
         int count = 1;
 
         for (Map.Entry<String, Medicine> entry : DataBase.getMedicines().entrySet())
@@ -110,7 +103,7 @@ public class PharmacistView implements View{
     }
 
     public static void handleDisplayAppointmentOutcome() {
-        System.out.println("DISPLAY APPOINTMENT OUTCOME");
+        System.out.println("\nDISPLAY APPOINTMENT OUTCOME");
 
         boolean foundAppointOutcome = false;
         foundAppointOutcome = printAppointmentOutcomesForPatients(false);
@@ -119,7 +112,7 @@ public class PharmacistView implements View{
     }
 
     public static void handleUpdatePrescriptionStatus() {
-        System.out.println("UPDATE PRESCRIPTION STATUS");
+        System.out.println("\nUPDATE PRESCRIPTION STATUS");
         boolean hasPendingPrescription = printAppointmentOutcomesForPatients(true);
 
         if (!hasPendingPrescription) {
@@ -161,7 +154,6 @@ public class PharmacistView implements View{
                             System.out.println();
                         }
             }
-
         return foundAppointOutcome;
     }
 

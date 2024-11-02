@@ -35,7 +35,12 @@ public class PatientView implements View{
             this.printViewMenu();
             System.out.print("Please Enter Your Choice: ");
             choice = Helper.readInt();
-            System.out.println();
+
+            while (choice < 1 || choice > 9) {
+                System.out.println("\nInvalid choice. Please try again.");
+                System.out.print("Please Enter your Choice: ");
+                choice = Helper.readInt();
+            }
 
             switch (choice) {
                 case 1: PatientManager.getMedicalRecord(DataBase.getCurrUserID());
@@ -62,7 +67,7 @@ public class PatientView implements View{
                 case 8: handleViewPastAppointmentRecords();
                         break;
 
-                case 9: System.out.println("Thanks for Using HMS\n");
+                case 9: System.out.println("Thanks for Using HMS");
             }
             Helper.pauseApplication();
         } while (choice != 9);
@@ -108,7 +113,7 @@ public class PatientView implements View{
                 Helper.pauseApplication();
             }
         } while (!bookappointment);
-        System.out.println("Appointment Schedule Successfully\n");
+        System.out.println("Appointment Schedule Successfully");
     }
 
     public static void handleCancelAppointment() {
@@ -120,7 +125,7 @@ public class PatientView implements View{
         AppointmentManager.cancelAppointment((Patient) DataBase.getUsers().get(DataBase.getCurrUserID()),
                                              appointmentID);
 
-        System.out.println("Appointment Cancel Successfully\n");
+        System.out.println("Appointment Cancel Successfully");
     }
 
     public static void handleRescheduleAppointment() {
@@ -154,7 +159,7 @@ public class PatientView implements View{
         HashMap<String, AppointmentOutcome> appointmentOutcomeList = ((Patient) DataBase.getUsers().get(DataBase.getCurrUserID())).getMedicalRecord().getAppointmentOutcomes();
 
         if (appointmentOutcomeList.isEmpty()) {
-            System.out.println("\nThere is no past appointment outcome records\n");
+            System.out.println("There is no past appointment outcome records");
             return;
         }
 

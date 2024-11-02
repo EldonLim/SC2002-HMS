@@ -54,8 +54,6 @@ public class DoctorManager {
             char choice = Helper.readChar();
 
             if (choice == 'n') break;
-
-            System.out.println();
         } while (true);
     }
 

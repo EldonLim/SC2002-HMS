@@ -51,7 +51,6 @@ public class HMSAppView implements View{
 
         }
 
-        System.out.println();
         System.out.println("Login Successful");
         Helper.pauseApplication();
 
@@ -61,7 +60,6 @@ public class HMSAppView implements View{
             String password = Helper.readString();
 
             UserManager.resetPassword(password);
-            System.out.println();
             Helper.pauseApplication();
         }
 

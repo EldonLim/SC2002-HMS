@@ -34,8 +34,6 @@ public class MedicalRecordManager {
             String concat_treatments = String.join(", ", medicalRecord.getTreatments());
             System.out.println("Treatments: " + concat_treatments);
         }
-
-        System.out.println();
     }
 
     public static void updateMedicalRecord(Patient patient, String diagnosis, String treatment) {
