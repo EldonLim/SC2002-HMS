@@ -48,14 +48,14 @@ public class DoctorView implements View{
             Helper.pauseApplication();
 
             switch (choice) {
-                case 1: handlePatientViewMedicalRecord(); break;
-                case 2: handleUpdatePatientMedicalRecord(); break;
-                case 3: DoctorManager.viewPersonalSchedule(DataBase.getCurrUserID()); break;
-                case 4: handleSetAvailability(); break;
-                case 5: handleAcceptDeclineAppointment(); break;
-                case 6: handleViewUpComingAppointment(); break;
-                case 7: handleRecordAppointmentOutcome(); break;
-                case 8: System.out.println("Thanks for Using HMS");
+                case 1 -> handlePatientViewMedicalRecord();
+                case 2 -> handleUpdatePatientMedicalRecord();
+                case 3 -> DoctorManager.viewPersonalSchedule(DataBase.getCurrUserID());
+                case 4 -> handleSetAvailability();
+                case 5 -> handleAcceptDeclineAppointment();
+                case 6 -> handleViewUpComingAppointment();
+                case 7 ->handleRecordAppointmentOutcome();
+                case 8 -> System.out.println("Thanks for Using HMS");
             }
             Helper.pauseApplication();
         } while (choice != 8);

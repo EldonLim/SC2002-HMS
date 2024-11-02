@@ -5,8 +5,6 @@ import helper.Helper;
 import controller.*;
 import using.*;
 
-import javax.xml.crypto.Data;
-
 public class HMSAppView implements View{
 
     protected static PatientView patientView;
@@ -32,78 +30,68 @@ public class HMSAppView implements View{
     }
 
     public static void loginView() {
-        boolean validate = false;
-
-        while (!validate) {
-            System.out.println("Login Page (The password for first time user is \"password\")");
+        boolean isValid = false;
+        while (!isValid) {
+            System.out.println("Login Page (Default password: \"password\")");
             System.out.print("ID: ");
             DataBase.setCurrUserID(Helper.readString());
             System.out.print("Password: ");
             String password = Helper.readString();
-
-            validate = UserManager.validateUser(DataBase.getCurrUserID(), password);
-
-            if (!validate) {
-                System.out.println("Invalid Username or Password");
-                System.out.println("Please try again");
+            isValid = UserManager.validateUser(DataBase.getCurrUserID(), password);
+            if (!isValid) {
+                System.out.println("Invalid username or password. Please try again.");
                 Helper.pauseApplication();
             }
         }
-
         System.out.println("Login Successful");
-        Helper.pauseApplication();
-
-        if (DataBase.getUsers().get(DataBase.getCurrUserID()).getPassword().equals("password")) {
-            System.out.println("Please reset password for first time login");
-            System.out.print("New password: ");
-            String password = Helper.readString();
-
-            UserManager.resetPassword(password);
-            Helper.pauseApplication();
-        }
+        if (DataBase.getUsers().get(DataBase.getCurrUserID()).getPassword().equals("password"))
+            resetPassword();
         handleLogin();
+    }
+
+    private static void resetPassword() {
+        System.out.println("\nPlease reset password for first-time login");
+        System.out.print("New password: ");
+        String password = Helper.readString();
+        UserManager.resetPassword(password);
+        Helper.pauseApplication();
     }
 
     public static void handleLogin() {
         Role role = DataBase.getUsers().get(DataBase.getCurrUserID()).getRole();
-
         switch (role) {
-            case Role.PATIENT: patientView.handleView(); break;
-            case Role.ADMINISTRATOR: adminstratorView.handleView(); break;
-            case Role.DOCTOR: doctorView.handleView(); break;
-            case Role.PHARMACIST: pharmacistView.handleView(); break;
+            case PATIENT -> patientView.handleView();
+            case ADMINISTRATOR -> adminstratorView.handleView();
+            case DOCTOR -> doctorView.handleView();
+            case PHARMACIST -> pharmacistView.handleView();
         }
-
     }
 
     public void handleView() {
         int choice;
-
         do {
-            this.printViewMenu();
-            System.out.print("Please Enter Your Choice: ");
+            printViewMenu();
+            System.out.print("Enter your choice: ");
             choice = Helper.readInt();
-
             while (choice < 1 || choice > 3) {
-                System.out.println("\nInvalid choice. Please try again.");
-                System.out.print("Please Enter your Choice: ");
+                System.out.println("Invalid choice. Please try again.");
+                System.out.print("Enter your choice: ");
                 choice = Helper.readInt();
             }
-
             Helper.pauseApplication();
-
             switch (choice) {
-                case 1: loginView(); break;
-                case 2: registerView(); break;
-                case 3: System.out.println("Thanks For Using HMSApp");
+                case 1 -> loginView();
+                case 2 -> registerView();
+                case 3 -> System.out.println("Thanks for using HMSApp");
             }
         } while (choice != 3);
     }
 
     public void printViewMenu() {
-       System.out.println("1. Login");
-       System.out.println("2. Register");
-       System.out.println("3. Exit");
+        System.out.println("""
+                1. Login
+                2. Register
+                3. Exit """);
     }
 
     public static void registerView() {

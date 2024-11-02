@@ -9,22 +9,22 @@ import model.AppointmentOutcome;
 import model.Patient;
 
 import java.util.HashMap;
-import java.util.List;
 
 public class PatientView implements View{
 
     public PatientView() {}
 
     public void printViewMenu() {
-        System.out.println("1. View Medical Record");
-        System.out.println("2. Update Personal Information");
-        System.out.println("3. View Available Appointment Slots");
-        System.out.println("4. Schedule an Appointment");
-        System.out.println("5. Reschedule an Appointment");
-        System.out.println("6. Cancel an Appointment");
-        System.out.println("7. View Scheduled Appointments");
-        System.out.println("8. View Past Appointment Outcome Records");
-        System.out.println("9. Logout");
+        System.out.println("""
+                1. View Medical Record
+                2. Update Personal Information
+                3. View Available Appointment Slots
+                4. Schedule an Appointment
+                5. Reschedule an Appointment
+                6. Cancel an Appointment
+                7. View Scheduled Appointments
+                8. View Past Appointment Outcome Records
+                9. Logout """);
     }
 
     public void handleView() {
@@ -45,15 +45,15 @@ public class PatientView implements View{
             Helper.pauseApplication();
 
             switch (choice) {
-                case 1: PatientManager.getMedicalRecord(DataBase.getCurrUserID()); break;
-                case 2: handleUpdatePersonalInfo(); break;
-                case 3: handleViewAvailableAppointmentSlots(); break;
-                case 4: handleScheduleAnAppointment(); break;
-                case 5: handleRescheduleAppointment(); break;
-                case 6: handleCancelAppointment(); break;
-                case 7: handleViewPatientScheduledAppointment(); break;
-                case 8: handleViewPastAppointmentRecords(); break;
-                case 9: System.out.println("Thanks for Using HMS");
+                case 1 -> PatientManager.getMedicalRecord(DataBase.getCurrUserID());
+                case 2 -> handleUpdatePersonalInfo();
+                case 3 -> handleViewAvailableAppointmentSlots();
+                case 4 -> handleScheduleAnAppointment();
+                case 5 -> handleRescheduleAppointment();
+                case 6 -> handleCancelAppointment();
+                case 7 -> handleViewPatientScheduledAppointment();
+                case 8 -> handleViewPastAppointmentRecords();
+                case 9 -> System.out.println("Thanks for Using HMS");
             }
             Helper.pauseApplication();
         } while (choice != 9);

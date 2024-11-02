@@ -43,11 +43,11 @@ public class AdminstratorView implements View {
             Helper.pauseApplication();
 
             switch (choice) {
-                case 1: handleViewManageStaff(); break;
-                case 2: handleViewAllPatientsAppointment(); break;
-                case 3: handleViewManageMedicationInventory(); break;
-                case 4: handleApproveReplenishmentRequests(); break;
-                case 5: System.out.println("Thanks for Using HMS");
+                case 1 -> handleViewManageStaff();
+                case 2 -> handleViewAllPatientsAppointment();
+                case 3 -> handleViewManageMedicationInventory();
+                case 4 -> handleApproveReplenishmentRequests();
+                case 5 -> System.out.println("Thanks for Using HMS");
             }
         } while (choice != 5);
     }
@@ -101,11 +101,11 @@ public class AdminstratorView implements View {
             Helper.pauseApplication();
 
             switch (choice) {
-                case 1: listStaffByGender(); break;
-                case 2: listStaffByRole(); break;
-                case 3: listStaffByAgeRange(); break;
-                case 4: listAllStaff(); break;
-                case 5: return;
+                case 1 -> listStaffByGender();
+                case 2 -> listStaffByRole();
+                case 3 -> listStaffByAgeRange();
+                case 4 -> listAllStaff();
+                case 5 -> { return; }
             }
         } while (true);
     }
@@ -184,9 +184,9 @@ public class AdminstratorView implements View {
             Helper.pauseApplication();
 
             switch (choice) {
-                case 1: handleAddStaff(); break;
-                case 2: handleRemoveStaff(); break;
-                case 3: break;
+                case 1 -> handleAddStaff();
+                case 2 -> handleRemoveStaff();
+                case 3 -> { break; }
             }
         } while (choice != 3);
     }

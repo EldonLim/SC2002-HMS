@@ -2,7 +2,6 @@ package view;
 
 import controller.AppointmentManager;
 import controller.InventoryManager;
-import controller.PatientManager;
 import controller.PharmacistManager;
 import database.DataBase;
 import helper.Helper;
@@ -12,18 +11,17 @@ import model.Patient;
 import model.User;
 import using.MedicationStatus;
 
-import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
 public class PharmacistView implements View{
 
     public void printViewMenu() {
-        System.out.println("1. View Appointment Outcome Record");
-        System.out.println("2. Update Prescription Status");
-        System.out.println("3. View Medication Inventory");
-        System.out.println("4. Submit Replenishment Request");
-        System.out.println("5. Logout");
+        System.out.println("""
+                1. Display Appointment Outcome
+                2. Update Prescription Status
+                3. View Medication Inventory
+                4. Submit Replenishment Request
+                5. Logout """);
     }
 
     public void handleView() {
@@ -44,11 +42,11 @@ public class PharmacistView implements View{
             Helper.pauseApplication();
 
             switch (choice) {
-                case 1: handleDisplayAppointmentOutcome(); break;
-                case 2: handleUpdatePrescriptionStatus(); break;
-                case 3: handleViewMedicationInventory(); break;
-                case 4: handleSubmitReplenishmentRequest(); break;
-                case 5: System.out.println("Thanks for Using HMS");
+                case 1 -> handleDisplayAppointmentOutcome();
+                case 2 -> handleUpdatePrescriptionStatus();
+                case 3 -> handleViewMedicationInventory();
+                case 4 -> handleSubmitReplenishmentRequest();
+                case 5 -> System.out.println("Thanks for Using HMS");
             }
             Helper.pauseApplication();
         } while (choice != 5);
