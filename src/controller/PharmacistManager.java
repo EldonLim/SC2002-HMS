@@ -15,20 +15,16 @@ public class PharmacistManager {
             System.out.println("No medicines record in the inventory");
             return;
         }
-
         InventoryManager.listInventory();
     }
 
     public static void submitRequest() {
         System.out.println("\nReplenishment Request Sent For:");
-
         for (Medicine medicine : DataBase.getMedicines().values())
             if (medicine.getLowStockAlert() && !medicine.getRequestAddStock()) {
                 System.out.println(medicine.getMedicineName());
                 medicine.setRequestAddStock();
             }
-
-        System.out.println();
     }
 
     public static void updatePrescriptionStatus(String appointmentOutcomeID, String patientID) {

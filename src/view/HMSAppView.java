@@ -62,9 +62,7 @@ public class HMSAppView implements View{
             UserManager.resetPassword(password);
             Helper.pauseApplication();
         }
-
         handleLogin();
-
     }
 
     public static void handleLogin() {
@@ -109,6 +107,7 @@ public class HMSAppView implements View{
             }
         } while (choice != 3);
     }
+
     public void printViewMenu() {
        System.out.println("1. Login");
        System.out.println("2. Register");

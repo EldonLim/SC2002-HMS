@@ -1,6 +1,7 @@
 package controller;
 
 import database.DataBase;
+import helper.Helper;
 import model.*;
 import using.Gender;
 import using.Role;
@@ -17,21 +18,21 @@ public class AdminstratorManager {
         return DataBase.getUsers().values().stream()
                 .filter(user -> user.getRole() != Role.PATIENT)
                 .map(Staff.class::cast)
-                .collect(Collectors.toList());
+                .toList();
     }
 
     public static List<Staff> getAllStaffByGender(Gender gender) {
         return DataBase.getUsers().values().stream()
                 .filter(user -> user.getRole() != Role.PATIENT && ((Staff) user).getGender() == gender)
                 .map(Staff.class::cast)
-                .collect(Collectors.toList());
+                .toList();
     }
 
     public static List<Staff> getAllStaffByRole(Role role) {
         return DataBase.getUsers().values().stream()
                 .filter(user -> user.getRole() == role)
                 .map(Staff.class::cast)
-                .collect(Collectors.toList());
+                .toList();
     }
 
     public static List<Staff> getAllStaffByAgeGroup(int age) {
@@ -39,7 +40,7 @@ public class AdminstratorManager {
                 .filter(user -> user.getRole() != Role.PATIENT)
                 .map(Staff.class::cast)
                 .filter(staff -> staff.getAge() >= age && staff.getAge() <= age + 9)
-                .collect(Collectors.toList());
+                .toList();
     }
 
     public static void addNewStaff(String name, Role role, Gender gender, int age) {
@@ -80,5 +81,15 @@ public class AdminstratorManager {
         }
 
         DataBase.getUsers().remove(userID);
+    }
+
+    public static void updateLowStockAlert(String medicineName) {
+        System.out.print("Please Enter the New Low Stock Alert: ");
+        int quantity = Helper.readInt();
+
+        Medicine medicine = DataBase.getMedicines().get(medicineName);
+        medicine.setLowStockThreshold(quantity);
+
+        System.out.println("Low Stock Alert for " + medicineName + " is updated to " + quantity);
     }
 }

@@ -45,6 +45,8 @@ public class DoctorView implements View{
                 choice = Helper.readInt();
             }
 
+            Helper.pauseApplication();
+
             switch (choice) {
                 case 1: handlePatientViewMedicalRecord(); break;
                 case 2: handleUpdatePatientMedicalRecord(); break;
@@ -60,28 +62,28 @@ public class DoctorView implements View{
     }
 
     @Override
-    public void viewTitle() { System.out.println("\nDoctor Menu"); }
+    public void viewTitle() { System.out.println("Doctor Menu"); }
     public static void handlePatientViewMedicalRecord() {
-        System.out.println("\nVIEW PATIENTS MEDICAL RECORD");
+        System.out.println("VIEW PATIENTS MEDICAL RECORD");
         DoctorManager.viewMedicalRecord(DataBase.getCurrUserID());
     }
 
     public static void handleSetAvailability() {
-        System.out.println("\nSET UNAVAILABLE SLOT");
+        System.out.println("SET UNAVAILABLE SLOT");
         DoctorManager.setAvailability((Doctor) DataBase.getUsers().get(DataBase.getCurrUserID()));
     }
 
     public static void handleAcceptDeclineAppointment() {
-        System.out.println("\nACCEPT/DECLINE APPOINTMENT");
+        System.out.println("ACCEPT/DECLINE APPOINTMENT");
         DoctorManager.handleAppointmentRequest((Doctor) DataBase.getUsers().get(DataBase.getCurrUserID()));
     }
 
     public static void handleUpdatePatientMedicalRecord() {
-        System.out.println("\nUPDATE PATIENT MEDICAL RECORD");
+        System.out.println("UPDATE PATIENT MEDICAL RECORD");
         List <Patient> patients = DoctorManager.getAllPatientUnderCare((Doctor) DataBase.getUsers().get(DataBase.getCurrUserID()));
 
         if (patients.isEmpty())
-            System.out.println("\nNo Patient Under Your Care");
+            System.out.println("No Patient Under Your Care");
         else {
             System.out.println("UPDATE PATIENT MEDICAL RECORD");
             System.out.println("Patients Under Your Care:");
@@ -117,14 +119,14 @@ public class DoctorView implements View{
             return;
         }
 
-        System.out.println("\nVIEW UPCOMMING APPOINTMENTS");
+        System.out.println("VIEW UPCOMMING APPOINTMENTS");
         for (Appointment appointment : upComingAppointments)
             if (appointment.getAppointmentStatus() == AppointmentStatus.CONFIRM)
                 AppointmentManager.viewAppointmentDetail(appointment, Role.DOCTOR);
     }
 
     public static void handleRecordAppointmentOutcome() {
-        System.out.println("\nRECORD APPOINTMENT OUTCOME");
+        System.out.println("RECORD APPOINTMENT OUTCOME");
         List<Appointment> upcomingConfirmedAppointments =
                 DoctorManager.handleGetDoctorUpComingAppointment((Doctor) DataBase.getUsers().get(DataBase.getCurrUserID()))
                         .stream()

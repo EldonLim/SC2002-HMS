@@ -85,7 +85,6 @@ public class AppointmentManager {
         }
     }
 
-
     public static void cancelAppointment(Patient patient, String appointmentID) {
         Appointment appointment = null;
 
@@ -144,8 +143,7 @@ public class AppointmentManager {
                     }
                 });
 
-        if (noPendingAppointment[0])
-            System.out.println("\nNo Pending Appointment");
+        if (noPendingAppointment[0]) System.out.println("\nNo Pending Appointment");
     }
 
     public static List<Appointment> getDoctorUpComingAppointments (Doctor doctor) { return doctor.getAppointments(); }

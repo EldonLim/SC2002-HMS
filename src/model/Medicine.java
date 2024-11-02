@@ -29,6 +29,7 @@ public class Medicine {
         this.lowStockAlert = lowStockAlert;
         this.requestAddStock = requestAddStock;
     }
+
     /**
      * Gets the medicine name.
      *

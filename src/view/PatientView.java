@@ -42,6 +42,8 @@ public class PatientView implements View{
                 choice = Helper.readInt();
             }
 
+            Helper.pauseApplication();
+
             switch (choice) {
                 case 1: PatientManager.getMedicalRecord(DataBase.getCurrUserID()); break;
                 case 2: handleUpdatePersonalInfo(); break;
@@ -58,7 +60,7 @@ public class PatientView implements View{
     }
 
     public static void handleUpdatePersonalInfo() {
-        System.out.println("\nUPDATE PERSONAL INFORMATION");
+        System.out.println("UPDATE PERSONAL INFORMATION");
         System.out.println("Please key in the latest PhoneNo & EmailAddress");
         System.out.print("Email Address: ");
         String updateEmailAddress = Helper.readString();
@@ -66,18 +68,17 @@ public class PatientView implements View{
         String updatePhoneNo = Helper.readString();
 
         PatientManager.updatePersonalInformation(updateEmailAddress, updatePhoneNo, DataBase.getCurrUserID());
-        System.out.println("Updated Successfully");
     }
 
     public void viewTitle() { System.out.println("Patient Menu"); }
 
     public static void handleViewAvailableAppointmentSlots() {
-        System.out.println("\nVIEW DOCTORS' AVAILABLE SLOTS");
+        System.out.println("VIEW DOCTORS' AVAILABLE SLOTS");
         DoctorManager.printAllAvailableSlots();
     }
 
     public static void handleScheduleAnAppointment(){
-        System.out.println("\nSCHEDULE APPOINTMENT");
+        System.out.println("SCHEDULE APPOINTMENT");
         boolean bookappointment;
         do {
             handleViewAvailableAppointmentSlots();
@@ -101,7 +102,7 @@ public class PatientView implements View{
     }
 
     public static void handleCancelAppointment() {
-        System.out.println("\nCANCEL APPOINTMENT");
+        System.out.println("CANCEL APPOINTMENT");
         AppointmentManager.cancel_viewPatientScheduledAppointments((Patient) DataBase.getUsers().get(DataBase.getCurrUserID()));
         System.out.print("Please Enter the Appointment ID: ");
         String appointmentID = Helper.readString();
@@ -113,7 +114,7 @@ public class PatientView implements View{
     }
 
     public static void handleRescheduleAppointment() {
-        System.out.println("\nRESCHEDULE APPOINTMENT");
+        System.out.println("RESCHEDULE APPOINTMENT");
         if (AppointmentManager.viewPatientScheduledAppointments((Patient) DataBase.getUsers().get(DataBase.getCurrUserID())))
             return;
 
@@ -134,12 +135,12 @@ public class PatientView implements View{
     }
 
     public static void handleViewPatientScheduledAppointment() {
-        System.out.println("\nVIEW PATIENT'S SCHEDULED APPOINTMENTS");
+        System.out.println("VIEW PATIENT'S SCHEDULED APPOINTMENTS");
         AppointmentManager.viewPatientScheduledAppointments((Patient) DataBase.getUsers().get(DataBase.getCurrUserID()));
     }
 
     public static void handleViewPastAppointmentRecords() {
-        System.out.println("\nPAST APPOINTMENT RECORDS");
+        System.out.println("PAST APPOINTMENT RECORDS");
         HashMap<String, AppointmentOutcome> appointmentOutcomeList = ((Patient) DataBase.getUsers().get(DataBase.getCurrUserID())).getMedicalRecord().getAppointmentOutcomes();
 
         if (appointmentOutcomeList.isEmpty()) {

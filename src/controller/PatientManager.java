@@ -17,6 +17,5 @@ public class PatientManager {
         patient.setPhoneNo(phoneNo);
 
         System.out.println("Update Successful!!");
-        System.out.println();
     }
 }

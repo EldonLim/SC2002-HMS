@@ -41,6 +41,8 @@ public class PharmacistView implements View{
                 choice = Helper.readInt();
             }
 
+            Helper.pauseApplication();
+
             switch (choice) {
                 case 1: handleDisplayAppointmentOutcome(); break;
                 case 2: handleUpdatePrescriptionStatus(); break;
@@ -53,15 +55,15 @@ public class PharmacistView implements View{
     }
 
     public void handleViewMedicationInventory() {
-        System.out.println("\nMEDICAL INVENTORY");
+        System.out.println("MEDICAL INVENTORY");
         PharmacistManager.viewInventory();
     }
 
     public static void handleSubmitReplenishmentRequest() {
-        System.out.println("\nSUBMIT REPLENISHMENT REQUEST");
+        System.out.println("SUBMIT REPLENISHMENT REQUEST");
 
-        if (!InventoryManager.checkInventoryLowStock()) System.out.println("No Medicine Low In Stock\n");
-        else if (submittedRequest()) System.out.println("Replenishment request already submitted\n");
+        if (!InventoryManager.checkInventoryLowStock()) System.out.println("No Medicine Low In Stock");
+        else if (submittedRequest()) System.out.println("Replenishment request already submitted");
         else {
             displayLowStockMeds();
             handleSubmitRequest();
@@ -103,7 +105,7 @@ public class PharmacistView implements View{
     }
 
     public static void handleDisplayAppointmentOutcome() {
-        System.out.println("\nDISPLAY APPOINTMENT OUTCOME");
+        System.out.println("DISPLAY APPOINTMENT OUTCOME");
 
         boolean foundAppointOutcome = false;
         foundAppointOutcome = printAppointmentOutcomesForPatients(false);
@@ -112,7 +114,7 @@ public class PharmacistView implements View{
     }
 
     public static void handleUpdatePrescriptionStatus() {
-        System.out.println("\nUPDATE PRESCRIPTION STATUS");
+        System.out.println("UPDATE PRESCRIPTION STATUS");
         boolean hasPendingPrescription = printAppointmentOutcomesForPatients(true);
 
         if (!hasPendingPrescription) {
@@ -151,7 +153,6 @@ public class PharmacistView implements View{
                             System.out.println("AppointOutcome ID: " + outcome.getAppointmentOutcomeID());
                             AppointmentManager.printAppointmentOutcome(outcome);
                             System.out.println("Prescription Status: " + outcome.getMedicationStatus().getLabel());
-                            System.out.println();
                         }
             }
         return foundAppointOutcome;
