@@ -12,6 +12,7 @@ import model.Patient;
 import model.User;
 import using.MedicationStatus;
 
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -58,11 +59,16 @@ public class PharmacistView implements View{
         } while (choice != 5);
     }
 
-    public void handleViewMedicationInventory() { PharmacistManager.viewInventory(); }
+    public void handleViewMedicationInventory() {
+        System.out.println("MEDICAL INVENTORY");
+        PharmacistManager.viewInventory();
+    }
 
     public static void handleSubmitReplenishmentRequest() {
-        if (submittedRequest())  System.out.println("Replenishment request already submitted");
-        else if(!InventoryManager.checkInventoryLowStock()) System.out.println("No Medicine Low In Stock");
+        System.out.println("SUBMIT REPLENISHMENT REQUEST");
+
+        if (!InventoryManager.checkInventoryLowStock()) System.out.println("No Medicine Low In Stock\n");
+        else if (submittedRequest()) System.out.println("Replenishment request already submitted\n");
         else {
             displayLowStockMeds();
             handleSubmitRequest();
@@ -73,16 +79,17 @@ public class PharmacistView implements View{
         char choice;
 
         do {
-            System.out.println("Submit Replenishment Request (y/n):");
+            System.out.print("Submit Replenishment Request (y/n): ");
             choice = Helper.readChar();
 
-            if (choice != 'y' || choice != 'n')
+            if (choice != 'y' && choice != 'n') {
                 System.out.println("Invalid Choice!\nPlease Try Again!!");
-        } while (choice != 'y' || choice != 'n');
+                continue;
+            }
+            else break;
+        } while (true);
 
-        if (choice == 'y')
-            PharmacistManager.submitRequest();
-
+        if (choice == 'y') PharmacistManager.submitRequest();
     }
 
     public static void displayLowStockMeds() {
@@ -92,7 +99,6 @@ public class PharmacistView implements View{
         for (Map.Entry<String, Medicine> entry : DataBase.getMedicines().entrySet())
             if (InventoryManager.checkMedicineStockLevel(entry.getKey()))
                 System.out.println(count++ + ". " + entry.getValue().getMedicineName());
-
     }
 
     public static boolean submittedRequest() {
@@ -102,13 +108,14 @@ public class PharmacistView implements View{
 
         return true;
     }
+
     public static void handleDisplayAppointmentOutcome() {
         System.out.println("DISPLAY APPOINTMENT OUTCOME");
 
         boolean foundAppointOutcome = false;
-        printAppointmentOutcomesForPatients(false);
+        foundAppointOutcome = printAppointmentOutcomesForPatients(false);
 
-        if (!foundAppointOutcome) System.out.println("\nNo Appointment Outcome Record Stored");
+        if (!foundAppointOutcome) System.out.println("No Appointment Outcome Record Stored");
     }
 
     public static void handleUpdatePrescriptionStatus() {
@@ -121,25 +128,15 @@ public class PharmacistView implements View{
         }
 
         do {
-            System.out.print("\nPlease Enter the AppointmentOutcome ID: ");
+            System.out.print("Please Enter the AppointmentOutcome ID: ");
             String appointmentOutcomeID = Helper.readString();
             String patientID = appointmentOutcomeID.substring(0, 5);
 
-            if (DataBase.getUsers().containsKey(patientID) &&
-                    ((Patient) DataBase.getUsers().get(patientID)).getMedicalRecord().getAppointmentOutcomes().containsKey(appointmentOutcomeID)) {
-                AppointmentOutcome outcome = ((Patient) DataBase.getUsers().get(patientID)).getMedicalRecord().getAppointmentOutcomes().get(appointmentOutcomeID);
-
-                if (outcome.getMedicationStatus() == MedicationStatus.PENDING) {
-                    outcome.setMedicationStatus(MedicationStatus.DISPENDED);
-                    System.out.println("Updated Successfully\n");
-                }
-                else System.out.println("The medicine for this appointment had dispended\n");
-            }
-            else System.out.println("This appointment outcome is not recorded in the system\n");
-
+            PharmacistManager.updatePrescriptionStatus(appointmentOutcomeID, patientID);
 
             System.out.print("Update other appointment outcome prescription status (y/n)?: ");
             char choice = Helper.readChar();
+
             if (choice != 'y') break;
 
         } while (true);
@@ -161,6 +158,7 @@ public class PharmacistView implements View{
                             System.out.println("AppointOutcome ID: " + outcome.getAppointmentOutcomeID());
                             AppointmentManager.printAppointmentOutcome(outcome);
                             System.out.println("Prescription Status: " + outcome.getMedicationStatus().getLabel());
+                            System.out.println();
                         }
 
                 }

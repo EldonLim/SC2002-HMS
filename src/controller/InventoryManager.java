@@ -5,6 +5,8 @@ import model.Medicine;
 
 public class InventoryManager {
 
+    private final static int NUMBER_OF_MEDICINE_DISPENDED = 50;
+
     public InventoryManager() {}
 
     public static void listInventory() {
@@ -26,4 +28,9 @@ public class InventoryManager {
     }
 
     public static boolean checkMedicineStockLevel(String medicineName) { return DataBase.getMedicines().get(medicineName).getLowStockAlert(); }
+
+    public static void dispendMedicine(String medicineName) {
+        Medicine medicine = DataBase.getMedicines().get(medicineName);
+        medicine.setStock(medicine.getStock() - NUMBER_OF_MEDICINE_DISPENDED);
+    }
 }
