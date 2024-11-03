@@ -1,6 +1,7 @@
 package view;
 
 import database.DataBase;
+import helper.Encryption;
 import helper.Helper;
 import controller.*;
 import using.*;
@@ -43,14 +44,16 @@ public class HMSAppView implements View{
                 Helper.pauseApplication();
             }
         }
-        System.out.println("Login Successful");
-        if (DataBase.getUsers().get(DataBase.getCurrUserID()).getPassword().equals("password"))
+        Helper.pauseApplication();
+        if (DataBase.getUsers().get(DataBase.getCurrUserID()).getPassword().equals(Encryption.encode("password")))
             resetPassword();
+        System.out.println("Login Successful");
+        Helper.pauseApplication();
         handleLogin();
     }
 
     private static void resetPassword() {
-        System.out.println("\nPlease reset password for first-time login");
+        System.out.println("Please reset password for first-time login");
         System.out.print("New password: ");
         String password = Helper.readString();
         UserManager.resetPassword(password);

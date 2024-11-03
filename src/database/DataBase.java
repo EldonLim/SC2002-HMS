@@ -1,4 +1,5 @@
 package database;
+import helper.Encryption;
 import using.*;
 import model.*;
 
@@ -82,17 +83,17 @@ public class DataBase {
 
                 switch (role) {
                     case ADMINISTRATOR:
-                        user = new Adminstrator(inputData[1], staffID, initialState? "password" : inputData[5], role, Gender.fromString(inputData[3]), Integer.parseInt(inputData[4]));
+                        user = new Adminstrator(inputData[1], staffID, initialState? Encryption.encode("password") : inputData[5], role, Gender.fromString(inputData[3]), Integer.parseInt(inputData[4]));
                         numberofAdminstrator++;
                         break;
 
                     case DOCTOR:
-                        user = new Doctor(inputData[1], staffID, initialState? "password" : inputData[5], role, Gender.fromString(inputData[3]), Integer.parseInt(inputData[4]));
+                        user = new Doctor(inputData[1], staffID, initialState? Encryption.encode("password") : inputData[5], role, Gender.fromString(inputData[3]), Integer.parseInt(inputData[4]));
                         numberofDoctor++;
                         break;
 
                     case PHARMACIST:
-                        user = new Pharmacist(inputData[1], staffID, initialState? "password" : inputData[5], role, Gender.fromString(inputData[3]), Integer.parseInt(inputData[4]));
+                        user = new Pharmacist(inputData[1], staffID, initialState? Encryption.encode("password") : inputData[5], role, Gender.fromString(inputData[3]), Integer.parseInt(inputData[4]));
                         numberOfPharmacist++;
                         break;
                 }
@@ -120,7 +121,7 @@ public class DataBase {
                String[] inputData = line.split(",");
 
                String patientID = inputData[0];
-               User user = new Patient(inputData[1], patientID, initialState? "password" : inputData[6], Role.PATIENT, Gender.fromString(inputData[3]), BloodType.fromString(inputData[4]), initialState? "" : inputData[7], inputData[5], inputData[2]);
+               User user = new Patient(inputData[1], patientID, initialState? Encryption.encode("password") : inputData[6], Role.PATIENT, Gender.fromString(inputData[3]), BloodType.fromString(inputData[4]), initialState? "" : inputData[7], inputData[5], inputData[2]);
 
                numberOfPatient++;
                Users.put(patientID, user);

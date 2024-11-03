@@ -1,18 +1,18 @@
 package controller;
 import database.DataBase;
-import view.HMSAppView;
+import helper.Encryption;
 
 public class UserManager {
 
     public UserManager() {}
     public static boolean validateUser(String id, String password) {
         if (DataBase.getUsers().containsKey(id))
-            return DataBase.getUsers().get(id).getPassword().equals(password);
+            return DataBase.getUsers().get(id).getPassword().equals(Encryption.encode(password));
         return false;
     }
 
     public static void resetPassword(String newPassword) {
-        DataBase.getUsers().get(DataBase.getCurrUserID()).setPassword(newPassword);
+        DataBase.getUsers().get(DataBase.getCurrUserID()).setPassword(Encryption.encode(newPassword));
         System.out.println("Password Reset Successfully");
     }
 }

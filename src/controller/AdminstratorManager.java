@@ -1,15 +1,14 @@
 package controller;
 
 import database.DataBase;
+import helper.Encryption;
 import helper.Helper;
 import model.*;
 import using.BloodType;
 import using.Gender;
 import using.Role;
 
-import java.util.ArrayList;
 import java.util.List;
-import java.util.stream.Collectors;
 
 public class AdminstratorManager {
 
@@ -47,29 +46,30 @@ public class AdminstratorManager {
     public static void addNewStaff(String name, Role role, Gender gender, int age) {
         User user = null;
         String userID;
+        String defaultPassword = Encryption.encode("password");
 
         switch (role) {
             case Role.DOCTOR:
                 userID = String.format("D%03d", DataBase.getNumberofDoctor() + 1);
                 DataBase.increaseDoctorCount();
-                user = new Doctor(name, userID, "password", role, gender, age);
+                user = new Doctor(name, userID, defaultPassword, role, gender, age);
                 break;
 
             case Role.PHARMACIST:
                 userID = String.format("P%03d", DataBase.getNumberOfPharmacist() + 1);
                 DataBase.increasePharmacistCount();
-                user = new Pharmacist(name, userID, "password", role, gender, age);
+                user = new Pharmacist(name, userID, defaultPassword, role, gender, age);
                 break;
 
             case Role.ADMINISTRATOR:
                 userID = String.format("A%03d", DataBase.getNumberofAdminstrator() + 1);
                 DataBase.increaseAdminstratorCount();
-                user = new Adminstrator(name, userID, "password", role, gender, age);
+                user = new Adminstrator(name, userID, defaultPassword, role, gender, age);
         }
 
         DataBase.getUsers().put(user.getID(), user);
         System.out.println("\nStaff ID: " + user.getID());
-        System.out.println("Password: " + user.getPassword());
+        System.out.println("Password: " + Encryption.decode(user.getPassword()));
     }
 
     public static void removeStaff(String userID) {
@@ -98,11 +98,11 @@ public class AdminstratorManager {
         String patientID = String.format("P1%03d", DataBase.getNumberOfPatient() + 1);
         DataBase.increasePatientCount();
 
-        Patient patient = new Patient(name, patientID, "password", Role.PATIENT, gender, bloodType, phoneNo, emailAddress, dateOfBirth);
+        Patient patient = new Patient(name, patientID, Encryption.encode("password"), Role.PATIENT, gender, bloodType, phoneNo, emailAddress, dateOfBirth);
         DataBase.getUsers().put(patientID, patient);
         System.out.println("Register Successfully");
 
         System.out.println("ID: " + patient.getID());
-        System.out.println("Password: " + patient.getPassword());
+        System.out.println("Password: " + Encryption.decode(patient.getPassword()));
     }
 }
