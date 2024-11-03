@@ -12,8 +12,9 @@ public class Helper {
 
     public static void pauseApplication() {
         System.out.println("\nPress <Enter> to continue......");
-        try { System.in.read(); }
-        catch (Exception e) {}
+//        try { System.in.read(); }
+//        catch (Exception e) {}
+        sc.nextLine();
         clearInputBuffer(); // clear buffer
     }
 

@@ -5,6 +5,7 @@ import helper.Helper;
 import model.*;
 import using.*;
 
+import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
@@ -117,33 +118,37 @@ public class AppointmentManager {
 
     public static void handleDoctorAppointmentRequest(Doctor doctor) {
         final boolean[] noPendingAppointment = {true};
-        doctor.getAppointments().stream()
-                .filter(appointment -> appointment.getAppointmentStatus() == AppointmentStatus.PENDING)
-                .forEach(appointment -> {
-                    viewAppointmentDetail(appointment, doctor.getRole());
-                    noPendingAppointment[0] = false;
-                    // Handling multiple patients booked the exact same time slot
-                    if (doctor.getSchedule().getWeeklySlots().get(appointment.getDate()).get(appointment.getTimeSlot()) == Availability.BOOKED) {
-                        System.out.println("This timeslot is booked by another patient");
-                        appointment.setAppointmentStatus(AppointmentStatus.CANCEL);
-                        doctor.removeAppointment(appointment);
-                    }
-                    else {
-                        System.out.print("Accept Appointment (y/n): ");
-                        char choice = Helper.readChar();
-                        if (choice == 'y') {
-                            appointment.setAppointmentStatus(AppointmentStatus.CONFIRM);
-                            doctor.getSchedule().getWeeklySlots().get(appointment.getDate()).put(appointment.getTimeSlot(),
-                                                                      Availability.BOOKED);
-                            DoctorManager.addPatientUnderCare(doctor, appointment.getPatient());
-                        } else {
-                            appointment.setAppointmentStatus(AppointmentStatus.CANCEL);
-                            doctor.getAppointments().remove(appointment);
-                        }
-                    }
-                });
 
-        if (noPendingAppointment[0]) System.out.println("\nNo Pending Appointment");
+        Iterator<Appointment> iterator = doctor.getAppointments().iterator();
+
+        while (iterator.hasNext()) {
+            Appointment appointment = iterator.next();
+
+            if (appointment.getAppointmentStatus() == AppointmentStatus.PENDING) {
+                viewAppointmentDetail(appointment, doctor.getRole());
+                noPendingAppointment[0] = false;
+
+                if (doctor.getSchedule().getWeeklySlots().get(appointment.getDate()).get(appointment.getTimeSlot()) == Availability.BOOKED) {
+                    System.out.println("This timeslot is booked by another patient");
+                    appointment.setAppointmentStatus(AppointmentStatus.CANCEL);
+                    iterator.remove();
+                } else {
+                    System.out.print("Accept Appointment (y/n): ");
+                    char choice = Helper.readChar();
+                    if (choice == 'y') {
+                        appointment.setAppointmentStatus(AppointmentStatus.CONFIRM);
+                        doctor.getSchedule().getWeeklySlots().get(appointment.getDate()).put(appointment.getTimeSlot(), Availability.BOOKED);
+                        DoctorManager.addPatientUnderCare(doctor, appointment.getPatient());
+                    } else {
+                        appointment.setAppointmentStatus(AppointmentStatus.CANCEL);
+                        iterator.remove();
+                    }
+                }
+            }
+        }
+
+        if (noPendingAppointment[0])
+            System.out.println("\nNo Pending Appointment");
     }
 
     public static List<Appointment> getDoctorUpComingAppointments (Doctor doctor) { return doctor.getAppointments(); }
