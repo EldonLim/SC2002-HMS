@@ -14,15 +14,17 @@ public class Helper {
         System.out.println("\nPress <Enter> to continue......");
         try { System.in.read(); }
         catch (Exception e) {}
+        clearInputBuffer(); // clear buffer
     }
 
     public static int readInt() {
         int userInput = sc.nextInt();
-        sc.nextLine(); // clear buffer
+        clearInputBuffer(); // clear buffer
         return userInput;
     }
 
     public static char readChar() { return sc.nextLine().toLowerCase().charAt(0); }
 
     public static void clearInputBuffer() { sc.nextLine(); }
+    
 }
