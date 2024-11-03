@@ -15,7 +15,7 @@ public class Helper {
 //        try { System.in.read(); }
 //        catch (Exception e) {}
         sc.nextLine();
-        clearInputBuffer(); // clear buffer
+//        clearInputBuffer(); // clear buffer
     }
 
     public static int readInt() {
