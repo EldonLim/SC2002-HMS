@@ -63,4 +63,9 @@ public class InventoryManager {
         medicine.setStock(medicine.getStock() + NUMBER_OF_STOCK_ADDED);
         System.out.println("Approved Replenishment Request for " + medicine.getMedicineName());
     }
+
+    public static void addNewMedicine(String medicineName, int quantity, int lowStockAlertQuantity) {
+        DataBase.getMedicines().put(medicineName, new Medicine(medicineName, quantity, lowStockAlertQuantity));
+        System.out.println("Added New Medicine");
+    }
 }

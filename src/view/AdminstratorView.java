@@ -34,7 +34,7 @@ public class AdminstratorView implements View {
             this.printViewMenu();
             choice = Helper.readInt();
 
-            while (choice < 1 || choice > 5) {
+            while (choice < 1 || choice > 6) {
                 System.out.println("\nInvalid choice. Please try again.");
                 System.out.print("Please Enter your Choice: ");
                 choice = Helper.readInt();
@@ -47,9 +47,10 @@ public class AdminstratorView implements View {
                 case 2 -> handleViewAllPatientsAppointment();
                 case 3 -> handleViewManageMedicationInventory();
                 case 4 -> handleApproveReplenishmentRequests();
-                case 5 -> System.out.println("Thanks for Using HMS");
+                case 5 -> handleAddNewMedicine();
+                case 6 -> System.out.println("Thanks for Using HMS");
             }
-        } while (choice != 5);
+        } while (choice != 6);
     }
 
     @Override
@@ -319,6 +320,19 @@ public class AdminstratorView implements View {
 
             if (choice == 'y') InventoryManager.handleApproveReplenishmentRequest(medicine);
         }
+    }
+
+    public static void handleAddNewMedicine() {
+        System.out.println("ADDING NEW MEDICINE");
+        System.out.println("Please Enter the following Details");
+        System.out.print("Medicine Name: ");
+        String medicineName = Helper.readString();
+        System.out.print("Quantity: ");
+        int quantity = Helper.readInt();
+        System.out.print("Low Stock Alert: ");
+        int lowStockAlertQuantity = Helper.readInt();
+
+        InventoryManager.addNewMedicine(medicineName, quantity, lowStockAlertQuantity);
     }
 }
 
