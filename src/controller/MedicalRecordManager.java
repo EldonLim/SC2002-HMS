@@ -23,17 +23,11 @@ public class MedicalRecordManager {
         System.out.println("Patient ID: " + patient.getID());
         System.out.println("Date of Birth: " + patient.getDateOfBirth());
         System.out.println("Gender: " + patient.getGender().getLabel());
-        System.out.println("Phone Number: " + patient.getPhoneNo());
-        System.out.println("Email Address: " + patient.getEmailAddress());
+        System.out.println("Phone Number: " + (patient.getPhoneNo().isEmpty()? "N/A" : patient.getPhoneNo()));
+        System.out.println("Email Address: " + (patient.getEmailAddress().isEmpty()? "N/A" : patient.getEmailAddress()));
         System.out.println("Blood Type: " + patient.getBloodType().getLabel());
-        if (!medicalRecord.getDiagnosis().isEmpty()) {
-            String concat_diagnosis = String.join(", ", medicalRecord.getDiagnosis());
-            System.out.println("Diagnosis: " + concat_diagnosis);
-        }
-        if (!medicalRecord.getTreatments().isEmpty()) {
-            String concat_treatments = String.join(", ", medicalRecord.getTreatments());
-            System.out.println("Treatments: " + concat_treatments);
-        }
+        System.out.println("Diagnosis: " + ((medicalRecord.getDiagnosis().isEmpty())? "N/A" : String.join(", ", medicalRecord.getDiagnosis())));
+        System.out.println("Treatments: " + ((medicalRecord.getTreatments().isEmpty())? "N/A" : String.join(", ", medicalRecord.getTreatments())));
     }
 
     public static void updateMedicalRecord(Patient patient, String diagnosis, String treatment) {
