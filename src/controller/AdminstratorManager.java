@@ -100,7 +100,7 @@ public class AdminstratorManager {
 
         Patient patient = new Patient(name, patientID, Encryption.encode("password"), Role.PATIENT, gender, bloodType, phoneNo, emailAddress, dateOfBirth);
         DataBase.getUsers().put(patientID, patient);
-        System.out.println("Register Successfully");
+        System.out.println("\nRegister Successfully");
 
         System.out.println("ID: " + patient.getID());
         System.out.println("Password: " + Encryption.decode(patient.getPassword()));
