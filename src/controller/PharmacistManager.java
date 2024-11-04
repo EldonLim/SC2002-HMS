@@ -33,7 +33,7 @@ public class PharmacistManager {
             AppointmentOutcome appointmentOutcome = ((Patient) DataBase.getUsers().get(patientID)).getMedicalRecord().getAppointmentOutcomes().get(appointmentOutcomeID);
 
             if (appointmentOutcome.getMedicationStatus() == MedicationStatus.PENDING) {
-                appointmentOutcome.setMedicationStatus(MedicationStatus.DISPENDED);
+                appointmentOutcome.setMedicationStatus(MedicationStatus.DISPENSED);
                 InventoryManager.dispendMedicine(appointmentOutcome.getMedicine());
                 System.out.println("Updated Successfully\n");
             }

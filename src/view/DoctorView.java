@@ -85,7 +85,6 @@ public class DoctorView implements View{
         if (patients.isEmpty())
             System.out.println("No Patient Under Your Care");
         else {
-            System.out.println("UPDATE PATIENT MEDICAL RECORD");
             System.out.println("Patients Under Your Care:");
             for (Patient patient : patients)
                 System.out.println(patient.getName() + " (" + patient.getID() + ")");

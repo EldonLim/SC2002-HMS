@@ -2,7 +2,7 @@ package using;
 
 public enum MedicationStatus {
     PENDING("Pending"),
-    DISPENDED("Dispended");
+    DISPENSED("Dispensed");
 
     private final String label;
 

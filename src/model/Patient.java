@@ -20,7 +20,6 @@ public class Patient extends User{
         this.phoneNo = phoneNo;
         this.emailAddress = emailAddress;
         this.dateOfBirth = dateOfBirth;
-        medicalRecord = null;
         appointments = new ArrayList<>();
         medicalRecord = new MedicalRecord(this);
     }

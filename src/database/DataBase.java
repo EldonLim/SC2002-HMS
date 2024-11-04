@@ -1,14 +1,13 @@
 package database;
 import helper.Encryption;
+import helper.Helper;
 import using.*;
 import model.*;
 
-import java.io.File;
+import java.io.*;
 import java.lang.reflect.GenericDeclaration;
 import java.util.HashMap;
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.FileReader;
+import java.util.List;
 import java.util.function.DoubleConsumer;
 
 public class DataBase {
@@ -110,29 +109,64 @@ public class DataBase {
     }
 
     public static boolean readPatientCSVFile(FileType fileType) {
-       String filePath = folderPath + fileType.getFileName() + fileExtension;
+        String filePath = folderPath + fileType.getFileName() + fileExtension;
+//        String filePath = folderPath + "Patient_List1" + fileExtension;
 
-       try (BufferedReader br = new BufferedReader(new FileReader(filePath))) {
-           String line = br.readLine();
-           String[] headers = line.split(",");
-           boolean initialState = headers.length == 6;
+        try (BufferedReader br = new BufferedReader(new FileReader(filePath))) {
+            String line = br.readLine(); // Skip the headers
 
-           while ((line = br.readLine()) != null) {
-               String[] inputData = line.split(",");
+            while ((line = br.readLine()) != null) {
+                List<String> inputData = Helper.parseCSVLine(line);
 
-               String patientID = inputData[0];
-               User user = new Patient(inputData[1], patientID, initialState? Encryption.encode("password") : inputData[6], Role.PATIENT, Gender.fromString(inputData[3]), BloodType.fromString(inputData[4]), initialState? "" : inputData[7], inputData[5], inputData[2]);
+                String patientID = inputData.getFirst();
+                User user = new Patient(inputData.get(1), patientID, inputData.get(7).isEmpty()? Encryption.encode("password") : inputData.get(7), Role.PATIENT, Gender.fromString(inputData.get(3)), BloodType.fromString(inputData.get(4)), inputData.get(6), inputData.get(5), inputData.get(2));
 
-               numberOfPatient++;
-               Users.put(patientID, user);
-           }
-       }
-       catch (IOException e) {
-           e.printStackTrace();
-           return false;
-       }
-       return true;
+                numberOfPatient++;
+                Users.put(patientID, user);
+            }
+        }
+        catch (IOException e) {
+            e.printStackTrace();
+            return false;
+        }
+        return true;
     }
+
+//    public static void writePatientCSVFile() {
+//        // String filePath = folderPath + fileType.getFileName() + fileExtension;
+//        String filePath = folderPath + "Patient_List1" + fileExtension;
+//
+//        try (BufferedWriter bw = new BufferedWriter(new FileWriter(filePath))) {
+//            // Write headers
+//            bw.write("Patient ID,Name,Date of Birth,Gender,Blood Type,Contact Information,Phone No,Password,Treatments,Diagnosis\n");
+//
+//            for (User user : Users.values()) {
+//                if (!(user instanceof Patient))
+//                    continue;
+//
+//                Patient patient = (Patient) user;
+//
+//                // Convert lists to comma-separated strings
+//                String treatments = String.join(",", patient.getMedicalRecord().getTreatments());
+//                String diagnosis = String.join(",", patient.getMedicalRecord().getDiagnosis());
+//
+//                bw.write(String.format("%s,%s,%s,%s,%s,%s,%s,%s,\"%s\",\"%s\"\n",
+//                        patient.getID(),
+//                        patient.getName(),
+//                        patient.getDateOfBirth(),
+//                        patient.getGender(),
+//                        patient.getBloodType(),
+//                        patient.getEmailAddress(),
+//                        patient.getPhoneNo(),
+//                        patient.getPassword(),
+//                        treatments,
+//                        diagnosis
+//                ));
+//            }
+//        } catch (IOException e) {
+//            e.printStackTrace();
+//        }
+//    }
 
     public static int getNumberOfPatient() { return numberOfPatient; }
     public static int getNumberofDoctor() { return numberofDoctor; }
