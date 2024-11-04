@@ -6,9 +6,12 @@ import controller.PatientManager;
 import database.DataBase;
 import helper.Helper;
 import model.AppointmentOutcome;
+import model.Doctor;
 import model.Patient;
+import model.User;
 
 import java.util.HashMap;
+import java.util.Map;
 
 public class PatientView implements View{
 
@@ -79,18 +82,41 @@ public class PatientView implements View{
 
     public static void handleScheduleAnAppointment(){
         System.out.println("SCHEDULE APPOINTMENT");
-        boolean bookappointment;
+        boolean bookappointment = false;
         do {
             handleViewAvailableAppointmentSlots();
             System.out.println("Each Time Slot is 1 Hour");
             System.out.print("Please Enter Doctor Name: ");
             String doctorName = Helper.readString();
+
+            Doctor doctor = null;
+            for (Map.Entry<String, User> entry : DataBase.getUsers().entrySet())
+                if (entry.getValue() instanceof Doctor)
+                    if (entry.getValue().getName().equals(doctorName)) {
+                        doctor = (Doctor) entry.getValue();
+                        break;
+                    }
+
+            if (doctor == null) {
+                System.out.println("Invalid Doctor Name");
+                Helper.pauseApplication();
+                continue;
+            }
+
             System.out.print("Please Enter the Date (dd/mm/yy): ");
             String date = Helper.readString();
             System.out.print("Please Enter the Slot in 24Hour Format (13 stands for 1pm): ");
             int timeSlot = Helper.readInt();
+            
 
-            bookappointment = AppointmentManager.scheduleAppointment(doctorName, date, timeSlot);
+            
+            if (!doctor.getSchedule().getWeeklySlots().containsKey(date) || !doctor.getSchedule().getWeeklySlots().get(date).containsKey(timeSlot)) {
+                System.out.println("Invalid Date or Time Slot");
+                Helper.pauseApplication();
+                continue;
+            }
+
+            bookappointment = AppointmentManager.scheduleAppointment(doctor, date, timeSlot);
             if (!bookappointment) {
                 System.out.println();
                 System.out.println("Doctor is not available at that time");

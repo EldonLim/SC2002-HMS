@@ -13,15 +13,7 @@ public class AppointmentManager {
 
     public AppointmentManager() {}
 
-    public static boolean scheduleAppointment(String doctorName, String date, int timeSlot) {
-        Doctor doctor = null;
-        for (Map.Entry<String, User> entry : DataBase.getUsers().entrySet())
-            if (entry.getValue() instanceof Doctor)
-                if (entry.getValue().getName().equals(doctorName)) {
-                    doctor = (Doctor) entry.getValue();
-                    break;
-                }
-
+    public static boolean scheduleAppointment(Doctor doctor, String date, int timeSlot) {
         Availability doctor_availability = doctor.getSchedule().getWeeklySlots().get(date).get(timeSlot);
 
         if (doctor_availability == Availability.NOT_AVAILABLE || doctor_availability == Availability.BOOKED) return false;
