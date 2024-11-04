@@ -16,7 +16,6 @@ public class DataBase {
     private static final String fileExtension = ".csv";
 
     private static HashMap<String, User> Users = new HashMap<String, User>();
-//    private static HashMap<String, MedicalRecord> MedicalRecords = new HashMap<>();
     private static HashMap<String, Medicine> Medicines = new HashMap<>();
 
     private static String currUserID;
@@ -40,6 +39,8 @@ public class DataBase {
             System.err.println("Fail To Write Patient Data");
         if (!writeMedicineCSVFile())
             System.err.println("Fail To Write Medicine Data");
+        if (!writeStaffCSVFile())
+            System.err.println("Fail To Write Staff Data");
     }
 
     public static boolean readMedicineFile(FileType fileType) {
@@ -54,7 +55,6 @@ public class DataBase {
 
                 String medicineName = inputData.getFirst();
                 Medicine medicine = new Medicine(medicineName, Integer.parseInt(inputData.get(1)), Integer.parseInt(inputData.get(2)), inputData.get(3).equals("1"), inputData.get(4).equals("1"));
-
                 Medicines.put(medicineName, medicine);
             }
         } catch (IOException e) {
@@ -65,40 +65,36 @@ public class DataBase {
     }
 
     public static boolean readStaffCSVFile(FileType fileType) {
-        String filePath = folderPath + fileType.getFileName() + fileExtension;
-
+//        String filePath = folderPath + fileType.getFileName() + fileExtension;
+        String filePath = folderPath + "StaffTesting" + fileExtension; // Testing Write
         try (BufferedReader br = new BufferedReader(new FileReader(filePath))) {
             String line = br.readLine();
             String[] headers = line.split(",");
 
-            boolean initialState = headers.length == 5;
-
             while ((line = br.readLine()) != null) {
-                String[] inputData = line.split(",");
+                List<String> inputData = Helper.parseCSVLine(line);
 
-                String staffID = inputData[0];
-                Role role = Role.fromString(inputData[2]);
+                String staffID = inputData.get(0);
+                Role role = Role.fromString(inputData.get(2));
                 User user = null;
 
                 switch (role) {
                     case ADMINISTRATOR:
-                        user = new Adminstrator(inputData[1], staffID, initialState? Encryption.encode("password") : inputData[5], role, Gender.fromString(inputData[3]), Integer.parseInt(inputData[4]));
+                        user = new Adminstrator(inputData.get(1), staffID, inputData.get(5).isEmpty()? Encryption.encode("password") : inputData.get(5), role, Gender.fromString(inputData.get(3)), Integer.parseInt(inputData.get(4)));
                         numberofAdminstrator++;
                         break;
 
                     case DOCTOR:
-                        user = new Doctor(inputData[1], staffID, initialState? Encryption.encode("password") : inputData[5], role, Gender.fromString(inputData[3]), Integer.parseInt(inputData[4]));
+                        user = new Doctor(inputData.get(1), staffID, inputData.get(5).isEmpty()? Encryption.encode("password") : inputData.get(5), role, Gender.fromString(inputData.get(3)), Integer.parseInt(inputData.get(4)));
                         numberofDoctor++;
                         break;
 
                     case PHARMACIST:
-                        user = new Pharmacist(inputData[1], staffID, initialState? Encryption.encode("password") : inputData[5], role, Gender.fromString(inputData[3]), Integer.parseInt(inputData[4]));
+                        user = new Pharmacist(inputData.get(1), staffID, inputData.get(5).isEmpty()? Encryption.encode("password") : inputData.get(5), role, Gender.fromString(inputData.get(3)), Integer.parseInt(inputData.get(4)));
                         numberOfPharmacist++;
                         break;
                 }
-
                 Users.put(staffID, user);
-
             }
         }
         catch (IOException e) {
@@ -193,6 +189,33 @@ public class DataBase {
         return true;
     }
 
+    public static boolean writeStaffCSVFile() {
+//        String filePath = folderPath + fileType.getFileName() + fileExtension;
+        String filePath = folderPath + "StaffTesting" + fileExtension; // Testing Write
+
+        try (BufferedWriter bw = new BufferedWriter(new FileWriter(filePath))) {
+            // Write headers
+            bw.write("Staff ID,Name,Role,Gender,Age,Password\n");
+
+            for (User user : Users.values()) {
+                if (user instanceof Patient)
+                    continue;
+                // Write staff data
+                bw.write(String.format("%s,%s,%s,%s,%d,%s\n",
+                        user.getID(),
+                        user.getName(),
+                        user.getRole().getLabel(),
+                        user.getGender().getLabel(),
+                        ((Staff) user).getAge(),
+                        user.getPassword()
+                ));
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+            return false;
+        }
+        return true;
+    }
     public static int getNumberOfPatient() { return numberOfPatient; }
     public static int getNumberofDoctor() { return numberofDoctor; }
     public static int getNumberofAdminstrator() { return numberofAdminstrator; }
