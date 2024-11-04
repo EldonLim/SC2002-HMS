@@ -84,6 +84,7 @@ public class AppointmentManager {
             System.out.println("Doctor: " + appointment.getDoctor().getName());
             System.out.println("Appointment Status: " + appointment.getAppointmentStatus().getLabel());
         }
+        Helper.pauseApplication();
     }
 
     public static void cancelAppointment(Patient patient, String appointmentID) {

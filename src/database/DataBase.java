@@ -35,25 +35,25 @@ public class DataBase {
             System.err.println("Fail to read" + FileType.MEDICINEFILE.getFileName());
     }
 
+    public static void writeData() {
+        if (!writePatientCSVFile())
+            System.err.println("Fail To Write Patient Data");
+        if (!writeMedicineCSVFile())
+            System.err.println("Fail To Write Medicine Data");
+    }
+
     public static boolean readMedicineFile(FileType fileType) {
-        String filePath = folderPath + fileType.getFileName() + fileExtension;
+//        String filePath = folderPath + fileType.getFileName() + fileExtension;
+        String filePath = folderPath + "MedicineTesting" + fileExtension;
 
         try (BufferedReader br = new BufferedReader(new FileReader(filePath))) {
             String line = br.readLine();
-            String[] headers = line.split(",");
-
-            boolean initialState = headers.length == 3;
 
             while ((line = br.readLine()) != null) {
-                String[] inputData = line.split(",");
+                List<String> inputData = Helper.parseCSVLine(line);
 
-                String medicineName = inputData[0];
-                Medicine medicine = null;
-
-                if (initialState)
-                    medicine = new Medicine(medicineName, Integer.parseInt(inputData[1]), Integer.parseInt(inputData[2]));
-                else
-                    medicine = new Medicine(medicineName, Integer.parseInt(inputData[1]), Integer.parseInt(inputData[2]), inputData[3].equals("True"), inputData[4].equals("True"));
+                String medicineName = inputData.getFirst();
+                Medicine medicine = new Medicine(medicineName, Integer.parseInt(inputData.get(1)), Integer.parseInt(inputData.get(2)), inputData.get(3).equals("1"), inputData.get(4).equals("1"));
 
                 Medicines.put(medicineName, medicine);
             }
@@ -109,8 +109,8 @@ public class DataBase {
     }
 
     public static boolean readPatientCSVFile(FileType fileType) {
-        String filePath = folderPath + fileType.getFileName() + fileExtension;
-//        String filePath = folderPath + "Patient_List1" + fileExtension;
+//        String filePath = folderPath + fileType.getFileName() + fileExtension;
+        String filePath = folderPath + "Patient_List1" + fileExtension; // Testing csv file
 
         try (BufferedReader br = new BufferedReader(new FileReader(filePath))) {
             String line = br.readLine(); // Skip the headers
@@ -132,41 +132,66 @@ public class DataBase {
         return true;
     }
 
-//    public static void writePatientCSVFile() {
-//        // String filePath = folderPath + fileType.getFileName() + fileExtension;
-//        String filePath = folderPath + "Patient_List1" + fileExtension;
-//
-//        try (BufferedWriter bw = new BufferedWriter(new FileWriter(filePath))) {
-//            // Write headers
-//            bw.write("Patient ID,Name,Date of Birth,Gender,Blood Type,Contact Information,Phone No,Password,Treatments,Diagnosis\n");
-//
-//            for (User user : Users.values()) {
-//                if (!(user instanceof Patient))
-//                    continue;
-//
-//                Patient patient = (Patient) user;
-//
-//                // Convert lists to comma-separated strings
-//                String treatments = String.join(",", patient.getMedicalRecord().getTreatments());
-//                String diagnosis = String.join(",", patient.getMedicalRecord().getDiagnosis());
-//
-//                bw.write(String.format("%s,%s,%s,%s,%s,%s,%s,%s,\"%s\",\"%s\"\n",
-//                        patient.getID(),
-//                        patient.getName(),
-//                        patient.getDateOfBirth(),
-//                        patient.getGender(),
-//                        patient.getBloodType(),
-//                        patient.getEmailAddress(),
-//                        patient.getPhoneNo(),
-//                        patient.getPassword(),
-//                        treatments,
-//                        diagnosis
-//                ));
-//            }
-//        } catch (IOException e) {
-//            e.printStackTrace();
-//        }
-//    }
+    public static boolean writePatientCSVFile() {
+        // String filePath = folderPath + fileType.getFileName() + fileExtension;
+        String filePath = folderPath + "Patient_List1" + fileExtension; // Testing CSV file
+
+        try (BufferedWriter bw = new BufferedWriter(new FileWriter(filePath))) {
+            // Write headers
+            bw.write("Patient ID,Name,Date of Birth,Gender,Blood Type,Contact Information,Phone No,Password,Treatments,Diagnosis\n");
+
+            for (User user : Users.values()) {
+                if (!(user instanceof Patient))
+                    continue;
+
+                Patient patient = (Patient) user;
+
+                // Convert lists to comma-separated strings
+                String treatments = String.join(",", patient.getMedicalRecord().getTreatments());
+                String diagnosis = String.join(",", patient.getMedicalRecord().getDiagnosis());
+
+                bw.write(String.format("%s,%s,%s,%s,%s,%s,%s,%s,\"%s\",\"%s\"\n",
+                        patient.getID(),
+                        patient.getName(),
+                        patient.getDateOfBirth(),
+                        patient.getGender(),
+                        patient.getBloodType(),
+                        patient.getEmailAddress(),
+                        patient.getPhoneNo(),
+                        patient.getPassword(),
+                        treatments,
+                        diagnosis
+                ));
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+            return false;
+        }
+        return true;
+    }
+
+    public static boolean writeMedicineCSVFile() {
+        String filePath = folderPath + "MedicineTesting" + fileExtension;
+        try (BufferedWriter bw = new BufferedWriter(new FileWriter(filePath))) {
+            // Write headers
+            bw.write("Medicine Name,Initial Stock,Low Stock Level Alert,Low Stock Alert,Request Add Stock\n");
+
+            for (Medicine medicine : Medicines.values()) {
+
+                bw.write(String.format("%s,%d,%d,%d,%d\n",
+                        medicine.getMedicineName(),
+                        medicine.getStock(),
+                        medicine.getLowStockThreshold(),
+                        medicine.getLowStockAlert()? 1 : 0,
+                        medicine.getRequestAddStock()? 1 : 0
+                ));
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+            return false;
+        }
+        return true;
+    }
 
     public static int getNumberOfPatient() { return numberOfPatient; }
     public static int getNumberofDoctor() { return numberofDoctor; }

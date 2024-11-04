@@ -85,7 +85,10 @@ public class HMSAppView implements View{
             switch (choice) {
                 case 1 -> loginView();
                 case 2 -> registerView();
-                case 3 -> System.out.println("Thanks for using HMSApp");
+                case 3 -> {
+                            System.out.println("Thanks for using HMSApp");
+                            DataBase.writeData();
+                          }
             }
         } while (choice != 3);
     }

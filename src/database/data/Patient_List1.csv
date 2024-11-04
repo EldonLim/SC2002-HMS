@@ -1,5 +1,5 @@
 Patient ID,Name,Date of Birth,Gender,Blood Type,Contact Information,Phone No,Password,Treatments,Diagnosis
 P1003,Charlie White,1990-07-08,null,null,charlie.white@example.com,,CxoICAwUCR8=,"",""
-P1004,wong,290,MALE,A_NEGATIVE,123@,000,CxoICAwUCR8=,"",""
+P1004,wong,290,null,null,123@,000,CxoICAwUCR8=,"",""
 P1001,Alice Brown,1980-05-14,null,null,abc@,9923,SklI,"",""
 P1002,Bob Stone,1975-11-22,null,null,bob.stone@example.com,,CxoICAwUCR8=,"",""

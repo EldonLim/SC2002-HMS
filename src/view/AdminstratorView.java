@@ -22,7 +22,8 @@ public class AdminstratorView implements View {
         System.out.println("2. View Appointment details");
         System.out.println("3. View and Manage Medication Inventory");
         System.out.println("4. Approve Replenishment Requests");
-        System.out.println("5. Logout");
+        System.out.println("5. Add New Medicine");
+        System.out.println("6. Logout");
         System.out.print("Please Enter your Choice: ");
     }
 
@@ -228,12 +229,22 @@ public class AdminstratorView implements View {
     public static void handleViewAllPatientsAppointment() {
         System.out.println("VIEW ALL PATIENTS APPOINTMENT");
 
-        DataBase.getUsers().values().stream()
+        boolean hasAppointments = DataBase.getUsers().values().stream()
                 .filter(user -> user instanceof Patient)
                 .map(user -> (Patient) user)
-                .forEach(patient -> patient.getAppointments().forEach(appointment ->
-                        AppointmentManager.viewAppointmentDetail(appointment, Role.ADMINISTRATOR)
-                ));
+                .flatMap(patient -> patient.getAppointments().stream())
+                .findFirst()
+                .isPresent();
+
+        if (hasAppointments) {
+            DataBase.getUsers().values().stream()
+                    .filter(user -> user instanceof Patient)
+                    .map(user -> (Patient) user)
+                    .forEach(patient -> patient.getAppointments().forEach(appointment ->
+                            AppointmentManager.viewAppointmentDetail(appointment, Role.ADMINISTRATOR)
+                    ));
+        }
+        else System.out.println("No appointments found.");
     }
 
     public static void handleViewManageMedicationInventory() {
@@ -333,6 +344,7 @@ public class AdminstratorView implements View {
         int lowStockAlertQuantity = Helper.readInt();
 
         InventoryManager.addNewMedicine(medicineName, quantity, lowStockAlertQuantity);
+        Helper.pauseApplication();
     }
 }
 
