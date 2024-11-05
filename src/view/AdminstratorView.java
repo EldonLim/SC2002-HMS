@@ -17,6 +17,11 @@ import java.util.List;
  * Represents the administrator's view in the Hospital Management System (HMS).
  * This class implements {@link View} interface.
  * Provides methods for managing hospital staff, appointments, and inventory.
+ * 
+ * @author Lean Yi Fan
+ * @version 7.4
+ * @since 2024-10-27
+ * 
  */
 public class AdminstratorView implements View {
 
