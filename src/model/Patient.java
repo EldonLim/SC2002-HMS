@@ -13,15 +13,14 @@ public class Patient extends User{
     private MedicalRecord medicalRecord; // Composition
     private List<Appointment> appointments;
 
-    // For first time reading the file
-    public Patient(String name, String id, String password, Role role, Gender gender, BloodType bloodType, String phoneNo, String emailAddress, String dateOfBirth) {
+    public Patient(String name, String id, String password, Role role, Gender gender, BloodType bloodType, String phoneNo, String emailAddress, String dateOfBirth, List<String> treatments, List<String> diagnosis) {
         super(name, id, password, role, gender);
         this.bloodType = bloodType;
         this.phoneNo = phoneNo;
         this.emailAddress = emailAddress;
         this.dateOfBirth = dateOfBirth;
         appointments = new ArrayList<>();
-        medicalRecord = new MedicalRecord(this);
+        medicalRecord = new MedicalRecord(this, diagnosis, treatments);
     }
 
     public String getDateOfBirth() { return dateOfBirth; }

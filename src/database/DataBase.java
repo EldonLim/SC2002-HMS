@@ -5,10 +5,9 @@ import using.*;
 import model.*;
 
 import java.io.*;
-import java.lang.reflect.GenericDeclaration;
 import java.util.HashMap;
 import java.util.List;
-import java.util.function.DoubleConsumer;
+import java.util.Map;
 
 public class DataBase {
 
@@ -26,12 +25,23 @@ public class DataBase {
     private static int numberOfPharmacist = 0;
 
     public DataBase() {
+        // Checking whether is it the first time run the program or not
+//        boolean firstBoot = !(new File(folderPath + FileType.SCHEDULEFILE.getFileName() + fileExtension).exists());
+        boolean firstBoot = !(new File(folderPath + "ScheduleTesting" + fileExtension).exists()); // TESTING
+
         if (!readPatientCSVFile(FileType.PATIENTFILE))
             System.err.println("Fail to read" + FileType.PATIENTFILE.getFileName());
         if (!readStaffCSVFile(FileType.STAFFFILE))
             System.err.println("Fail to read" + FileType.STAFFFILE.getFileName());
         if (!readMedicineFile(FileType.MEDICINEFILE))
             System.err.println("Fail to read" + FileType.MEDICINEFILE.getFileName());
+
+        if (!firstBoot) {
+            if (!readScheduleCSVFile(FileType.SCHEDULEFILE))
+                System.err.println("Fail to read" + FileType.SCHEDULEFILE.getFileName());
+            if (!readAppointmentCSVFile(FileType.APPOINTMENTFILE))
+                System.err.println("Fail to read" + FileType.APPOINTMENTFILE.getFileName());
+        }
     }
 
     public static void writeData() {
@@ -41,6 +51,10 @@ public class DataBase {
             System.err.println("Fail To Write Medicine Data");
         if (!writeStaffCSVFile())
             System.err.println("Fail To Write Staff Data");
+        if (!writeScheduleCSVFile())
+            System.err.println("Fail to Write Schedule Data");
+        if (!writeAppointmentCSVFile())
+            System.err.println("Fail to Write Appointment Data");
     }
 
     public static boolean readMedicineFile(FileType fileType) {
@@ -106,7 +120,7 @@ public class DataBase {
 
     public static boolean readPatientCSVFile(FileType fileType) {
 //        String filePath = folderPath + fileType.getFileName() + fileExtension;
-        String filePath = folderPath + "Patient_List1" + fileExtension; // Testing csv file
+        String filePath = folderPath + "PatientTesting" + fileExtension; // Testing csv file
 
         try (BufferedReader br = new BufferedReader(new FileReader(filePath))) {
             String line = br.readLine(); // Skip the headers
@@ -115,7 +129,9 @@ public class DataBase {
                 List<String> inputData = Helper.parseCSVLine(line);
 
                 String patientID = inputData.getFirst();
-                User user = new Patient(inputData.get(1), patientID, inputData.get(7).isEmpty()? Encryption.encode("password") : inputData.get(7), Role.PATIENT, Gender.fromString(inputData.get(3)), BloodType.fromString(inputData.get(4)), inputData.get(6), inputData.get(5), inputData.get(2));
+                User user = new Patient(inputData.get(1), patientID, inputData.get(7).isEmpty()? Encryption.encode("password") : inputData.get(7), Role.PATIENT, Gender.fromString(inputData.get(3)),
+                        BloodType.fromString(inputData.get(4)), inputData.get(6), inputData.get(5), inputData.get(2)
+                , Helper.parseList(inputData.get(8)), Helper.parseList(inputData.get(9)));
 
                 numberOfPatient++;
                 Users.put(patientID, user);
@@ -128,17 +144,143 @@ public class DataBase {
         return true;
     }
 
+    public static boolean readScheduleCSVFile(FileType fileType) {
+//        String filePath = folderPath + fileType.getFileName() + fileExtension;
+        String filePath = folderPath + "ScheduleTesting" + fileExtension; // TESTING
+
+        try (BufferedReader br = new BufferedReader(new FileReader(filePath))) {
+            String line = br.readLine(); // Skip header
+
+            while ((line = br.readLine()) != null) {
+                List<String> inputData = Helper.parseCSVLine(line);
+                ((Doctor) Users.get(inputData.get(0))).getSchedule().getWeeklySlots().get(inputData.get(1)).put(Integer.parseInt(inputData.get(2)), Availability.fromString(inputData.get(3)));
+            }
+        }
+        catch (IOException e) {
+            e.printStackTrace();
+            return false;
+        }
+        return true;
+    }
+
+    public static boolean readAppointmentCSVFile(FileType fileType) {
+//        String filePath = folderPath + fileType.getFileName() + fileExtension;
+        String filePath = folderPath + "AppointmentTesting" + fileExtension; // TESTING
+
+        try (BufferedReader br = new BufferedReader(new FileReader(filePath))) {
+            String line = br.readLine(); // Skip headers
+
+            while ((line = br.readLine()) != null) {
+                List<String> inputData = Helper.parseCSVLine(line);
+                AppointmentStatus appointmentStatus = AppointmentStatus.fromString(inputData.get(1));
+                Appointment appointment = new Appointment(
+                        inputData.get(0),
+                        (Doctor) Users.get(inputData.get(2)),
+                        appointmentStatus,
+                        (Patient) Users.get(inputData.get(0).substring(0, 5)),
+                        inputData.get(0).substring(5, 7) + "/" + inputData.get(0).substring(7, 9) + "/" + inputData.get(0).substring(9, 11),
+                        Integer.parseInt(inputData.get(0).substring(11))
+                );
+
+                if (appointmentStatus == AppointmentStatus.COMPLETED) {
+                    AppointmentOutcome appointmentOutcome =  new AppointmentOutcome(
+                            appointment.getDate(),
+                            Service.fromString(inputData.get(3)),
+                            inputData.get(4),
+                            inputData.get(0),
+                            inputData.get(5),
+                            MedicationStatus.fromString(inputData.get(6))
+                    );
+                    appointment.setAppointmentOutcome(appointmentOutcome);
+                    appointment.getPatient().getMedicalRecord().addAppointmentOutcomes(appointmentOutcome, appointment.getAppointmentID());
+                    appointment.getDoctor().addPatient(appointment.getPatient());
+                }
+
+                appointment.getPatient().addAppointment(appointment);
+                if (appointmentStatus == AppointmentStatus.PENDING || appointmentStatus == AppointmentStatus.CONFIRM ) {
+                    appointment.getDoctor().addAppointment(appointment);
+                    if (appointmentStatus == AppointmentStatus.CONFIRM)
+                        appointment.getDoctor().addPatient(appointment.getPatient());
+                }
+            }
+        }
+        catch (IOException e) {
+            System.err.println("Error reading file: " + e.getMessage());
+            return false;
+        }
+        return true;
+    }
+
+    public static boolean writeAppointmentCSVFile() {
+//        String filePath = folderPath + FileType.APPOINTMENTFILE.getFileName() + fileExtension;
+        String filePath = folderPath + "AppointmentTesting" + fileExtension; // Testing
+        try (BufferedWriter bw = new BufferedWriter(new FileWriter(filePath))) {
+            bw.write("Appointment ID,Appointment Status,Doctor ID,Service,Consultation Notes,Medicine,MedicationStatus\n");
+            for (User user : Users.values()) {
+                if (!(user instanceof Patient)) continue;
+                for (Appointment appointment : ((Patient) user).getAppointments()) {
+                    AppointmentOutcome outcome = appointment.getAppointmentOutcome();
+                    bw.write(String.format("%s,%s,%s,%s,%s,%s,%s\n",
+                            appointment.getAppointmentID(),
+                            appointment.getAppointmentStatus().getLabel(),
+                            appointment.getDoctor().getID(),
+                            outcome != null ? outcome.getService().getLabel() : "",
+                            outcome != null ? outcome.getConsultationNotes() : "",
+                            outcome != null ? outcome.getMedicine() : "",
+                            outcome != null ? outcome.getMedicationStatus().getLabel() : ""
+                    ));
+                }
+            }
+        }
+        catch (IOException e) {
+            e.printStackTrace();
+            return false;
+        }
+        return true;
+    }
+
+    public static boolean writeScheduleCSVFile() {
+//        String filePath = folderPath + FileType.SCHEDULEFILE.getFileName() + fileExtension;
+        String filePath = folderPath + "ScheduleTesting" + fileExtension; // TESTING
+
+        try (BufferedWriter bw = new BufferedWriter(new FileWriter(filePath))) {
+            bw.write("Doctor ID,Date,Time Slot,Availability\n");
+
+            for (User user : Users.values()) {
+                if (!(user instanceof Doctor))
+                    continue;
+
+                HashMap<String, HashMap<Integer, Availability>> doctorSchedule = ((Doctor) user).getSchedule().getWeeklySlots();
+
+                for (Map.Entry<String, HashMap<Integer, Availability>> outerHash : doctorSchedule.entrySet())
+                    for (Map.Entry<Integer, Availability> innerHash : outerHash.getValue().entrySet()) {
+                       if (innerHash.getValue() != Availability.AVAILABLE)
+                           bw.write(String.format("%s,%s,%s,%s\n",
+                                   user.getID(),
+                                   outerHash.getKey(),
+                                   innerHash.getKey(),
+                                   innerHash.getValue().getLabel()
+                           ));
+                    }
+            }
+        }
+        catch (IOException e) {
+            e.printStackTrace();
+            return false;
+        }
+        return true;
+    }
+
     public static boolean writePatientCSVFile() {
         // String filePath = folderPath + fileType.getFileName() + fileExtension;
-        String filePath = folderPath + "Patient_List1" + fileExtension; // Testing CSV file
+        String filePath = folderPath + "PatientTesting" + fileExtension; // Testing CSV file
 
         try (BufferedWriter bw = new BufferedWriter(new FileWriter(filePath))) {
             // Write headers
             bw.write("Patient ID,Name,Date of Birth,Gender,Blood Type,Contact Information,Phone No,Password,Treatments,Diagnosis\n");
 
             for (User user : Users.values()) {
-                if (!(user instanceof Patient))
-                    continue;
+                if (!(user instanceof Patient)) continue;
 
                 Patient patient = (Patient) user;
 
@@ -150,8 +292,8 @@ public class DataBase {
                         patient.getID(),
                         patient.getName(),
                         patient.getDateOfBirth(),
-                        patient.getGender(),
-                        patient.getBloodType(),
+                        patient.getGender().getLabel(),
+                        patient.getBloodType().getLabel(),
                         patient.getEmailAddress(),
                         patient.getPhoneNo(),
                         patient.getPassword(),
@@ -198,9 +340,8 @@ public class DataBase {
             bw.write("Staff ID,Name,Role,Gender,Age,Password\n");
 
             for (User user : Users.values()) {
-                if (user instanceof Patient)
-                    continue;
-                // Write staff data
+                if (user instanceof Patient) continue;
+
                 bw.write(String.format("%s,%s,%s,%s,%d,%s\n",
                         user.getID(),
                         user.getName(),

@@ -4,6 +4,7 @@ import database.DataBase;
 import helper.Encryption;
 import helper.Helper;
 import controller.*;
+import model.Patient;
 import using.*;
 
 public class HMSAppView implements View{
@@ -28,6 +29,7 @@ public class HMSAppView implements View{
         System.out.println("||  HOSPITAL MANAGEMENT SYSTEM (HMS)  ||");
         System.out.println("||                                    ||");
         System.out.println("========================================");
+        System.out.println(((Patient) DataBase.getUsers().get("P1001")).getAppointments().getFirst().getAppointmentID());
     }
 
     public static void loginView() {

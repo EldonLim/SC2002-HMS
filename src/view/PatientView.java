@@ -107,9 +107,9 @@ public class PatientView implements View{
             String date = Helper.readString();
             System.out.print("Please Enter the Slot in 24Hour Format (13 stands for 1pm): ");
             int timeSlot = Helper.readInt();
-            
 
-            
+
+
             if (!doctor.getSchedule().getWeeklySlots().containsKey(date) || !doctor.getSchedule().getWeeklySlots().get(date).containsKey(timeSlot)) {
                 System.out.println("Invalid Date or Time Slot");
                 Helper.pauseApplication();
@@ -134,7 +134,7 @@ public class PatientView implements View{
         String appointmentID = Helper.readString();
 
         AppointmentManager.cancelAppointment((Patient) DataBase.getUsers().get(DataBase.getCurrUserID()),
-                                             appointmentID);
+                appointmentID);
 
         System.out.println("Appointment Cancel Successfully");
     }
@@ -155,7 +155,7 @@ public class PatientView implements View{
         int timeSlot = Helper.readInt();
 
         AppointmentManager.rescheduleAppointment((Patient) DataBase.getUsers().get(DataBase.getCurrUserID()),
-                                                 appointmentID, date, timeSlot);
+                appointmentID, date, timeSlot);
 
         System.out.println("Appointment Reschedule Successfully");
     }
@@ -166,7 +166,7 @@ public class PatientView implements View{
     }
 
     public static void handleViewPastAppointmentRecords() {
-        System.out.println("PAST APPOINTMENT RECORDS");
+        System.out.println("PAST APPOINTMENT OUTCOME RECORDS");
         HashMap<String, AppointmentOutcome> appointmentOutcomeList = ((Patient) DataBase.getUsers().get(DataBase.getCurrUserID())).getMedicalRecord().getAppointmentOutcomes();
 
         if (appointmentOutcomeList.isEmpty()) {
@@ -174,7 +174,6 @@ public class PatientView implements View{
             return;
         }
 
-        System.out.println("PAST APPOINTMENT OUTCOME RECORDS:");
         appointmentOutcomeList.values().forEach(AppointmentManager::printAppointmentOutcome);
     }
 }

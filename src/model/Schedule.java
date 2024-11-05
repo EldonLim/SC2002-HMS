@@ -18,6 +18,8 @@ public class Schedule {
 
     public static final int TOTAL_DAYS = 5; // Number of days in the schedule
 
+    // for the first time reading the file
+    // might work for not the first time
     public Schedule(Doctor doctor) {
         this.doctor = doctor;
         weeklySlots = new HashMap<>();

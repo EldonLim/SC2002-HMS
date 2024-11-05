@@ -39,22 +39,6 @@ public class MedicalRecord {
         this.appointmentOutcomes = new HashMap<>();
     }
 
-    // First time reading the file
-    public MedicalRecord(Patient patient) {
-        this.patient = patient;
-        this.patientID = patient.getID();
-        this.name = patient.getName();
-        this.dateOfBirth = patient.getDateOfBirth();
-        this.gender = patient.getGender();
-        this.phoneNo = patient.getPhoneNo();
-        this.emailAddress = patient.getEmailAddress();
-        this.bloodType = patient.getBloodType();
-        this.diagnosis = new ArrayList<>();
-        this.treatments = new ArrayList<>();
-//        this.appointmentOutcomes = new ArrayList<>();
-        this.appointmentOutcomes = new HashMap<>();
-    }
-
     public Patient getPatient() { return patient; }
     public List<String> getDiagnosis() { return new ArrayList<>(diagnosis); }
     public String getPatientID() { return patientID; }
@@ -73,8 +57,6 @@ public class MedicalRecord {
     public void addDiagnosis(String diagnosis_) { diagnosis.add(diagnosis_); }
     public void addTreatment(String treatment) { treatments.add(treatment); }
 
-//    public void addAppointmentOutcomes(AppointmentOutcome appointmentOutcome) { appointmentOutcomes.add(appointmentOutcome); };
-//    public List<AppointmentOutcome> getAppointmentOutcomes() { return appointmentOutcomes; }
     public void addAppointmentOutcomes(AppointmentOutcome appointmentOutcome, String appointmentOutcomeID) { appointmentOutcomes.put(appointmentOutcomeID, appointmentOutcome); }
     public HashMap<String, AppointmentOutcome> getAppointmentOutcomes() { return appointmentOutcomes; }
 }

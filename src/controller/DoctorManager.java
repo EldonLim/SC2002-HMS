@@ -35,9 +35,7 @@ public class DoctorManager {
         }
     }
 
-    public static void viewPersonalSchedule(String doctorID) {
-        ScheduleManager.printPersonalSchedule(doctorID);
-    }
+    public static void viewPersonalSchedule(String doctorID) { ScheduleManager.printPersonalSchedule(doctorID); }
 
     public static void setAvailability(Doctor doctor) {
         do {
@@ -46,6 +44,12 @@ public class DoctorManager {
             String date = Helper.readString();
             System.out.print("Enter the time: ");
             int timeSlot = Helper.readInt();
+
+            if (!doctor.getSchedule().getWeeklySlots().containsKey(date) || !doctor.getSchedule().getWeeklySlots().get(date).containsKey(timeSlot)) {
+                System.out.println("Invalid Date or Time Slot");
+                Helper.pauseApplication();
+                continue;
+            }
 
             doctor.getSchedule().setAvailabilityForParticularDate_Time(date, timeSlot, Availability.NOT_AVAILABLE);
 

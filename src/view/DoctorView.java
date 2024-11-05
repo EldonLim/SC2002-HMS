@@ -63,6 +63,7 @@ public class DoctorView implements View{
 
     @Override
     public void viewTitle() { System.out.println("Doctor Menu"); }
+
     public static void handlePatientViewMedicalRecord() {
         System.out.println("VIEW PATIENTS MEDICAL RECORD");
         DoctorManager.viewMedicalRecord(DataBase.getCurrUserID());
@@ -82,8 +83,7 @@ public class DoctorView implements View{
         System.out.println("UPDATE PATIENT MEDICAL RECORD");
         List <Patient> patients = DoctorManager.getAllPatientUnderCare((Doctor) DataBase.getUsers().get(DataBase.getCurrUserID()));
 
-        if (patients.isEmpty())
-            System.out.println("No Patient Under Your Care");
+        if (patients.isEmpty()) System.out.println("No Patient Under Your Care");
         else {
             System.out.println("Patients Under Your Care:");
             for (Patient patient : patients)

@@ -22,6 +22,16 @@ public class Appointment {
         appointmentOutcome = null;
     }
 
+    public Appointment(String appointmentID, Doctor doctor, AppointmentStatus appointmentStatus, Patient patient, String date, int timeSlot) {
+        this.appointmentID = appointmentID;
+        this.doctor = doctor;
+        this.appointmentStatus = appointmentStatus;
+        this.patient = patient;
+        this.date = date;
+        this.timeSlot = timeSlot;
+        appointmentOutcome = null;
+    }
+
     public AppointmentStatus getAppointmentStatus() { return appointmentStatus; }
     public String getDate() { return date; }
     public int getTimeSlot() { return timeSlot; }
