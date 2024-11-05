@@ -12,32 +12,59 @@ import using.Role;
 
 import java.util.List;
 
+/**
+ * Represents the doctor's view in the Hospital Management System (HMS).
+ * This class implements {@link View} interface.
+ * Allows doctors to manage appointments, view and update patient records, and set availability.
+ * 
+ * @author Chew En Zee
+ * @version 12.7
+ * @since 2024-10-27
+ */
 public class DoctorView implements View {
 
+    /**
+     * Constructs a DoctorView instance.
+     */
     public DoctorView() {
     }
 
+    /**
+     * Displays and handles the option to view the medical records of patients under the doctor's care.
+     */
     public static void handlePatientViewMedicalRecord() {
         System.out.println("VIEW PATIENTS MEDICAL RECORD");
         DoctorManager.viewMedicalRecord(DataBase.getCurrentUserID());
     }
 
+    /**
+     * Allows the doctor to set unavailable time slots for appointments.
+     */
     public static void handleSetAvailability() {
         System.out.println("SET UNAVAILABLE SLOT");
         DoctorManager.setAvailability((Doctor) DataBase.getUsers().get(DataBase.getCurrentUserID()));
     }
 
+    /**
+     * Allows the doctor to accept or decline appointment requests.
+     */
     public static void handleAcceptDeclineAppointment() {
         System.out.println("ACCEPT/DECLINE APPOINTMENT");
         DoctorManager.handleAppointmentRequest((Doctor) DataBase.getUsers().get(DataBase.getCurrentUserID()));
     }
 
+    /**
+     * Handles updating the medical records of patients under the doctor's care.
+     * Prompts the doctor for patient details and new diagnosis and treatment information.
+     * If no patients are under the doctor's care, displays an appropriate message.
+     */
     public static void handleUpdatePatientMedicalRecord() {
         System.out.println("UPDATE PATIENT MEDICAL RECORD");
         List<Patient> patients = DoctorManager.getAllPatientUnderCare((Doctor) DataBase.getUsers().get(DataBase.getCurrentUserID()));
 
-        if (patients.isEmpty()) System.out.println("No Patient Under Your Care");
-        else {
+        if (patients.isEmpty()) {
+            System.out.println("No Patient Under Your Care");
+        } else {
             System.out.println("Patients Under Your Care:");
             for (Patient patient : patients)
                 System.out.println(patient.getName() + " (" + patient.getID() + ")");
@@ -62,6 +89,10 @@ public class DoctorView implements View {
         }
     }
 
+    /**
+     * Displays a list of upcoming appointments that have been confirmed.
+     * If no confirmed appointments exist, displays an appropriate message.
+     */
     public static void handleViewUpComingAppointment() {
         List<Appointment> upComingAppointments = DoctorManager.handleGetDoctorUpComingAppointment((Doctor) DataBase.getUsers().get(DataBase.getCurrentUserID()));
         boolean confirmedAppointment = upComingAppointments.stream().anyMatch(appointment -> appointment.getAppointmentStatus() == AppointmentStatus.CONFIRM);
@@ -77,6 +108,11 @@ public class DoctorView implements View {
                 AppointmentManager.viewAppointmentDetail(appointment, Role.DOCTOR);
     }
 
+    /**
+     * Allows the doctor to record outcomes for completed appointments.
+     * Prompts the doctor for appointment details, services provided, and consultation notes.
+     * Validates appointment IDs before allowing updates.
+     */
     public static void handleRecordAppointmentOutcome() {
         System.out.println("RECORD APPOINTMENT OUTCOME");
         List<Appointment> upcomingConfirmedAppointments =
@@ -127,6 +163,9 @@ public class DoctorView implements View {
         System.out.println("Record Updated Successfully");
     }
 
+    /**
+     * Prints the menu options available to the doctor.
+     */
     @Override
     public void printViewMenu() {
         System.out.println("1. View Patient Medical Record");
@@ -139,6 +178,10 @@ public class DoctorView implements View {
         System.out.println("8. Logout");
     }
 
+    /**
+     * Handles the main loop for the doctor's view.
+     * Executes the selected option and validates the choice entered by the doctor.
+     */
     @Override
     public void handleView() {
         int choice;
@@ -171,6 +214,9 @@ public class DoctorView implements View {
         } while (choice != 8);
     }
 
+    /**
+     * Prints the title for the doctor's menu.
+     */
     @Override
     public void viewTitle() {
         System.out.println("Doctor Menu");

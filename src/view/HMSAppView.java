@@ -9,13 +9,41 @@ import using.BloodType;
 import using.Gender;
 import using.Role;
 
+/**
+ * Represents the main view for the Hospital Management System (HMS) application.
+ * This class implements {@link View} interface.
+ * Provides methods for logging in, registering new users, and handling user-specific views based on roles.
+ * 
+ * @author Eldon Lim Kai Jie
+ * @version 14.5
+ * @since 2024-10-27
+ */
 public class HMSAppView implements View {
 
+    /*
+     * Instance of PatientView for handling patient-related operations.
+     */
     protected static PatientView patientView;
+
+    /*
+     * Instance of AdminstratorView for handling administrator-related operations.
+     */
     protected static AdminstratorView adminstratorView;
+
+    /*
+     * Instance of DoctorView for handling doctor-related operations.
+     */
     protected static DoctorView doctorView;
+
+    /*
+     * Instance of PharmacistView for handling pharmacist-related operations.
+     */
     protected static PharmacistView pharmacistView;
 
+    /**
+     * Constructs the HMSAppView instance and initializes all role-specific views.
+     * Displays the application title and main menu.
+     */
     public HMSAppView() {
         patientView = new PatientView();
         adminstratorView = new AdminstratorView();
@@ -25,6 +53,10 @@ public class HMSAppView implements View {
         this.handleView();
     }
 
+    /**
+     * Displays the login view, prompting the user for credentials.
+     * Validates the credentials and directs the user to a password reset if it's their first login.
+     */
     public static void loginView() {
         boolean isValid = false;
         while (!isValid) {
@@ -47,6 +79,9 @@ public class HMSAppView implements View {
         handleLogin();
     }
 
+    /**
+     * Prompts the user to reset their password upon first-time login.
+     */
     private static void resetPassword() {
         System.out.println("Please reset password for first-time login");
         System.out.print("New password: ");
@@ -55,6 +90,9 @@ public class HMSAppView implements View {
         Helper.pauseApplication();
     }
 
+    /**
+     * Directs the user to their respective role-specific view based on their role.
+     */
     public static void handleLogin() {
         Role role = DataBase.getUsers().get(DataBase.getCurrentUserID()).getRole();
         switch (role) {
@@ -65,6 +103,10 @@ public class HMSAppView implements View {
         }
     }
 
+    /**
+     * Displays the registration view, prompting the user for their personal information.
+     * Registers a new patient in the system.
+     */
     public static void registerView() {
         System.out.println("REGISTRATION PAGE");
         System.out.println("Please Enter the Following Details:");
@@ -86,6 +128,9 @@ public class HMSAppView implements View {
         Helper.pauseApplication();
     }
 
+    /**
+     * Prints the title for the HMS application.
+     */
     public void viewTitle() {
         System.out.println("========================================");
         System.out.println("||                                    ||");
@@ -94,6 +139,10 @@ public class HMSAppView implements View {
         System.out.println("========================================");
     }
 
+    /**
+     * Handles the main view menu, allowing the user to choose between login, registration, and exit.
+     * Executes the chosen option and handles invalid input.
+     */
     public void handleView() {
         int choice;
         do {
@@ -117,6 +166,9 @@ public class HMSAppView implements View {
         } while (choice != 3);
     }
 
+    /**
+     * Prints the main menu options for the HMS application.
+     */
     public void printViewMenu() {
         System.out.println("""
                 1. Login

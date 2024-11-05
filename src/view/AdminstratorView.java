@@ -358,5 +358,3 @@ public class AdminstratorView implements View {
         System.out.println("Adminstrator Menu");
     }
 }
-
-

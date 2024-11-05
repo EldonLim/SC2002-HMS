@@ -13,11 +13,27 @@ import model.User;
 import java.util.HashMap;
 import java.util.Map;
 
+/**
+ * Represents the patient view in the Hospital Management System (HMS).
+ * This class implements the {@link View} interface
+ * Provides methods for managing appointments, updating personal information, and viewing medical records.
+ * 
+ * @author Chin Linn Sheng
+ * @version 19.7
+ * @since 2024-10-27
+ */
 public class PatientView implements View {
 
+    /**
+     * Constructs a PatientView instance.
+     */
     public PatientView() {
     }
 
+    /**
+     * Updates the personal information of the current patient.
+     * Prompts user for the latest phone number and email address.
+     */
     public static void handleUpdatePersonalInfo() {
         System.out.println("UPDATE PERSONAL INFORMATION");
         System.out.println("Please key in the latest PhoneNo & EmailAddress");
@@ -29,11 +45,19 @@ public class PatientView implements View {
         PatientManager.updatePersonalInformation(updateEmailAddress, updatePhoneNo, DataBase.getCurrentUserID());
     }
 
+    /**
+     * Displays the available appointment slots for doctors.
+     */
     public static void handleViewAvailableAppointmentSlots() {
         System.out.println("VIEW DOCTORS' AVAILABLE SLOTS");
         DoctorManager.printAllAvailableSlots();
     }
 
+    /**
+     * Schedules an appointment with a doctor.
+     * The method first displays the available appointment slots, then prompts the user to enter the doctor's name, date, and time slot.
+     * If the entered information is valid, the appointment is scheduled.
+     */
     public static void handleScheduleAnAppointment() {
         System.out.println("SCHEDULE APPOINTMENT");
         boolean bookappointment = false;
@@ -62,7 +86,6 @@ public class PatientView implements View {
             System.out.print("Please Enter the Slot in 24Hour Format (13 stands for 1pm): ");
             int timeSlot = Helper.readInt();
 
-
             if (!doctor.getSchedule().getWeeklySlots().containsKey(date) || !doctor.getSchedule().getWeeklySlots().get(date).containsKey(timeSlot)) {
                 System.out.println("Invalid Date or Time Slot");
                 Helper.pauseApplication();
@@ -73,24 +96,32 @@ public class PatientView implements View {
             if (!bookappointment) {
                 System.out.println();
                 System.out.println("Doctor is not available at that time");
-                System.out.println("Please another appointment according to the schedule");
+                System.out.println("Please select another appointment according to the schedule");
                 Helper.pauseApplication();
             }
         } while (!bookappointment);
-        System.out.println("Appointment Schedule Successfully");
+        System.out.println("Appointment Scheduled Successfully");
     }
 
+    /**
+     * Cancels an existing appointment for the current patient.
+     * The method first displays the patient's scheduled appointments, then prompts the user for the appointment ID to cancel.
+     */
     public static void handleCancelAppointment() {
         System.out.println("CANCEL APPOINTMENT");
         AppointmentManager.cancel_viewPatientScheduledAppointments((Patient) DataBase.getUsers().get(DataBase.getCurrentUserID()));
         System.out.print("Please Enter the Appointment ID: ");
         String appointmentID = Helper.readString();
 
-        AppointmentManager.cancelAppointment((Patient) DataBase.getUsers().get(DataBase.getCurrentUserID()),
-                appointmentID);
-        System.out.println("Appointment Cancel Successfully");
+        AppointmentManager.cancelAppointment((Patient) DataBase.getUsers().get(DataBase.getCurrentUserID()), appointmentID);
+        System.out.println("Appointment Canceled Successfully");
     }
 
+    /**
+     * Reschedules an existing appointment for the current patient.
+     * The method first displays the patient's scheduled appointments, then prompts the user to enter the appointment ID to be rescheduled.
+     * The method then displays the available appointment slots and prompts the user to enter a new date and time slot.
+     */
     public static void handleRescheduleAppointment() {
         System.out.println("RESCHEDULE APPOINTMENT");
         if (AppointmentManager.viewPatientScheduledAppointments((Patient) DataBase.getUsers().get(DataBase.getCurrentUserID())))
@@ -106,17 +137,23 @@ public class PatientView implements View {
         System.out.print("Please Enter the Slot in 24Hour Format (13 stands for 1pm): ");
         int timeSlot = Helper.readInt();
 
-        AppointmentManager.rescheduleAppointment((Patient) DataBase.getUsers().get(DataBase.getCurrentUserID()),
-                appointmentID, date, timeSlot);
+        AppointmentManager.rescheduleAppointment((Patient) DataBase.getUsers().get(DataBase.getCurrentUserID()), appointmentID, date, timeSlot);
 
-        System.out.println("Appointment Reschedule Successfully");
+        System.out.println("Appointment Rescheduled Successfully");
     }
 
+    /**
+     * Displays the scheduled appointments for the current patient.
+     */
     public static void handleViewPatientScheduledAppointment() {
         System.out.println("VIEW PATIENT'S SCHEDULED APPOINTMENTS");
         AppointmentManager.viewPatientScheduledAppointments((Patient) DataBase.getUsers().get(DataBase.getCurrentUserID()));
     }
 
+    /**
+     * Displays past appointment outcomes for the current patient from database.
+     * If no records are available, notifies the user.
+     */
     public static void handleViewPastAppointmentRecords() {
         System.out.println("PAST APPOINTMENT OUTCOME RECORDS");
         HashMap<String, AppointmentOutcome> appointmentOutcomeList = ((Patient) DataBase.getUsers().get(DataBase.getCurrentUserID())).getMedicalRecord().getAppointmentOutcomes();
@@ -129,6 +166,9 @@ public class PatientView implements View {
         appointmentOutcomeList.values().forEach(AppointmentManager::printAppointmentOutcome);
     }
 
+    /**
+     * Prints the menu options for the patient view.
+     */
     public void printViewMenu() {
         System.out.println("""
                 1. View Medical Record
@@ -142,6 +182,10 @@ public class PatientView implements View {
                 9. Logout """);
     }
 
+    /**
+     * Handles user input and interactions for the patient view.
+     * Processes the selected menu option.
+     */
     public void handleView() {
         int choice;
 
@@ -160,7 +204,6 @@ public class PatientView implements View {
             Helper.pauseApplication();
 
             switch (choice) {
-//                case 1 -> PatientManager.getMedicalRecord(DataBase.getCurrUserID());
                 case 1 -> PatientManager.getMedicalRecord(DataBase.getCurrentUserID());
                 case 2 -> handleUpdatePersonalInfo();
                 case 3 -> handleViewAvailableAppointmentSlots();
@@ -175,6 +218,9 @@ public class PatientView implements View {
         } while (choice != 9);
     }
 
+    /**
+     * Prints the title for the patient view.
+     */
     public void viewTitle() {
         System.out.println("Patient Menu");
     }
