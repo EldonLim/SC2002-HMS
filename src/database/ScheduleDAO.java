@@ -4,7 +4,6 @@ import helper.Helper;
 import model.Doctor;
 import model.User;
 import using.*;
-import model.Schedule;
 
 import java.io.*;
 import java.util.HashMap;
