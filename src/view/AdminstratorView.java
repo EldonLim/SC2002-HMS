@@ -14,8 +14,9 @@ import using.Role;
 import java.util.List;
 
 /**
- * AdminstratorView provides the user interface for the administrator to manage hospital staff,
- * appointments, and inventory.
+ * Represents the administrator's view in the Hospital Management System (HMS).
+ * This class implements {@link View} interface.
+ * Provides methods for managing hospital staff, appointments, and inventory.
  */
 public class AdminstratorView implements View {
 

@@ -15,7 +15,7 @@ import java.util.List;
 /**
  * Represents the doctor's view in the Hospital Management System (HMS).
  * This class implements {@link View} interface.
- * Allows doctors to manage appointments, view and update patient records, and set availability.
+ * Provides methods for managing appointments, viewing and updating patient records, and setting availability.
  * 
  * @author Chew En Zee
  * @version 12.7
