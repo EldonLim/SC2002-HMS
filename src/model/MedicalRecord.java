@@ -41,18 +41,10 @@ public class MedicalRecord {
 
     public Patient getPatient() { return patient; }
     public List<String> getDiagnosis() { return new ArrayList<>(diagnosis); }
-    public String getPatientID() { return patientID; }
     public List<String> getTreatments() { return new ArrayList<>(treatments); }
 
     public Gender getGender() { return gender; }
     public String getName() { return name; }
-    public BloodType getBloodType() { return bloodType; }
-    public String getEmailAddress() { return emailAddress; }
-    public String getDateOfBirth() { return dateOfBirth; }
-    public String getPhoneNo() { return phoneNo; }
-
-    public void setEmailAddress(String emailAddress) { this.emailAddress = emailAddress; }
-    public void setPhoneNo(String phoneNo) { this.phoneNo = phoneNo; }
 
     public void addDiagnosis(String diagnosis_) { diagnosis.add(diagnosis_); }
     public void addTreatment(String treatment) { treatments.add(treatment); }

@@ -13,6 +13,4 @@ public class Staff extends User {
     }
 
     public int getAge() { return age; }
-    public void setAge(int age) { this.age = age; }
-
 }

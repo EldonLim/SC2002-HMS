@@ -28,16 +28,12 @@ public class Patient extends User{
     public String getEmailAddress() { return emailAddress; }
     public BloodType getBloodType() { return bloodType; }
 
-    public void setDateOfBirth(String dateOfBirth) { this.dateOfBirth = dateOfBirth; }
     public void setPhoneNo(String phoneNo) { this.phoneNo = phoneNo; }
     public void setEmailAddress(String emailAddress) { this.emailAddress = emailAddress; }
-    public void setBloodType(BloodType bloodType) { this.bloodType = bloodType; }
-    public void setMedicalRecord(MedicalRecord medicalRecord) { this.medicalRecord = medicalRecord; }
 
     public MedicalRecord getMedicalRecord() { return medicalRecord; }
 
     public void addAppointment(Appointment appointment) { appointments.add(appointment); }
-    public void removeAppointment(Appointment appointment) { appointments.add(appointment); }
 
     public List<Appointment> getAppointments() { return appointments; }
 }
