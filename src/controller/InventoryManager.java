@@ -11,7 +11,8 @@ public class InventoryManager {
     private final static int NUMBER_OF_MEDICINE_DISPENDED = 20;
     private final static int NUMBER_OF_STOCK_ADDED = 50;
 
-    public InventoryManager() {}
+    public InventoryManager() {
+    }
 
     public static void listInventory() {
         System.out.printf("%-20s %-5s\n", "Medicines", "Stock");
@@ -29,7 +30,9 @@ public class InventoryManager {
         return false;
     }
 
-    public static boolean checkMedicineStockLevel(String medicineName) { return DataBase.getMedicines().get(medicineName).getLowStockAlert(); }
+    public static boolean checkMedicineStockLevel(String medicineName) {
+        return DataBase.getMedicines().get(medicineName).getLowStockAlert();
+    }
 
     public static void dispendMedicine(String medicineName) {
         Medicine medicine = DataBase.getMedicines().get(medicineName);
@@ -44,13 +47,11 @@ public class InventoryManager {
         if (isAddition) {
             medicine.setStock(medicine.getStock() + quantity);
             System.out.println(quantity + " Stock Added for " + medicineName);
+        } else if (medicine.getStock() < quantity) System.out.println("Insufficient stock. Cannot remove.");
+        else {
+            medicine.setStock(medicine.getStock() - quantity);
+            System.out.println(quantity + " Stock Removed for " + medicineName);
         }
-        else
-            if (medicine.getStock() < quantity) System.out.println("Insufficient stock. Cannot remove.");
-            else {
-                medicine.setStock(medicine.getStock() - quantity);
-                System.out.println(quantity + " Stock Removed for " + medicineName);
-            }
     }
 
     public static List<Medicine> getAllMedicineWithLowStockAlert() {

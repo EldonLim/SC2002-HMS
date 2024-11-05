@@ -8,11 +8,13 @@ import using.BloodType;
 import using.Gender;
 import using.Role;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class AdminstratorManager {
 
-    public AdminstratorManager() {}
+    public AdminstratorManager() {
+    }
 
     public static List<Staff> getAllStaff() {
         return DataBase.getUsers().values().stream()
@@ -23,7 +25,7 @@ public class AdminstratorManager {
 
     public static List<Staff> getAllStaffByGender(Gender gender) {
         return DataBase.getUsers().values().stream()
-                .filter(user -> user.getRole() != Role.PATIENT && ((Staff) user).getGender() == gender)
+                .filter(user -> user.getRole() != Role.PATIENT && user.getGender() == gender)
                 .map(Staff.class::cast)
                 .toList();
     }
@@ -49,22 +51,21 @@ public class AdminstratorManager {
         String defaultPassword = Encryption.encode("password");
 
         switch (role) {
-            case Role.DOCTOR:
-                userID = String.format("D%03d", DataBase.getNumberofDoctor() + 1);
-                DataBase.increaseDoctorCount();
+            case DOCTOR -> {
+                userID = String.format("D%03d", DataBase.getNumberOfDoctors() + 1);
+                DataBase.increaseUserCount(role);
                 user = new Doctor(name, userID, defaultPassword, role, gender, age);
-                break;
-
-            case Role.PHARMACIST:
-                userID = String.format("P%03d", DataBase.getNumberOfPharmacist() + 1);
-                DataBase.increasePharmacistCount();
+            }
+            case PHARMACIST -> {
+                userID = String.format("P%03d", DataBase.getNumberOfPharmacists() + 1);
+                DataBase.increaseUserCount(role);
                 user = new Pharmacist(name, userID, defaultPassword, role, gender, age);
-                break;
-
-            case Role.ADMINISTRATOR:
-                userID = String.format("A%03d", DataBase.getNumberofAdminstrator() + 1);
-                DataBase.increaseAdminstratorCount();
+            }
+            case ADMINISTRATOR -> {
+                userID = String.format("A%03d", DataBase.getNumberOfAdminstrators() + 1);
+                DataBase.increaseUserCount(role);
                 user = new Adminstrator(name, userID, defaultPassword, role, gender, age);
+            }
         }
 
         DataBase.getUsers().put(user.getID(), user);
@@ -76,11 +77,10 @@ public class AdminstratorManager {
         Role staffRole = DataBase.getUsers().get(userID).getRole();
 
         switch (staffRole) {
-            case Role.DOCTOR: DataBase.decreaseDoctorCount(); break;
-            case Role.PHARMACIST: DataBase.decreasePharmacistCount(); break;
-            case Role.ADMINISTRATOR: DataBase.decreaseAdminstratorCount();
+            case DOCTOR -> DataBase.decreaseUserCount(Role.DOCTOR);
+            case PHARMACIST -> DataBase.decreaseUserCount(Role.PHARMACIST);
+            case ADMINISTRATOR -> DataBase.decreaseUserCount(Role.ADMINISTRATOR);
         }
-
         DataBase.getUsers().remove(userID);
     }
 
@@ -95,10 +95,10 @@ public class AdminstratorManager {
     }
 
     public static void registerNewPatient(String name, String phoneNo, String emailAddress, BloodType bloodType, String dateOfBirth, Gender gender) {
-        String patientID = String.format("P1%03d", DataBase.getNumberOfPatient() + 1);
-        DataBase.increasePatientCount();
+        String patientID = String.format("P1%03d", DataBase.getNumberOfPatients() + 1);
+        DataBase.increaseUserCount(Role.PATIENT);
 
-        Patient patient = new Patient(name, patientID, Encryption.encode("password"), Role.PATIENT, gender, bloodType, phoneNo, emailAddress, dateOfBirth);
+        Patient patient = new Patient(name, patientID, Encryption.encode("password"), Role.PATIENT, gender, bloodType, phoneNo, emailAddress, dateOfBirth, new ArrayList<>(), new ArrayList<>());
         DataBase.getUsers().put(patientID, patient);
         System.out.println("\nRegister Successfully");
 

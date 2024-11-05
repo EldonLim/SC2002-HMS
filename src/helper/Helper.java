@@ -1,6 +1,9 @@
 package helper;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+import java.util.Scanner;
 
 public class Helper {
 
@@ -24,9 +27,13 @@ public class Helper {
         return userInput;
     }
 
-    public static char readChar() { return sc.nextLine().toLowerCase().charAt(0); }
+    public static char readChar() {
+        return sc.nextLine().toLowerCase().charAt(0);
+    }
 
-    public static void clearInputBuffer() { sc.nextLine(); }
+    public static void clearInputBuffer() {
+        sc.nextLine();
+    }
 
     public static List<String> parseCSVLine(String line) {
         List<String> result = new ArrayList<>();
@@ -39,8 +46,7 @@ public class Helper {
                 // Comma outside quotes ends the field
                 result.add(currentField.toString().trim());
                 currentField.setLength(0); // Reset the field buffer
-            }
-            else currentField.append(c);
+            } else currentField.append(c);
         }
         // Add the last field
         result.add(currentField.toString().trim());

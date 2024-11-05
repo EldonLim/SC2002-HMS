@@ -4,18 +4,21 @@ public enum Availability {
     AVAILABLE("Available"),
     BOOKED("Booked"),
     NOT_AVAILABLE("Not Available");
-//    PENDING_APPOINTMENT("Pending Appointment"),
-//    CONFIRMED_APPOINTMENT("Confirmed Appointment");
 
     private final String label;
 
-    private Availability(String label) { this.label = label; }
-    public String getLabel() { return label; }
+    Availability(String label) {
+        this.label = label;
+    }
 
     public static Availability fromString(String availability) {
         for (Availability availability_ : values())
             if (availability_.label.equals(availability))
                 return availability_;
         return null;
+    }
+
+    public String getLabel() {
+        return label;
     }
 }

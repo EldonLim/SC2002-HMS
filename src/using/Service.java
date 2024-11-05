@@ -8,13 +8,18 @@ public enum Service {
 
     private final String label;
 
-    private Service(String label) { this.label = label; }
-    public String getLabel() { return label; }
+    Service(String label) {
+        this.label = label;
+    }
 
     public static Service fromString(String service) {
-        for (Service service_: values())
+        for (Service service_ : values())
             if (service_.label.equals(service))
                 return service_;
         return null;
+    }
+
+    public String getLabel() {
+        return label;
     }
 }

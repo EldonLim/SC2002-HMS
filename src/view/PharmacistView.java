@@ -13,49 +13,7 @@ import using.MedicationStatus;
 
 import java.util.Map;
 
-public class PharmacistView implements View{
-
-    public void printViewMenu() {
-        System.out.println("""
-                1. Display Appointment Outcome
-                2. Update Prescription Status
-                3. View Medication Inventory
-                4. Submit Replenishment Request
-                5. Logout """);
-    }
-
-    public void handleView() {
-        int choice;
-
-        do {
-            this.viewTitle();
-            this.printViewMenu();
-            System.out.print("Please Enter Your Choice: ");
-            choice = Helper.readInt();
-
-            while (choice < 1 || choice > 5) {
-                System.out.println("\nInvalid choice. Please try again.");
-                System.out.print("Please Enter your Choice: ");
-                choice = Helper.readInt();
-            }
-
-            Helper.pauseApplication();
-
-            switch (choice) {
-                case 1 -> handleDisplayAppointmentOutcome();
-                case 2 -> handleUpdatePrescriptionStatus();
-                case 3 -> handleViewMedicationInventory();
-                case 4 -> handleSubmitReplenishmentRequest();
-                case 5 -> System.out.println("Thanks for Using HMS");
-            }
-            Helper.pauseApplication();
-        } while (choice != 5);
-    }
-
-    public void handleViewMedicationInventory() {
-        System.out.println("MEDICAL INVENTORY");
-        PharmacistManager.viewInventory();
-    }
+public class PharmacistView implements View {
 
     public static void handleSubmitReplenishmentRequest() {
         System.out.println("SUBMIT REPLENISHMENT REQUEST");
@@ -78,8 +36,7 @@ public class PharmacistView implements View{
             if (choice != 'y' && choice != 'n') {
                 System.out.println("Invalid Choice!\nPlease Try Again!!");
                 continue;
-            }
-            else break;
+            } else break;
         } while (true);
 
         if (choice == 'y') PharmacistManager.submitRequest();
@@ -139,8 +96,7 @@ public class PharmacistView implements View{
         boolean foundAppointOutcome = false;
 
         for (User user : DataBase.getUsers().values())
-            if (user instanceof Patient) {
-                Patient patient = (Patient) user;
+            if (user instanceof Patient patient) {
                 if (!patient.getMedicalRecord().getAppointmentOutcomes().isEmpty())
                     for (AppointmentOutcome outcome : patient.getMedicalRecord().getAppointmentOutcomes().values())
                         if (!onlyPending || outcome.getMedicationStatus() == MedicationStatus.PENDING) {
@@ -156,5 +112,49 @@ public class PharmacistView implements View{
         return foundAppointOutcome;
     }
 
-    public void viewTitle() { System.out.println("Pharmacist Menu"); }
+    public void printViewMenu() {
+        System.out.println("""
+                1. Display Appointment Outcome
+                2. Update Prescription Status
+                3. View Medication Inventory
+                4. Submit Replenishment Request
+                5. Logout """);
+    }
+
+    public void handleView() {
+        int choice;
+
+        do {
+            this.viewTitle();
+            this.printViewMenu();
+            System.out.print("Please Enter Your Choice: ");
+            choice = Helper.readInt();
+
+            while (choice < 1 || choice > 5) {
+                System.out.println("\nInvalid choice. Please try again.");
+                System.out.print("Please Enter your Choice: ");
+                choice = Helper.readInt();
+            }
+
+            Helper.pauseApplication();
+
+            switch (choice) {
+                case 1 -> handleDisplayAppointmentOutcome();
+                case 2 -> handleUpdatePrescriptionStatus();
+                case 3 -> handleViewMedicationInventory();
+                case 4 -> handleSubmitReplenishmentRequest();
+                case 5 -> System.out.println("Thanks for Using HMS");
+            }
+            Helper.pauseApplication();
+        } while (choice != 5);
+    }
+
+    public void handleViewMedicationInventory() {
+        System.out.println("MEDICAL INVENTORY");
+        PharmacistManager.viewInventory();
+    }
+
+    public void viewTitle() {
+        System.out.println("Pharmacist Menu");
+    }
 }

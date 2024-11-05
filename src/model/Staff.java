@@ -1,16 +1,21 @@
 package model;
-import using.*;
+
+import using.Gender;
+import using.Role;
 
 public class Staff extends User {
 
     private int age;
 
-    public Staff() {}
+    public Staff() {
+    }
 
     public Staff(String name, String id, String password, Gender gender, Role role, int age) {
         super(name, id, password, role, gender);
         this.age = age;
     }
 
-    public int getAge() { return age; }
+    public int getAge() {
+        return age;
+    }
 }

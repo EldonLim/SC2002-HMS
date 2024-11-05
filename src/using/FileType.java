@@ -8,8 +8,14 @@ public enum FileType {
     APPOINTMENTFILE("Appointment");
 
     private final String fileName;
+    private final String directoryPath = "./src/database/data/";
+    private final String fileExtension = ".csv";
 
-    private FileType(String fileName) { this.fileName = fileName; }
-    public String getFileName() { return fileName; }
+    FileType(String fileName) {
+        this.fileName = fileName;
+    }
 
+    public String getFilePath() {
+        return directoryPath + fileName + fileExtension;
+    }
 }

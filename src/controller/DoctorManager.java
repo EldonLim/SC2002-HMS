@@ -3,7 +3,6 @@ package controller;
 import database.DataBase;
 import helper.Helper;
 import model.Appointment;
-import model.AppointmentOutcome;
 import model.Doctor;
 import model.Patient;
 import using.Availability;
@@ -12,18 +11,19 @@ import java.util.List;
 
 public class DoctorManager {
 
-    public DoctorManager() {}
+    public DoctorManager() {
+    }
 
     public static void printAllAvailableSlots() {
         DataBase.getUsers().values().stream()
                 .filter(user -> user instanceof Doctor)
                 .map(user -> (Doctor) user)
                 .forEach(doctor -> ScheduleManager.printDoctorSchedule(doctor.getID()));
-
     }
 
     public static void viewMedicalRecord(String doctorID) {
         Doctor doctor = (Doctor) DataBase.getUsers().get(doctorID);
+
         if (doctor.getPatientList().isEmpty()) {
             System.out.println("\nNo Patient Under Your Care");
             return;
@@ -35,7 +35,9 @@ public class DoctorManager {
         }
     }
 
-    public static void viewPersonalSchedule(String doctorID) { ScheduleManager.printPersonalSchedule(doctorID); }
+    public static void viewPersonalSchedule(String doctorID) {
+        ScheduleManager.printPersonalSchedule(doctorID);
+    }
 
     public static void setAvailability(Doctor doctor) {
         do {
@@ -60,11 +62,28 @@ public class DoctorManager {
         } while (true);
     }
 
-    public static void handleAppointmentRequest(Doctor doctor) { AppointmentManager.handleDoctorAppointmentRequest(doctor); }
-    public static void addPatientUnderCare(Doctor doctor, Patient patient) { doctor.addPatient(patient); }
-    public static void removePatientUnderCare(Doctor doctor, Patient patient) { doctor.removePatient(patient); }
-    public static List<Patient> getAllPatientUnderCare(Doctor doctor) { return doctor.getPatientList(); }
-    public static void handleUpdateMedicalRecord(Patient patient, String diagnosis, String treatment) { MedicalRecordManager.updateMedicalRecord(patient, diagnosis, treatment);}
-    public static List<Appointment> handleGetDoctorUpComingAppointment(Doctor doctor) { return AppointmentManager.getDoctorUpComingAppointments(doctor); }
+    public static void handleAppointmentRequest(Doctor doctor) {
+        AppointmentManager.handleDoctorAppointmentRequest(doctor);
+    }
+
+    public static void addPatientUnderCare(Doctor doctor, Patient patient) {
+        doctor.addPatient(patient);
+    }
+
+    public static void removePatientUnderCare(Doctor doctor, Patient patient) {
+        doctor.removePatient(patient);
+    }
+
+    public static List<Patient> getAllPatientUnderCare(Doctor doctor) {
+        return doctor.getPatientList();
+    }
+
+    public static void handleUpdateMedicalRecord(Patient patient, String diagnosis, String treatment) {
+        MedicalRecordManager.updateMedicalRecord(patient, diagnosis, treatment);
+    }
+
+    public static List<Appointment> handleGetDoctorUpComingAppointment(Doctor doctor) {
+        return AppointmentManager.getDoctorUpComingAppointments(doctor);
+    }
 
 }

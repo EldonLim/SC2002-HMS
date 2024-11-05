@@ -14,7 +14,6 @@ public class ScheduleManager {
     public static void printDoctorSchedule(String doctorID) {
         System.out.println("Doctor " + DataBase.getUsers().get(doctorID).getName());
         Schedule schedule = ((Doctor) DataBase.getUsers().get(doctorID)).getSchedule();
-
         // Print header row with dates in natural order (already sorted)
         System.out.print("Time Slot     ");
         schedule.getWeeklySlots().keySet().stream()

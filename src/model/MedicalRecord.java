@@ -14,15 +14,13 @@ public class MedicalRecord {
     private final String name;
     private final String dateOfBirth;
     private final Gender gender;
-    private String phoneNo;
-    private String emailAddress;
     private final BloodType bloodType;
+    private final String phoneNo;
+    private final String emailAddress;
+    private final List<String> diagnosis;
+    private final List<String> treatments;
 
-    private List<String> diagnosis;
-    private List<String> treatments;
-
-    //private List<AppointmentOutcome> appointmentOutcomes;
-    private HashMap<String, AppointmentOutcome> appointmentOutcomes;
+    private final HashMap<String, AppointmentOutcome> appointmentOutcomes;
 
     public MedicalRecord(Patient patient, List<String> diagnosis, List<String> treatments) {
         this.patient = patient;
@@ -35,20 +33,42 @@ public class MedicalRecord {
         this.bloodType = patient.getBloodType();
         this.diagnosis = new ArrayList<>(diagnosis);
         this.treatments = new ArrayList<>(treatments);
-//        this.appointmentOutcomes = new ArrayList<>();
         this.appointmentOutcomes = new HashMap<>();
     }
 
-    public Patient getPatient() { return patient; }
-    public List<String> getDiagnosis() { return new ArrayList<>(diagnosis); }
-    public List<String> getTreatments() { return new ArrayList<>(treatments); }
+    public Patient getPatient() {
+        return patient;
+    }
 
-    public Gender getGender() { return gender; }
-    public String getName() { return name; }
+    public List<String> getDiagnosis() {
+        return new ArrayList<>(diagnosis);
+    }
 
-    public void addDiagnosis(String diagnosis_) { diagnosis.add(diagnosis_); }
-    public void addTreatment(String treatment) { treatments.add(treatment); }
+    public List<String> getTreatments() {
+        return new ArrayList<>(treatments);
+    }
 
-    public void addAppointmentOutcomes(AppointmentOutcome appointmentOutcome, String appointmentOutcomeID) { appointmentOutcomes.put(appointmentOutcomeID, appointmentOutcome); }
-    public HashMap<String, AppointmentOutcome> getAppointmentOutcomes() { return appointmentOutcomes; }
+    public Gender getGender() {
+        return gender;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void addDiagnosis(String diagnosis_) {
+        diagnosis.add(diagnosis_);
+    }
+
+    public void addTreatment(String treatment) {
+        treatments.add(treatment);
+    }
+
+    public void addAppointmentOutcomes(AppointmentOutcome appointmentOutcome, String appointmentOutcomeID) {
+        appointmentOutcomes.put(appointmentOutcomeID, appointmentOutcome);
+    }
+
+    public HashMap<String, AppointmentOutcome> getAppointmentOutcomes() {
+        return appointmentOutcomes;
+    }
 }

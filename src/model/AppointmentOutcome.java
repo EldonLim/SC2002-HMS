@@ -6,10 +6,10 @@ import using.Service;
 public class AppointmentOutcome {
 
     private String date;
-    private Service service;
-    private String consultationNotes;
-    private String appointmentOutcomeID; //Should be the same with appointmentOutcomeID
-    private String medicine;
+    private final Service service;
+    private final String consultationNotes;
+    private final String appointmentOutcomeID; //Should be the same with appointmentOutcomeID
+    private final String medicine;
     private MedicationStatus medicationStatus;
 
     public AppointmentOutcome(String date, Service service, String consultationNotes, String appointmentOutcomeID, String medicine, MedicationStatus medicationStatus) {
@@ -21,13 +21,35 @@ public class AppointmentOutcome {
         this.medicine = medicine;
     }
 
-    public String getDate() { return date; }
-    public Service getService() { return service; }
-    public String getConsultationNotes() { return consultationNotes; }
-    public String getAppointmentOutcomeID() { return appointmentOutcomeID;}
-    public String getMedicine() { return medicine; }
-    public MedicationStatus getMedicationStatus() { return medicationStatus; }
+    public String getDate() {
+        return date;
+    }
 
-    public void setDate(String date) { this.date = date; }
-    public void setMedicationStatus(MedicationStatus medicationStatus) { this.medicationStatus = medicationStatus; }
+    public void setDate(String date) {
+        this.date = date;
+    }
+
+    public Service getService() {
+        return service;
+    }
+
+    public String getConsultationNotes() {
+        return consultationNotes;
+    }
+
+    public String getAppointmentOutcomeID() {
+        return appointmentOutcomeID;
+    }
+
+    public String getMedicine() {
+        return medicine;
+    }
+
+    public MedicationStatus getMedicationStatus() {
+        return medicationStatus;
+    }
+
+    public void setMedicationStatus(MedicationStatus medicationStatus) {
+        this.medicationStatus = medicationStatus;
+    }
 }

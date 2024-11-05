@@ -5,7 +5,9 @@ import controller.AppointmentManager;
 import controller.InventoryManager;
 import database.DataBase;
 import helper.Helper;
-import model.*;
+import model.Medicine;
+import model.Patient;
+import model.Staff;
 import using.Gender;
 import using.Role;
 
@@ -13,49 +15,8 @@ import java.util.List;
 
 public class AdminstratorView implements View {
 
-    public AdminstratorView() {}
-
-    @Override
-    public void printViewMenu() {
-        this.viewTitle();
-        System.out.println("1. View and Manage Hospital Staff");
-        System.out.println("2. View Appointment details");
-        System.out.println("3. View and Manage Medication Inventory");
-        System.out.println("4. Approve Replenishment Requests");
-        System.out.println("5. Add New Medicine");
-        System.out.println("6. Logout");
-        System.out.print("Please Enter your Choice: ");
+    public AdminstratorView() {
     }
-
-    @Override
-    public void handleView() {
-        int choice;
-
-        do {
-            this.printViewMenu();
-            choice = Helper.readInt();
-
-            while (choice < 1 || choice > 6) {
-                System.out.println("\nInvalid choice. Please try again.");
-                System.out.print("Please Enter your Choice: ");
-                choice = Helper.readInt();
-            }
-
-            Helper.pauseApplication();
-
-            switch (choice) {
-                case 1 -> handleViewManageStaff();
-                case 2 -> handleViewAllPatientsAppointment();
-                case 3 -> handleViewManageMedicationInventory();
-                case 4 -> handleApproveReplenishmentRequests();
-                case 5 -> handleAddNewMedicine();
-                case 6 -> System.out.println("Thanks for Using HMS");
-            }
-        } while (choice != 6);
-    }
-
-    @Override
-    public void viewTitle() { System.out.println("Adminstrator Menu"); }
 
     public static void handleViewManageStaff() {
         int choice;
@@ -76,9 +37,8 @@ public class AdminstratorView implements View {
             Helper.pauseApplication();
 
             switch (choice) {
-                case 1: handleListStaff(); break;
-                case 2: handleManageStaff();break;
-                case 3: break; // Exit loop
+                case 1 -> handleListStaff();
+                case 2 -> handleManageStaff();
             }
         } while (choice != 3);
     }
@@ -107,7 +67,9 @@ public class AdminstratorView implements View {
                 case 2 -> listStaffByRole();
                 case 3 -> listStaffByAgeRange();
                 case 4 -> listAllStaff();
-                case 5 -> { return; }
+                case 5 -> {
+                    return;
+                }
             }
         } while (true);
     }
@@ -188,7 +150,9 @@ public class AdminstratorView implements View {
             switch (choice) {
                 case 1 -> handleAddStaff();
                 case 2 -> handleRemoveStaff();
-                case 3 -> { break; }
+                case 3 -> {
+                    break;
+                }
             }
         } while (choice != 3);
     }
@@ -243,8 +207,7 @@ public class AdminstratorView implements View {
                     .forEach(patient -> patient.getAppointments().forEach(appointment ->
                             AppointmentManager.viewAppointmentDetail(appointment, Role.ADMINISTRATOR)
                     ));
-        }
-        else System.out.println("No appointments found.");
+        } else System.out.println("No appointments found.");
     }
 
     public static void handleViewManageMedicationInventory() {
@@ -266,9 +229,8 @@ public class AdminstratorView implements View {
             Helper.pauseApplication();
 
             switch (choice) {
-                case 1: InventoryManager.listInventory(); break;
-                case 2: handleManageInventory(); break;
-                case 3: break; // Exit loop
+                case 1 -> InventoryManager.listInventory();
+                case 2 -> handleManageInventory();
             }
         } while (choice != 3);
     }
@@ -305,9 +267,9 @@ public class AdminstratorView implements View {
             } while (true);
 
             switch (choice) {
-                case 1: InventoryManager.updateStock(medicineName, true); break;
-                case 2: InventoryManager.updateStock(medicineName, false); break;
-                case 3: AdminstratorManager.updateLowStockAlert(medicineName);break;
+                case 1 -> InventoryManager.updateStock(medicineName, true);
+                case 2 -> InventoryManager.updateStock(medicineName, false);
+                case 3 -> AdminstratorManager.updateLowStockAlert(medicineName);
             }
             Helper.pauseApplication();
         } while (true);
@@ -316,6 +278,11 @@ public class AdminstratorView implements View {
     public static void handleApproveReplenishmentRequests() {
         System.out.println("APPROVE REPLENISHMENT REQUEST");
         List<Medicine> medicinesLowStock = InventoryManager.getAllMedicineWithLowStockAlert();
+
+        if (medicinesLowStock.isEmpty()) {
+            System.out.println("No Request Submitted");
+            return;
+        }
 
         for (Medicine medicine : medicinesLowStock) {
             System.out.println("Medcine: " + medicine.getMedicineName());
@@ -345,6 +312,50 @@ public class AdminstratorView implements View {
 
         InventoryManager.addNewMedicine(medicineName, quantity, lowStockAlertQuantity);
         Helper.pauseApplication();
+    }
+
+    @Override
+    public void printViewMenu() {
+        this.viewTitle();
+        System.out.println("1. View and Manage Hospital Staff");
+        System.out.println("2. View Appointment details");
+        System.out.println("3. View and Manage Medication Inventory");
+        System.out.println("4. Approve Replenishment Requests");
+        System.out.println("5. Add New Medicine");
+        System.out.println("6. Logout");
+        System.out.print("Please Enter your Choice: ");
+    }
+
+    @Override
+    public void handleView() {
+        int choice;
+
+        do {
+            this.printViewMenu();
+            choice = Helper.readInt();
+
+            while (choice < 1 || choice > 6) {
+                System.out.println("\nInvalid choice. Please try again.");
+                System.out.print("Please Enter your Choice: ");
+                choice = Helper.readInt();
+            }
+
+            Helper.pauseApplication();
+
+            switch (choice) {
+                case 1 -> handleViewManageStaff();
+                case 2 -> handleViewAllPatientsAppointment();
+                case 3 -> handleViewManageMedicationInventory();
+                case 4 -> handleApproveReplenishmentRequests();
+                case 5 -> handleAddNewMedicine();
+                case 6 -> System.out.println("Thanks for Using HMS");
+            }
+        } while (choice != 6);
+    }
+
+    @Override
+    public void viewTitle() {
+        System.out.println("Adminstrator Menu");
     }
 }
 

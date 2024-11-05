@@ -8,7 +8,8 @@ import using.MedicationStatus;
 
 public class PharmacistManager {
 
-    public PharmacistManager() {}
+    public PharmacistManager() {
+    }
 
     public static void viewInventory() {
         if (DataBase.getMedicines().isEmpty()) {
@@ -31,14 +32,11 @@ public class PharmacistManager {
         if (DataBase.getUsers().containsKey(patientID) &&
                 ((Patient) DataBase.getUsers().get(patientID)).getMedicalRecord().getAppointmentOutcomes().containsKey(appointmentOutcomeID)) {
             AppointmentOutcome appointmentOutcome = ((Patient) DataBase.getUsers().get(patientID)).getMedicalRecord().getAppointmentOutcomes().get(appointmentOutcomeID);
-
             if (appointmentOutcome.getMedicationStatus() == MedicationStatus.PENDING) {
                 appointmentOutcome.setMedicationStatus(MedicationStatus.DISPENSED);
                 InventoryManager.dispendMedicine(appointmentOutcome.getMedicine());
                 System.out.println("Updated Successfully\n");
-            }
-            else System.out.println("The medicine for this appointment had dispended\n");
-        }
-        else System.out.println("This appointment outcome is not recorded in the system\n");
+            } else System.out.println("The medicine for this appointment had dispensed\n");
+        } else System.out.println("This appointment outcome is not recorded in the system\n");
     }
 }

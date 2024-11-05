@@ -6,13 +6,18 @@ public enum MedicationStatus {
 
     private final String label;
 
-    private MedicationStatus(String label) { this.label = label; }
-    public String getLabel() { return label; }
+    MedicationStatus(String label) {
+        this.label = label;
+    }
 
     public static MedicationStatus fromString(String medicationStatus) {
         for (MedicationStatus medicationStatus_ : values())
-                if (medicationStatus_.getLabel().equals(medicationStatus))
-                    return medicationStatus_;
+            if (medicationStatus_.getLabel().equals(medicationStatus))
+                return medicationStatus_;
         return null;
+    }
+
+    public String getLabel() {
+        return label;
     }
 }

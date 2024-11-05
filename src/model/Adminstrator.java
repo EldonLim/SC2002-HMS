@@ -1,5 +1,7 @@
 package model;
-import using.*;
+
+import using.Gender;
+import using.Role;
 
 public class Adminstrator extends Staff {
 

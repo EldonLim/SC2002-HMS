@@ -2,23 +2,27 @@ package controller;
 
 import database.DataBase;
 import helper.Helper;
-import model.*;
+import model.Appointment;
+import model.AppointmentOutcome;
+import model.Doctor;
+import model.Patient;
 import using.*;
 
 import java.util.Iterator;
 import java.util.List;
-import java.util.Map;
 
 public class AppointmentManager {
 
-    public AppointmentManager() {}
+    public AppointmentManager() {
+    }
 
     public static boolean scheduleAppointment(Doctor doctor, String date, int timeSlot) {
         Availability doctor_availability = doctor.getSchedule().getWeeklySlots().get(date).get(timeSlot);
 
-        if (doctor_availability == Availability.NOT_AVAILABLE || doctor_availability == Availability.BOOKED) return false;
+        if (doctor_availability == Availability.NOT_AVAILABLE || doctor_availability == Availability.BOOKED)
+            return false;
 
-        Patient patient = (Patient) DataBase.getUsers().get(DataBase.getCurrUserID());;
+        Patient patient = (Patient) DataBase.getUsers().get(DataBase.getCurrentUserID());
         Appointment appointment = new Appointment(date, timeSlot, patient, doctor);
 
         patient.addAppointment(appointment);
@@ -34,25 +38,25 @@ public class AppointmentManager {
 
         System.out.println("SCHEDULED APPOINTMENTS");
         for (Appointment appointment : patient.getAppointments())
-                viewAppointmentDetail(appointment, Role.PATIENT);
+            viewAppointmentDetail(appointment, Role.PATIENT);
         return false;
     }
 
     public static void rescheduleAppointment(Patient patient, String appointmentID, String date, int timeSlot) {
-       Appointment appointment = null;
+        Appointment appointment = null;
 
-       for (Appointment appointment_ : patient.getAppointments())
-           if ((appointment_.getAppointmentID().equals(appointmentID)) && appointment_.getAppointmentStatus() != AppointmentStatus.COMPLETED){
-               appointment = appointment_;
-               break;
-           }
+        for (Appointment appointment_ : patient.getAppointments())
+            if ((appointment_.getAppointmentID().equals(appointmentID)) && appointment_.getAppointmentStatus() != AppointmentStatus.COMPLETED) {
+                appointment = appointment_;
+                break;
+            }
 
-       appointment.setAppointmentID(patient.getID() + date.replace("/", "") + Integer.toString(timeSlot));
-       appointment.setDate(date);
-       appointment.setTimeSlot(timeSlot);
-       appointment.setAppointmentStatus(AppointmentStatus.PENDING);
+        appointment.setAppointmentID(patient.getID() + date.replace("/", "") + timeSlot);
+        appointment.setDate(date);
+        appointment.setTimeSlot(timeSlot);
+        appointment.setAppointmentStatus(AppointmentStatus.PENDING);
 
-       appointment.getDoctor().getSchedule().setAvailabilityForParticularDate_Time(date, timeSlot, Availability.AVAILABLE);
+        appointment.getDoctor().getSchedule().setAvailabilityForParticularDate_Time(date, timeSlot, Availability.AVAILABLE);
     }
 
     public static void viewAppointmentDetail(Appointment appointment, Role role) {
@@ -70,8 +74,7 @@ public class AppointmentManager {
                 System.out.println("Medication Status: " + appointment.getAppointmentOutcome().getMedicationStatus().getLabel());
                 System.out.println("Consultation Note: " + appointment.getAppointmentOutcome().getConsultationNotes());
             }
-        }
-        else if (role == Role.DOCTOR) System.out.println("Patient: " + appointment.getPatient().getName());
+        } else if (role == Role.DOCTOR) System.out.println("Patient: " + appointment.getPatient().getName());
         else if (role == Role.PATIENT) {
             System.out.println("Doctor: " + appointment.getDoctor().getName());
             System.out.println("Appointment Status: " + appointment.getAppointmentStatus().getLabel());
@@ -144,14 +147,16 @@ public class AppointmentManager {
             System.out.println("\nNo Pending Appointment");
     }
 
-    public static List<Appointment> getDoctorUpComingAppointments (Doctor doctor) { return doctor.getAppointments(); }
+    public static List<Appointment> getDoctorUpComingAppointments(Doctor doctor) {
+        return doctor.getAppointments();
+    }
 
     public static void recordAppointmentOutcome(String appointmentID, String service, String consultationNotes, String medicineName) {
-        Doctor doctor = (Doctor) DataBase.getUsers().get(DataBase.getCurrUserID());
+        Doctor doctor = (Doctor) DataBase.getUsers().get(DataBase.getCurrentUserID());
         Appointment appointment = doctor.getAppointments().stream().filter(appointment_ -> appointment_.getAppointmentID().equals(appointmentID)).findFirst().orElse(null);
 
         AppointmentOutcome appointmentOutcome = new AppointmentOutcome(appointment.getDate(), Service.fromString(service), consultationNotes,
-                                                                       appointmentID, medicineName, MedicationStatus.PENDING);
+                appointmentID, medicineName, MedicationStatus.PENDING);
         appointment.setAppointmentOutcome(appointmentOutcome);
 
         // delete from doctor

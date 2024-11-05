@@ -1,7 +1,6 @@
 package controller;
 
 import database.DataBase;
-import model.MedicalRecord;
 import model.Patient;
 
 public class PatientManager {
@@ -12,7 +11,6 @@ public class PatientManager {
 
     public static void updatePersonalInformation(String emailAddress, String phoneNo, String patientID) {
         Patient patient = (Patient) DataBase.getUsers().get(patientID);
-
         patient.setEmailAddress(emailAddress);
         patient.setPhoneNo(phoneNo);
 

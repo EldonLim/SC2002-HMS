@@ -8,13 +8,18 @@ public enum Role {
 
     private final String label;
 
-    private Role(String label) { this.label = label; }
-    public String getLabel() { return label; }
+    Role(String label) {
+        this.label = label;
+    }
 
     public static Role fromString(String role) {
         for (Role role_ : values())
             if (role_.label.equals(role))
                 return role_;
         return null;
+    }
+
+    public String getLabel() {
+        return label;
     }
 }

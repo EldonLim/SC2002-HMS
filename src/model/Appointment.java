@@ -8,8 +8,8 @@ public class Appointment {
     private int timeSlot;
     private AppointmentStatus appointmentStatus;
     private String appointmentID; //PatientID|DATE|TIME
-    private Patient patient;
-    private Doctor doctor;
+    private final Patient patient;
+    private final Doctor doctor;
     private AppointmentOutcome appointmentOutcome;
 
     public Appointment(String date, int timeSlot, Patient patient, Doctor doctor) {
@@ -18,7 +18,7 @@ public class Appointment {
         this.patient = patient;
         this.doctor = doctor;
         this.appointmentStatus = AppointmentStatus.PENDING;
-        this.appointmentID = patient.getID() + date.replace("/", "") + Integer.toString(timeSlot);
+        this.appointmentID = patient.getID() + date.replace("/", "") + timeSlot;
         appointmentOutcome = null;
     }
 
@@ -32,22 +32,52 @@ public class Appointment {
         appointmentOutcome = null;
     }
 
-    public AppointmentStatus getAppointmentStatus() { return appointmentStatus; }
-    public String getDate() { return date; }
-    public int getTimeSlot() { return timeSlot; }
-    public String getAppointmentID() { return appointmentID; }
-    public Doctor getDoctor() { return doctor; }
-    public Patient getPatient() { return patient; }
+    public AppointmentStatus getAppointmentStatus() {
+        return appointmentStatus;
+    }
 
-    public void setAppointmentID(String appointmentID) { this.appointmentID = appointmentID; }
-    public void setDate(String date) { this.date = date; }
-    public void setTimeSlot(int timeSlot) { this.timeSlot = timeSlot; }
-    public void setAppointmentStatus(AppointmentStatus appointmentStatus) { this.appointmentStatus = appointmentStatus; }
+    public void setAppointmentStatus(AppointmentStatus appointmentStatus) {
+        this.appointmentStatus = appointmentStatus;
+    }
+
+    public String getDate() {
+        return date;
+    }
+
+    public void setDate(String date) {
+        this.date = date;
+    }
+
+    public int getTimeSlot() {
+        return timeSlot;
+    }
+
+    public void setTimeSlot(int timeSlot) {
+        this.timeSlot = timeSlot;
+    }
+
+    public String getAppointmentID() {
+        return appointmentID;
+    }
+
+    public void setAppointmentID(String appointmentID) {
+        this.appointmentID = appointmentID;
+    }
+
+    public Doctor getDoctor() {
+        return doctor;
+    }
+
+    public Patient getPatient() {
+        return patient;
+    }
+
+    public AppointmentOutcome getAppointmentOutcome() {
+        return appointmentOutcome;
+    }
 
     public void setAppointmentOutcome(AppointmentOutcome appointmentOutcome) {
         this.appointmentOutcome = appointmentOutcome;
         appointmentStatus = AppointmentStatus.COMPLETED;
     }
-
-    public AppointmentOutcome getAppointmentOutcome() { return appointmentOutcome; }
 }

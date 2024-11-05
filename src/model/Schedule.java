@@ -8,18 +8,13 @@ import java.util.HashMap;
 
 public class Schedule {
 
-    private Doctor doctor;
-    private String doctorID;
-    private HashMap<String, HashMap<Integer, Availability>> weeklySlots;
-
     public static final int START_TIME = 9;
     public static final int END_TIME = 17;
     public static final int TOTAL_SLOTS = END_TIME - START_TIME; // Corrected the calculation
-
     public static final int TOTAL_DAYS = 5; // Number of days in the schedule
+    private final Doctor doctor;
+    private final HashMap<String, HashMap<Integer, Availability>> weeklySlots;
 
-    // for the first time reading the file
-    // might work for not the first time
     public Schedule(Doctor doctor) {
         this.doctor = doctor;
         weeklySlots = new HashMap<>();
@@ -43,10 +38,18 @@ public class Schedule {
         }
     }
 
-    public Doctor getDoctor() { return doctor; }
-    public HashMap<String, HashMap<Integer, Availability>> getWeeklySlots() { return weeklySlots; }
+    public Doctor getDoctor() {
+        return doctor;
+    }
 
-    public void setAvailabilityForParticularDate_Time (String date, int time, Availability availability) { weeklySlots.get(date).put(time, availability); }
     public void setDoctor(Doctor user) {
+    }
+
+    public HashMap<String, HashMap<Integer, Availability>> getWeeklySlots() {
+        return weeklySlots;
+    }
+
+    public void setAvailabilityForParticularDate_Time(String date, int time, Availability availability) {
+        weeklySlots.get(date).put(time, availability);
     }
 }

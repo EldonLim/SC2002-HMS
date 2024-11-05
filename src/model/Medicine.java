@@ -1,7 +1,7 @@
 package model;
 
 public class Medicine {
-    private String medicineName;
+    private final String medicineName;
     private int stock;
     private int lowStockThreshold;
     private boolean lowStockAlert;
@@ -10,8 +10,8 @@ public class Medicine {
     /**
      * Constructs a Medicine object.
      *
-     * @param medicineName     the name of the medicine
-     * @param stock            the initial stock level
+     * @param medicineName      the name of the medicine
+     * @param stock             the initial stock level
      * @param lowStockThreshold the threshold below which stock is considered low
      */
     public Medicine(String medicineName, int stock, int lowStockThreshold) {
@@ -35,15 +35,22 @@ public class Medicine {
      *
      * @return the medicine name
      */
-    public String getMedicineName() { return medicineName; }
-    public int getStock() { return stock; }
+    public String getMedicineName() {
+        return medicineName;
+    }
+
+    public int getStock() {
+        return stock;
+    }
 
     public void setStock(int stock) {
         this.stock = stock;
         checkStockLevel(); // Update lowStockAlert and requestAddStock
     }
 
-    public int getLowStockThreshold() { return lowStockThreshold; }
+    public int getLowStockThreshold() {
+        return lowStockThreshold;
+    }
 
     public void setLowStockThreshold(int lowStockThreshold) {
         this.lowStockThreshold = lowStockThreshold;
@@ -55,8 +62,15 @@ public class Medicine {
         return this.getLowStockAlert();
     }
 
-    public boolean getLowStockAlert() { return lowStockAlert; }
-    public boolean getRequestAddStock() { return requestAddStock; }
+    public boolean getLowStockAlert() {
+        return lowStockAlert;
+    }
 
-    public void setRequestAddStock() { this.requestAddStock = true; }
+    public boolean getRequestAddStock() {
+        return requestAddStock;
+    }
+
+    public void setRequestAddStock() {
+        this.requestAddStock = true;
+    }
 }
