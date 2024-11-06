@@ -140,7 +140,7 @@ public class UserDAO {
     private static String formatStaffData(Staff staff) {
         return String.format("%s,%s,%s,%s,%d,%s\n",
                 staff.getID(), staff.getName(), staff.getRole().getLabel(),
-                staff.getGender().getLabel(), staff.getAge(), Encryption.encode(staff.getPassword()));
+                staff.getGender().getLabel(), staff.getAge(), staff.getPassword());
     }
 
     public static int getNumberOfPatients() { return numberOfPatients; }
