@@ -5,9 +5,17 @@ import java.util.Base64;
 
 /**
  * Password encoder using XOR and Base64.
+ * 
+ * @author Chin Linn Sheng
+ * @version 1.1
+ * @since 2024-11-03
  */
 public class Encryption {
 
+    /*
+     * A secret key used for XOR encryption. 
+     * This key should remain consistent between encoding and decoding operations.
+     */
     private static final int SECRET_KEY = 123;
 
     /**
