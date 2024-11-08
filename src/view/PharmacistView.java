@@ -30,13 +30,12 @@ public class PharmacistView implements View {
         char choice;
 
         do {
-            System.out.print("Submit Replenishment Request (y/n): ");
+            System.out.print("Submit Replenishment Request (Y/N): ");
             choice = Helper.readChar();
 
-            if (choice != 'y' && choice != 'n') {
+            if (choice != 'y' && choice != 'n')
                 System.out.println("Invalid Choice!\nPlease Try Again!!");
-                continue;
-            } else break;
+            else break;
         } while (true);
 
         if (choice == 'y') PharmacistManager.submitRequest();
@@ -84,11 +83,16 @@ public class PharmacistView implements View {
 
             PharmacistManager.updatePrescriptionStatus(appointmentOutcomeID, patientID);
 
-            System.out.print("Update other appointment outcome prescription status (y/n)?: ");
+            System.out.print("Update other appointment outcome prescription status (Y/N)?: ");
             char choice = Helper.readChar();
 
-            if (choice != 'y') break;
+            while (choice != 'y' && choice != 'n') {
+                System.out.println("Invalid Input. Please Key in Again.");
+                System.out.print("Approve Replenishment Request (Y/N): ");
+                choice = Helper.readChar();
+            }
 
+            if (choice != 'y') break;
         } while (true);
     }
 
@@ -118,7 +122,7 @@ public class PharmacistView implements View {
                 2. Update Prescription Status
                 3. View Medication Inventory
                 4. Submit Replenishment Request
-                5. Logout """);
+                5. Logout""");
     }
 
     public void handleView() {

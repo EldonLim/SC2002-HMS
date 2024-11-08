@@ -151,11 +151,11 @@ public class AppointmentManager {
         return doctor.getAppointments();
     }
 
-    public static void recordAppointmentOutcome(String appointmentID, String service, String consultationNotes, String medicineName) {
+    public static void recordAppointmentOutcome(String appointmentID, Service service, String consultationNotes, String medicineName) {
         Doctor doctor = (Doctor) DataBase.getUsers().get(DataBase.getCurrentUserID());
         Appointment appointment = doctor.getAppointments().stream().filter(appointment_ -> appointment_.getAppointmentID().equals(appointmentID)).findFirst().orElse(null);
 
-        AppointmentOutcome appointmentOutcome = new AppointmentOutcome(appointment.getDate(), Service.fromString(service), consultationNotes,
+        AppointmentOutcome appointmentOutcome = new AppointmentOutcome(appointment.getDate(), service, consultationNotes,
                 appointmentID, medicineName, MedicationStatus.PENDING);
         appointment.setAppointmentOutcome(appointmentOutcome);
 

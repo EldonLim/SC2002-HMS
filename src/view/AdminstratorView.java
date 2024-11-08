@@ -164,11 +164,25 @@ public class AdminstratorView implements View {
         System.out.print("Enter Staff Name: ");
         String userName = Helper.readString();
 
-        System.out.print("Enter Staff Role (1 - Doctor, 2 - Pharmacist, 3 - Adminstrator: ");
-        int userRole = Helper.readInt();
+        int userRole;
+        while (true) {
+            System.out.print("Enter Staff Role (1 - Doctor, 2 - Pharmacist, 3 - Administrator): ");
+            userRole = Helper.readInt();
+            if (userRole >= 1 && userRole <= 3)
+                break;
 
-        System.out.print("Enter Gender (M/F): ");
-        char userGender = Helper.readChar();
+            System.out.println("Invalid role. Please enter a number between 1 and 3.");
+        }
+
+        char userGender;
+        while (true) {
+            System.out.print("Enter Gender (M/F): ");
+            userGender = Helper.readChar();
+            if (userGender == 'm' || userGender == 'f')
+                break;
+
+            System.out.println("Invalid gender. Please enter M or F.");
+        }
 
         System.out.print("Enter Age: ");
         int userAge = Helper.readInt();
@@ -181,8 +195,17 @@ public class AdminstratorView implements View {
 
     public static void handleRemoveStaff() {
         System.out.println("\nREMOVE STAFF");
-        System.out.print("Enter Staff ID: ");
-        String staffID = Helper.readString();
+
+        String staffID;
+        while (true) {
+            System.out.print("Enter Staff ID: ");
+            staffID = Helper.readString();
+
+            if (DataBase.getUsers().containsKey(staffID))
+                break;
+
+            System.out.println("No such staff with this staff ID");
+        }
 
         AdminstratorManager.removeStaff(staffID);
 

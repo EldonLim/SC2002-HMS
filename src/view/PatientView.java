@@ -62,7 +62,6 @@ public class PatientView implements View {
             System.out.print("Please Enter the Slot in 24Hour Format (13 stands for 1pm): ");
             int timeSlot = Helper.readInt();
 
-
             if (!doctor.getSchedule().getWeeklySlots().containsKey(date) || !doctor.getSchedule().getWeeklySlots().get(date).containsKey(timeSlot)) {
                 System.out.println("Invalid Date or Time Slot");
                 Helper.pauseApplication();
@@ -96,15 +95,35 @@ public class PatientView implements View {
         if (AppointmentManager.viewPatientScheduledAppointments((Patient) DataBase.getUsers().get(DataBase.getCurrentUserID())))
             return;
 
-        System.out.print("Please Enter the Appointment ID: ");
-        String appointmentID = Helper.readString();
+        String appointmentID;
+        while (true) {
+            System.out.print("Please Enter the Appointment ID: ");
+            appointmentID = Helper.readString();
+
+            // Check if appointment ID exists
+            String finalAppointmentID = appointmentID;
+            if (((Patient) DataBase.getUsers().get(DataBase.getCurrentUserID())).getAppointments().stream().anyMatch(appointment -> appointment.getAppointmentID().equals(finalAppointmentID)))
+                break;
+
+            System.out.println("Invalid appointment ID. Please try again.");
+        }
 
         handleViewAvailableAppointmentSlots();
 
-        System.out.print("Please Enter the Date (dd/mm/yy): ");
-        String date = Helper.readString();
-        System.out.print("Please Enter the Slot in 24Hour Format (13 stands for 1pm): ");
-        int timeSlot = Helper.readInt();
+        String date;
+        int timeSlot;
+        while (true) {
+            System.out.print("Please Enter the Date (dd/mm/yy): ");
+            date = Helper.readString();
+            System.out.print("Please Enter the Slot in 24Hour Format (13 stands for 1pm): ");
+            timeSlot = Helper.readInt();
+
+            if (((Patient) DataBase.getUsers().get(DataBase.getCurrentUserID())).getAppointments().getFirst().getDoctor().getSchedule().getWeeklySlots().containsKey(date) &&
+                ((Patient) DataBase.getUsers().get(DataBase.getCurrentUserID())).getAppointments().getFirst().getDoctor().getSchedule().getWeeklySlots().containsValue(timeSlot))
+                break;
+
+            System.out.println("Invalid Date or Time Slot");
+        }
 
         AppointmentManager.rescheduleAppointment((Patient) DataBase.getUsers().get(DataBase.getCurrentUserID()),
                 appointmentID, date, timeSlot);
@@ -139,7 +158,7 @@ public class PatientView implements View {
                 6. Cancel an Appointment
                 7. View Scheduled Appointments
                 8. View Past Appointment Outcome Records
-                9. Logout """);
+                9. Logout""");
     }
 
     public void handleView() {
@@ -160,7 +179,6 @@ public class PatientView implements View {
             Helper.pauseApplication();
 
             switch (choice) {
-//                case 1 -> PatientManager.getMedicalRecord(DataBase.getCurrUserID());
                 case 1 -> PatientManager.getMedicalRecord(DataBase.getCurrentUserID());
                 case 2 -> handleUpdatePersonalInfo();
                 case 3 -> handleViewAvailableAppointmentSlots();

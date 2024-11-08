@@ -121,6 +121,6 @@ public class HMSAppView implements View {
         System.out.println("""
                 1. Login
                 2. Register
-                3. Exit """);
+                3. Exit""");
     }
 }

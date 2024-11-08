@@ -6,9 +6,11 @@ import database.DataBase;
 import helper.Helper;
 import model.Appointment;
 import model.Doctor;
+import model.Medicine;
 import model.Patient;
 import using.AppointmentStatus;
 import using.Role;
+import using.Service;
 
 import java.util.List;
 
@@ -71,7 +73,7 @@ public class DoctorView implements View {
             return;
         }
 
-        System.out.println("VIEW UPCOMMING APPOINTMENTS");
+        System.out.println("VIEW UPCOMING APPOINTMENTS");
         for (Appointment appointment : upComingAppointments)
             if (appointment.getAppointmentStatus() == AppointmentStatus.CONFIRM)
                 AppointmentManager.viewAppointmentDetail(appointment, Role.DOCTOR);
@@ -115,10 +117,25 @@ public class DoctorView implements View {
             break;
         } while (true);
 
-        System.out.print("Type of Services (X-Ray, Blood Test, Consultation or Other): ");
-        String service = Helper.readString();
-        System.out.print("Medicine: ");
-        String medicine = Helper.readString();
+        Service service;
+        do {
+            System.out.print("Type of Services (X-Ray, Blood Test, Consultation or Other): ");
+            service = Service.fromString(Helper.readString().trim());
+            if (service == null) {
+                System.out.println("Invalid service type. Please try again.");
+            }
+        } while (service == null);
+
+        String medicine;
+        while (true) {
+            System.out.print("Medicine: ");
+            medicine = Helper.readString();
+
+            if (DataBase.getMedicines().containsKey(medicine))
+                break;
+            System.out.println("No such medicine in the inventory");
+        }
+
         System.out.print("Consultation Notes: ");
         String consultationNotes = Helper.readString();
 
@@ -134,7 +151,7 @@ public class DoctorView implements View {
         System.out.println("3. View Personal Schedule");
         System.out.println("4. Set Availability for Appointments");
         System.out.println("5. Accept or Decline Appointment Requests");
-        System.out.println("6. View Upcomming Appointments");
+        System.out.println("6. View Upcoming Appointments");
         System.out.println("7. Record Appointment Outcome");
         System.out.println("8. Logout");
     }
