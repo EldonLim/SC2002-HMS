@@ -13,8 +13,9 @@ import using.*;
  * Provides methods for reading and writing medicine information to and from files, and
  * storing medicines in a hash map for access throughout the application.
  *
- * @author Chin Linn Sheng
- * @version 1.1
+ * @author Eldon Lim Kai Jie
+ * @author Goh Jun Keat
+ * @version 2.1
  * @since 2024-11-06
  */
 public class MedicineDAO {
