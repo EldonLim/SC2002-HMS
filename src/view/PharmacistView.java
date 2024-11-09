@@ -19,7 +19,7 @@ import java.util.Map;
  * Provides methods for managing inventory, viewing appointment outcomes, and updating prescription statuses.
  * 
  * @author Goh Jun Keat
- * @version 11.6
+ * @version 11.7
  * @since 2024-10-27
  */
 public class PharmacistView implements View {
@@ -49,13 +49,12 @@ public class PharmacistView implements View {
         char choice;
 
         do {
-            System.out.print("Submit Replenishment Request (y/n): ");
+            System.out.print("Submit Replenishment Request (Y/N): ");
             choice = Helper.readChar();
 
-            if (choice != 'y' && choice != 'n') {
+            if (choice != 'y' && choice != 'n')
                 System.out.println("Invalid Choice!\nPlease Try Again!!");
-                continue;
-            } else break;
+            else break;
         } while (true);
 
         if (choice == 'y') PharmacistManager.submitRequest();
@@ -93,14 +92,15 @@ public class PharmacistView implements View {
     public static void handleDisplayAppointmentOutcome() {
         System.out.println("DISPLAY APPOINTMENT OUTCOME");
 
-        boolean foundAppointOutcome = printAppointmentOutcomesForPatients(false);
+        boolean foundAppointOutcome = false;
+        foundAppointOutcome = printAppointmentOutcomesForPatients(false);
 
         if (!foundAppointOutcome) System.out.println("No Appointment Outcome Record Stored");
     }
 
     /**
      * Updates the prescription status of appointments with pending prescriptions.
-     * Allows the pharmacist to input an appointment outcome ID for updating.
+     * Allows the pharmacist to input an Appointment Outcome ID for updating.
      */
     public static void handleUpdatePrescriptionStatus() {
         System.out.println("UPDATE PRESCRIPTION STATUS");
@@ -118,11 +118,17 @@ public class PharmacistView implements View {
 
             PharmacistManager.updatePrescriptionStatus(appointmentOutcomeID, patientID);
 
-            System.out.print("Update other appointment outcome prescription status (y/n)?: ");
+            System.out.print("Update other appointment outcome prescription status (Y/N)?: ");
             char choice = Helper.readChar();
 
-            if (choice != 'y') break;
+            while (choice != 'y' && choice != 'n') {
+                System.out.println("Invalid Input. Please Key in Again.");
+                System.out.print("Approve Replenishment Request (Y/N): ");
+                choice = Helper.readChar();
+            }
 
+            if (choice != 'y') break;
+            
         } while (true);
     }
 
@@ -161,7 +167,7 @@ public class PharmacistView implements View {
                 2. Update Prescription Status
                 3. View Medication Inventory
                 4. Submit Replenishment Request
-                5. Logout """);
+                5. Logout""");
     }
 
     /**
