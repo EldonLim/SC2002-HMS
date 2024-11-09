@@ -19,7 +19,7 @@ import java.util.Map;
  * Provides methods for managing appointments, updating personal information, and viewing medical records.
  * 
  * @author Chin Linn Sheng
- * @version 19.7
+ * @version 19.8
  * @since 2024-10-27
  */
 public class PatientView implements View {
@@ -96,11 +96,11 @@ public class PatientView implements View {
             if (!bookappointment) {
                 System.out.println();
                 System.out.println("Doctor is not available at that time");
-                System.out.println("Please select another appointment according to the schedule");
+                System.out.println("Please another appointment according to the schedule");
                 Helper.pauseApplication();
             }
         } while (!bookappointment);
-        System.out.println("Appointment Scheduled Successfully");
+        System.out.println("Appointment Schedule Successfully");
     }
 
     /**
@@ -113,33 +113,56 @@ public class PatientView implements View {
         System.out.print("Please Enter the Appointment ID: ");
         String appointmentID = Helper.readString();
 
-        AppointmentManager.cancelAppointment((Patient) DataBase.getUsers().get(DataBase.getCurrentUserID()), appointmentID);
-        System.out.println("Appointment Canceled Successfully");
+        AppointmentManager.cancelAppointment((Patient) DataBase.getUsers().get(DataBase.getCurrentUserID()),
+                appointmentID);
+        System.out.println("Appointment Cancel Successfully");
     }
 
     /**
      * Reschedules an existing appointment for the current patient.
      * The method first displays the patient's scheduled appointments, then prompts the user to enter the appointment ID to be rescheduled.
      * The method then displays the available appointment slots and prompts the user to enter a new date and time slot.
+     * Validates Appointment ID, time slot and date before proceeding.
      */
     public static void handleRescheduleAppointment() {
         System.out.println("RESCHEDULE APPOINTMENT");
         if (AppointmentManager.viewPatientScheduledAppointments((Patient) DataBase.getUsers().get(DataBase.getCurrentUserID())))
             return;
 
-        System.out.print("Please Enter the Appointment ID: ");
-        String appointmentID = Helper.readString();
+        String appointmentID;
+        while (true) {
+            System.out.print("Please Enter the Appointment ID: ");
+            appointmentID = Helper.readString();
+
+            // Check if appointment ID exists
+            String finalAppointmentID = appointmentID;
+            if (((Patient) DataBase.getUsers().get(DataBase.getCurrentUserID())).getAppointments().stream().anyMatch(appointment -> appointment.getAppointmentID().equals(finalAppointmentID)))
+                break;
+
+            System.out.println("Invalid appointment ID. Please try again.");
+        }
 
         handleViewAvailableAppointmentSlots();
 
-        System.out.print("Please Enter the Date (dd/mm/yy): ");
-        String date = Helper.readString();
-        System.out.print("Please Enter the Slot in 24Hour Format (13 stands for 1pm): ");
-        int timeSlot = Helper.readInt();
+        String date;
+        int timeSlot;
+        while (true) {
+            System.out.print("Please Enter the Date (dd/mm/yy): ");
+            date = Helper.readString();
+            System.out.print("Please Enter the Slot in 24Hour Format (13 stands for 1pm): ");
+            timeSlot = Helper.readInt();
 
-        AppointmentManager.rescheduleAppointment((Patient) DataBase.getUsers().get(DataBase.getCurrentUserID()), appointmentID, date, timeSlot);
+            if (((Patient) DataBase.getUsers().get(DataBase.getCurrentUserID())).getAppointments().getFirst().getDoctor().getSchedule().getWeeklySlots().containsKey(date) &&
+                ((Patient) DataBase.getUsers().get(DataBase.getCurrentUserID())).getAppointments().getFirst().getDoctor().getSchedule().getWeeklySlots().containsValue(timeSlot))
+                break;
 
-        System.out.println("Appointment Rescheduled Successfully");
+            System.out.println("Invalid Date or Time Slot");
+        }
+
+        AppointmentManager.rescheduleAppointment((Patient) DataBase.getUsers().get(DataBase.getCurrentUserID()),
+                appointmentID, date, timeSlot);
+
+        System.out.println("Appointment Reschedule Successfully");
     }
 
     /**
@@ -179,7 +202,7 @@ public class PatientView implements View {
                 6. Cancel an Appointment
                 7. View Scheduled Appointments
                 8. View Past Appointment Outcome Records
-                9. Logout """);
+                9. Logout""");
     }
 
     /**
