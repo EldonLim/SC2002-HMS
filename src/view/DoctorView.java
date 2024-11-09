@@ -116,7 +116,7 @@ public class DoctorView implements View {
     /**
      * Allows the doctor to record outcomes for completed appointments.
      * Prompts the doctor for appointment details, services provided, and consultation notes.
-     * Validates appointment IDs before allowing updates.
+     * Validates appointment IDs, services and medicines before allowing updates.
      */
     public static void handleRecordAppointmentOutcome() {
         System.out.println("RECORD APPOINTMENT OUTCOME");

@@ -19,14 +19,13 @@ import java.util.List;
  * Provides methods for managing hospital staff, appointments, and inventory.
  * 
  * @author Lean Yi Fan
- * @version 7.4
+ * @version 7.5
  * @since 2024-10-27
- * 
  */
 public class AdminstratorView implements View {
 
-    /**
-     * Constructs an instance of AdminstratorView.
+    /*
+     * Constructs an instance of AdministratorView
      */
     public AdminstratorView() {
     }
@@ -63,7 +62,7 @@ public class AdminstratorView implements View {
     /**
      * Handles the listing of staff with filtering options.
      * Prompts the user to filter staff by gender, role, age range, or view all.
-     */
+     */    
     public static void handleListStaff() {
         do {
             System.out.println("List Of Staff Filter By: ");
@@ -203,7 +202,7 @@ public class AdminstratorView implements View {
 
     /**
      * Prompts the user to add a new staff member to the system.
-     * Collects the staff member's name, role, gender, and age, and calls the manager to add the staff.
+     * Collects and validates the staff member's name, role, gender, and age, and calls the manager to add the staff.
      */
     public static void handleAddStaff() {
         System.out.println("\nADD NEW STAFF");
@@ -212,11 +211,25 @@ public class AdminstratorView implements View {
         System.out.print("Enter Staff Name: ");
         String userName = Helper.readString();
 
-        System.out.print("Enter Staff Role (1 - Doctor, 2 - Pharmacist, 3 - Administrator): ");
-        int userRole = Helper.readInt();
+        int userRole;
+        while (true) {
+            System.out.print("Enter Staff Role (1 - Doctor, 2 - Pharmacist, 3 - Administrator): ");
+            userRole = Helper.readInt();
+            if (userRole >= 1 && userRole <= 3)
+                break;
 
-        System.out.print("Enter Gender (M/F): ");
-        char userGender = Helper.readChar();
+            System.out.println("Invalid role. Please enter a number between 1 and 3.");     
+        }
+
+        char userGender;
+        while (true) {
+            System.out.print("Enter Gender (M/F): ");
+            userGender = Helper.readChar();
+            if (userGender == 'm' || userGender == 'f')
+                break;
+
+            System.out.println("Invalid gender. Please enter M or F.");    
+        }
 
         System.out.print("Enter Age: ");
         int userAge = Helper.readInt();
@@ -229,12 +242,21 @@ public class AdminstratorView implements View {
 
     /**
      * Prompts the user to remove a staff member from the system.
-     * The user must enter the staff ID of the staff member to be removed.
+     * The user must enter the staff ID of the staff member for validation before removal.
      */
     public static void handleRemoveStaff() {
         System.out.println("\nREMOVE STAFF");
-        System.out.print("Enter Staff ID: ");
-        String staffID = Helper.readString();
+
+        String staffID;
+        while (true) {
+            System.out.print("Enter Staff ID: ");
+            staffID = Helper.readString();
+
+            if (DataBase.getUsers().containsKey(staffID))
+                break;
+
+            System.out.println("No such staff with this staff ID");    
+        }
 
         AdminstratorManager.removeStaff(staffID);
 
@@ -354,7 +376,7 @@ public class AdminstratorView implements View {
         }
 
         for (Medicine medicine : medicinesLowStock) {
-            System.out.println("Medicine: " + medicine.getMedicineName());
+            System.out.println("Medcine: " + medicine.getMedicineName());
             System.out.println("Stock: " + medicine.getStock());
             System.out.print("Approve Replenishment Request (Y/N): ");
             char choice = Helper.readChar();
@@ -439,8 +461,7 @@ public class AdminstratorView implements View {
      */
     @Override
     public void viewTitle() {
-        System.out.println("Administrator Menu");
+        System.out.println("Adminstrator Menu");
     }
-
-}    
+}
 
