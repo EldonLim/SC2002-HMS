@@ -15,7 +15,7 @@ import using.Role;
  * Provides methods for logging in, registering new users, and handling user-specific views based on roles.
  * 
  * @author Eldon Lim Kai Jie
- * @version 14.5
+ * @version 14.6
  * @since 2024-10-27
  */
 public class HMSAppView implements View {
