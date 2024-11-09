@@ -20,7 +20,7 @@ import java.util.List;
  * Provides methods for managing appointments, viewing and updating patient records, and setting availability.
  * 
  * @author Chew En Zee
- * @version 12.7
+ * @version 12.8
  * @since 2024-10-27
  */
 public class DoctorView implements View {
