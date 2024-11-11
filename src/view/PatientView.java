@@ -118,8 +118,8 @@ public class PatientView implements View {
             System.out.print("Please Enter the Slot in 24Hour Format (13 stands for 1pm): ");
             timeSlot = Helper.readInt();
 
-            if (((Patient) DataBase.getUsers().get(DataBase.getCurrentUserID())).getAppointments().getFirst().getDoctor().getSchedule().getWeeklySlots().containsKey(date) &&
-                ((Patient) DataBase.getUsers().get(DataBase.getCurrentUserID())).getAppointments().getFirst().getDoctor().getSchedule().getWeeklySlots().get(date).containsKey(timeSlot))
+            if (((Patient) DataBase.getUsers().get(DataBase.getCurrentUserID())).getAppointments().get(0).getDoctor().getSchedule().getWeeklySlots().containsKey(date) &&
+                ((Patient) DataBase.getUsers().get(DataBase.getCurrentUserID())).getAppointments().get(0).getDoctor().getSchedule().getWeeklySlots().get(date).containsKey(timeSlot))
                 break;
 
             System.out.println("Invalid Date or Time Slot");
