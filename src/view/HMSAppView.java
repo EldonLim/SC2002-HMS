@@ -40,8 +40,10 @@ public class HMSAppView implements View {
             }
         }
         Helper.pauseApplication();
-        if (DataBase.getUsers().get(DataBase.getCurrentUserID()).getPassword().equals(Encryption.encode("password")))
+        if (DataBase.getUsers().get(DataBase.getCurrentUserID()).getPassword().equals(Encryption.encode("password"))) {
             resetPassword();
+            return;
+        }
         System.out.println("Login Successful");
         Helper.pauseApplication();
         handleLogin();
@@ -52,6 +54,7 @@ public class HMSAppView implements View {
         System.out.print("New password: ");
         String password = Helper.readString();
         UserManager.resetPassword(password);
+        System.out.println("Please Login Again With the New Password");
         Helper.pauseApplication();
     }
 
