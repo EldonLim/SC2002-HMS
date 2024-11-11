@@ -119,7 +119,7 @@ public class PatientView implements View {
             timeSlot = Helper.readInt();
 
             if (((Patient) DataBase.getUsers().get(DataBase.getCurrentUserID())).getAppointments().getFirst().getDoctor().getSchedule().getWeeklySlots().containsKey(date) &&
-                ((Patient) DataBase.getUsers().get(DataBase.getCurrentUserID())).getAppointments().getFirst().getDoctor().getSchedule().getWeeklySlots().containsValue(timeSlot))
+                ((Patient) DataBase.getUsers().get(DataBase.getCurrentUserID())).getAppointments().getFirst().getDoctor().getSchedule().getWeeklySlots().get(date).containsKey(timeSlot))
                 break;
 
             System.out.println("Invalid Date or Time Slot");
