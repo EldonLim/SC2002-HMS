@@ -19,7 +19,7 @@ import java.util.Map;
  * Provides methods for managing appointments, updating personal information, and viewing medical records.
  * 
  * @author Chin Linn Sheng
- * @version 19.8
+ * @version 19.9
  * @since 2024-10-27
  */
 public class PatientView implements View {
@@ -152,8 +152,8 @@ public class PatientView implements View {
             System.out.print("Please Enter the Slot in 24Hour Format (13 stands for 1pm): ");
             timeSlot = Helper.readInt();
 
-            if (((Patient) DataBase.getUsers().get(DataBase.getCurrentUserID())).getAppointments().getFirst().getDoctor().getSchedule().getWeeklySlots().containsKey(date) &&
-                ((Patient) DataBase.getUsers().get(DataBase.getCurrentUserID())).getAppointments().getFirst().getDoctor().getSchedule().getWeeklySlots().containsValue(timeSlot))
+            if (((Patient) DataBase.getUsers().get(DataBase.getCurrentUserID())).getAppointments().get(0).getDoctor().getSchedule().getWeeklySlots().containsKey(date) &&
+                ((Patient) DataBase.getUsers().get(DataBase.getCurrentUserID())).getAppointments().get(0).getDoctor().getSchedule().getWeeklySlots().get(date).containsKey(timeSlot))
                 break;
 
             System.out.println("Invalid Date or Time Slot");
