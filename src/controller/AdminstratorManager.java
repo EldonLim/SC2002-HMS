@@ -11,11 +11,27 @@ import using.Role;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * The AdministratorManager class provides functionality for managing staff and patients,
+ * including adding, removing, and retrieving staff based on specific criteria.
+ * 
+ * @author Lean Yi Fan
+ * @version 4.3
+ * @since 2024-11-02
+ */
 public class AdminstratorManager {
 
+    /**
+     * Constructs an AdminstratorManager instance.
+     */
     public AdminstratorManager() {
     }
 
+    /**
+     * Retrieves a list of all staff members, excluding patients.
+     *
+     * @return a list of Staff objects representing all staff members.
+     */
     public static List<Staff> getAllStaff() {
         return DataBase.getUsers().values().stream()
                 .filter(user -> user.getRole() != Role.PATIENT)
@@ -23,6 +39,12 @@ public class AdminstratorManager {
                 .toList();
     }
 
+    /**
+     * Retrieves a list of all staff members of a specified gender.
+     *
+     * @param gender the gender of staff members to retrieve.
+     * @return a list of Staff objects with the specified gender.
+     */
     public static List<Staff> getAllStaffByGender(Gender gender) {
         return DataBase.getUsers().values().stream()
                 .filter(user -> user.getRole() != Role.PATIENT && user.getGender() == gender)
@@ -30,6 +52,12 @@ public class AdminstratorManager {
                 .toList();
     }
 
+    /**
+     * Retrieves a list of all staff members with a specified role.
+     *
+     * @param role the role of staff members to retrieve.
+     * @return a list of Staff objects with the specified role.
+     */
     public static List<Staff> getAllStaffByRole(Role role) {
         return DataBase.getUsers().values().stream()
                 .filter(user -> user.getRole() == role)
@@ -37,6 +65,12 @@ public class AdminstratorManager {
                 .toList();
     }
 
+    /**
+     * Retrieves a list of all staff members within a specified age group.
+     *
+     * @param age the starting age of the age group.
+     * @return a list of Staff objects within the specified age range.
+     */
     public static List<Staff> getAllStaffByAgeGroup(int age) {
         return DataBase.getUsers().values().stream()
                 .filter(user -> user.getRole() != Role.PATIENT)
@@ -45,6 +79,14 @@ public class AdminstratorManager {
                 .toList();
     }
 
+    /**
+     * Adds a new staff member to the database with the specified parameters.
+     *
+     * @param name   the name of the new staff member.
+     * @param role   the role of the new staff member.
+     * @param gender the gender of the new staff member.
+     * @param age    the age of the new staff member.
+     */
     public static void addNewStaff(String name, Role role, Gender gender, int age) {
         User user = null;
         String userID;
@@ -73,6 +115,11 @@ public class AdminstratorManager {
         System.out.println("Password: " + Encryption.decode(user.getPassword()));
     }
 
+    /**
+     * Removes a staff member from the database by their user ID.
+     *
+     * @param userID the ID of the staff member to be removed.
+     */
     public static void removeStaff(String userID) {
         Role staffRole = DataBase.getUsers().get(userID).getRole();
 
@@ -84,6 +131,11 @@ public class AdminstratorManager {
         DataBase.getUsers().remove(userID);
     }
 
+    /**
+     * Updates the low stock alert for a specified medicine.
+     *
+     * @param medicineName the name of the medicine to update the low stock alert for.
+     */
     public static void updateLowStockAlert(String medicineName) {
         System.out.print("Please Enter the New Low Stock Alert: ");
         int quantity = Helper.readInt();
@@ -94,6 +146,16 @@ public class AdminstratorManager {
         System.out.println("Low Stock Alert for " + medicineName + " is updated to " + quantity);
     }
 
+    /**
+     * Registers a new patient with the specified information.
+     *
+     * @param name         the name of the patient.
+     * @param phoneNo      the phone number of the patient.
+     * @param emailAddress the email address of the patient.
+     * @param bloodType    the blood type of the patient.
+     * @param dateOfBirth  the date of birth of the patient.
+     * @param gender       the gender of the patient.
+     */
     public static void registerNewPatient(String name, String phoneNo, String emailAddress, BloodType bloodType, String dateOfBirth, Gender gender) {
         String patientID = String.format("P1%03d", DataBase.getNumberOfPatients() + 1);
         DataBase.increaseUserCount(Role.PATIENT);
