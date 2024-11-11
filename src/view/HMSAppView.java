@@ -72,8 +72,10 @@ public class HMSAppView implements View {
             }
         }
         Helper.pauseApplication();
-        if (DataBase.getUsers().get(DataBase.getCurrentUserID()).getPassword().equals(Encryption.encode("password")))
+        if (DataBase.getUsers().get(DataBase.getCurrentUserID()).getPassword().equals(Encryption.encode("password"))) {
             resetPassword();
+            return;
+        }
         System.out.println("Login Successful");
         Helper.pauseApplication();
         handleLogin();
@@ -81,12 +83,14 @@ public class HMSAppView implements View {
 
     /**
      * Prompts the user to reset their password upon first-time login.
+     * After changing password, prompts user to login again with new password.
      */
     private static void resetPassword() {
         System.out.println("Please reset password for first-time login");
         System.out.print("New password: ");
         String password = Helper.readString();
         UserManager.resetPassword(password);
+        System.out.println("Please Login Again With the New Password");
         Helper.pauseApplication();
     }
 
