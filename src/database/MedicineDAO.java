@@ -8,12 +8,31 @@ import model.Medicine;
 import helper.*;
 import using.*;
 
+/**
+ * Data Access Object (DAO) for managing medicine data.
+ * Provides methods for reading and writing medicine information to and from files, and
+ * storing medicines in a hash map for access throughout the application.
+ *
+ * @author Eldon Lim Kai Jie
+ * @author Goh Jun Keat
+ * @version 2.1
+ * @since 2024-11-06
+ */
 public class MedicineDAO {
 
+    /**
+     * A map of medicine names to Medicine objects, used to store and retrieve medicine data.
+     */
     private static HashMap<String, Medicine> medicines;
 
-    public MedicineDAO() { medicines = new HashMap<>();}
+    /**
+     * Constructs a MedicineDAO instance and initializes the medicines map.
+     */
+    public MedicineDAO() { medicines = new HashMap<>(); }
 
+    /**
+     * Reads medicine data from a CSV file and loads it into the medicines map.
+     */
     public static void readMedicineData() {
         try (BufferedReader br = new BufferedReader(new FileReader(FileType.MEDICINEFILE.getFilePath()))) {
             String line = br.readLine(); // Skip headers
@@ -21,12 +40,16 @@ public class MedicineDAO {
                 List<String> inputData = Helper.parseCSVLine(line);
                 createMedicine(inputData);
             }
-        }
-        catch (IOException e) {
+        } catch (IOException e) {
             e.printStackTrace();
         }
     }
 
+    /**
+     * Creates a new Medicine object from parsed CSV input data and adds it to the medicines map.
+     *
+     * @param inputData A list of strings containing the medicine data fields.
+     */
     private static void createMedicine(List<String> inputData) {
         String medicineName = inputData.get(0);
         Medicine medicine = new Medicine(
@@ -36,6 +59,9 @@ public class MedicineDAO {
         medicines.put(medicineName, medicine);
     }
 
+    /**
+     * Writes the current medicine data from the medicines map to a CSV file.
+     */
     public static void writeMedicineData() {
         try (BufferedWriter bw = new BufferedWriter(new FileWriter(FileType.MEDICINEFILE.getFilePath()))) {
             bw.write("Medicine Name,Initial Stock,Low Stock Level Alert,Low Stock Alert,Request Add Stock\n");
@@ -48,6 +74,12 @@ public class MedicineDAO {
         }
     }
 
+    /**
+     * Formats a Medicine object as a CSV line for file writing.
+     *
+     * @param medicine The Medicine object to format.
+     * @return A formatted string representing the medicine data in CSV format.
+     */
     private static String formatMedicineData(Medicine medicine) {
         return String.format("%s,%d,%d,%d,%d\n",
                 medicine.getMedicineName(), medicine.getStock(),
@@ -55,5 +87,10 @@ public class MedicineDAO {
                 medicine.getRequestAddStock() ? 1 : 0);
     }
 
+    /**
+     * Returns the medicines map containing all loaded medicines.
+     *
+     * @return A HashMap of medicine names to Medicine objects.
+     */
     public static HashMap<String, Medicine> getMedicines() { return medicines; }
 }

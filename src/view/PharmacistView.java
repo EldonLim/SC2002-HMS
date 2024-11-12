@@ -11,11 +11,31 @@ import model.Patient;
 import model.User;
 import using.MedicationStatus;
 
-import java.util.List;
 import java.util.Map;
 
+/**
+ * Represents the pharmacist's view in the Hospital Management System (HMS).
+ * This class implements the {@link View} interface
+ * Provides methods for managing inventory, viewing appointment outcomes, and updating prescription statuses.
+ *
+ * @author Goh Jun Keat
+ * @version 11.8
+ * @since 2024-10-27
+ */
 public class PharmacistView implements View {
 
+    /**
+     * Constructs a new PharmacistView instance.
+     */
+    public PharmacistView() {
+    }
+
+    /**
+     * Handles the submission of a replenishment request for low-stock medications.
+     * Checks if low-stock items exist and if a request has already been submitted.
+     * If there are no medicines low in stock or if a request has already been submitted, a message is displayed.
+     * Otherwise, the low-stock medicines are displayed, and the user is prompted to submit a request.
+     */
     public static void handleSubmitReplenishmentRequest() {
         System.out.println("SUBMIT REPLENISHMENT REQUEST");
 
@@ -26,13 +46,16 @@ public class PharmacistView implements View {
             int cnt = 1;
             for (Medicine medicine : InventoryManager.getAllMedicineWithLowStockAlert())
                 System.out.println(cnt++ + ". " + medicine.getMedicineName());
-        }
-        else {
+        } else {
             displayLowStockMeds();
             handleSubmitRequest();
         }
     }
 
+    /**
+     * Submits a request to replenish stock based on user confirmation.
+     * Prompts the user for confirmation to submit the request.
+     */
     public static void handleSubmitRequest() {
         char choice;
 
@@ -48,6 +71,9 @@ public class PharmacistView implements View {
         if (choice == 'y') PharmacistManager.submitRequest();
     }
 
+    /**
+     * Displays a list of medications that are low in stock.
+     */
     public static void displayLowStockMeds() {
         System.out.println("\nMedicines Low In Stock:");
         int count = 1;
@@ -57,6 +83,11 @@ public class PharmacistView implements View {
                 System.out.println(count++ + ". " + entry.getValue().getMedicineName());
     }
 
+    /**
+     * Checks if a replenishment request has already been submitted for low-stock items.
+     *
+     * @return true if all low-stock items have a pending request; false otherwise.
+     */
     public static boolean submittedRequest() {
         for (Medicine medicine : DataBase.getMedicines().values())
             if (medicine.getLowStockAlert() && !medicine.getRequestAddStock())
@@ -65,6 +96,10 @@ public class PharmacistView implements View {
         return true;
     }
 
+    /**
+     * Displays appointment outcomes for patients.
+     * If no outcomes are stored, notifies the user.
+     */
     public static void handleDisplayAppointmentOutcome() {
         System.out.println("DISPLAY APPOINTMENT OUTCOME");
 
@@ -74,6 +109,10 @@ public class PharmacistView implements View {
         if (!foundAppointOutcome) System.out.println("No Appointment Outcome Record Stored");
     }
 
+    /**
+     * Updates the prescription status of appointments with pending prescriptions.
+     * Allows the pharmacist to input an Appointment Outcome ID for updating.
+     */
     public static void handleUpdatePrescriptionStatus() {
         System.out.println("UPDATE PRESCRIPTION STATUS");
         boolean hasPendingPrescription = printAppointmentOutcomesForPatients(true);
@@ -103,6 +142,12 @@ public class PharmacistView implements View {
         } while (true);
     }
 
+    /**
+     * Prints appointment outcomes for patients.
+     *
+     * @param onlyPending if true, displays only pending appointments.
+     * @return true if appointment outcomes are found; false otherwise.
+     */
     private static boolean printAppointmentOutcomesForPatients(boolean onlyPending) {
         boolean foundAppointOutcome = false;
 
@@ -123,6 +168,9 @@ public class PharmacistView implements View {
         return foundAppointOutcome;
     }
 
+    /**
+     * Prints the pharmacist's menu options.
+     */
     public void printViewMenu() {
         System.out.println("""
                 1. Display Appointment Outcome
@@ -132,6 +180,10 @@ public class PharmacistView implements View {
                 5. Logout""");
     }
 
+    /**
+     * Handles user input and interactions for the pharmacist view.
+     * Prompts the user to select an option and processes it accordingly.
+     */
     public void handleView() {
         int choice;
 
@@ -160,11 +212,17 @@ public class PharmacistView implements View {
         } while (choice != 5);
     }
 
+    /**
+     * Displays the medication inventory to the user.
+     */
     public void handleViewMedicationInventory() {
         System.out.println("MEDICAL INVENTORY");
         PharmacistManager.viewInventory();
     }
 
+    /**
+     * Prints the title of the pharmacist view.
+     */
     public void viewTitle() {
         System.out.println("Pharmacist Menu");
     }

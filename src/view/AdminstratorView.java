@@ -13,11 +13,27 @@ import using.Role;
 
 import java.util.List;
 
+/**
+ * Represents the administrator's view in the Hospital Management System (HMS).
+ * This class implements {@link View} interface.
+ * Provides methods for managing hospital staff, appointments, and inventory.
+ *
+ * @author Lean Yi Fan
+ * @version 7.7
+ * @since 2024-10-27
+ */
 public class AdminstratorView implements View {
 
+    /**
+     * Constructs an instance of AdministratorView
+     */
     public AdminstratorView() {
     }
 
+    /**
+     * Handles the viewing and managing of hospital staff.
+     * Displays options to view staff, manage staff, or go back.
+     */
     public static void handleViewManageStaff() {
         int choice;
         do {
@@ -43,6 +59,10 @@ public class AdminstratorView implements View {
         } while (choice != 3);
     }
 
+    /**
+     * Handles the listing of staff with filtering options.
+     * Prompts the user to filter staff by gender, role, age range, or view all.
+     */
     public static void handleListStaff() {
         do {
             System.out.println("List Of Staff Filter By: ");
@@ -74,6 +94,10 @@ public class AdminstratorView implements View {
         } while (true);
     }
 
+    /**
+     * Lists staff filtered by gender.
+     * Prompts the user to input a gender and displays the corresponding staff members.
+     */
     public static void listStaffByGender() {
         System.out.print("Please Enter Gender (M/F): ");
         char gender = Helper.readChar();
@@ -83,10 +107,18 @@ public class AdminstratorView implements View {
         printStaff(AdminstratorManager.getAllStaffByGender(genderPick));
     }
 
+    /**
+     * Lists all staff members without any filters.
+     */
     public static void listAllStaff() {
         printStaff(AdminstratorManager.getAllStaff());
     }
 
+    /**
+     * Prints the details of the given staff list in a formatted manner.
+     *
+     * @param staffList List of staff members to be printed.
+     */
     public static void printStaff(List<Staff> staffList) {
         System.out.printf("%-10s %-15s %-15s %-5s %-10s\n", "Staff ID", "Name", "Role", "Age", "Gender");
         System.out.println("-------------------------------------------------------");
@@ -95,6 +127,10 @@ public class AdminstratorView implements View {
         System.out.println();
     }
 
+    /**
+     * Lists staff filtered by their role.
+     * Displays available roles and shows staff members belonging to the selected role.
+     */
     public static void listStaffByRole() {
         Role[] roles = {Role.DOCTOR, Role.PHARMACIST, Role.ADMINISTRATOR};
         String[] roleLabels = {"Doctor", "Pharmacist", "Administrator"};
@@ -112,6 +148,10 @@ public class AdminstratorView implements View {
         } else System.out.println("Invalid choice. Please try again.");
     }
 
+    /**
+     * Lists staff filtered by their age range.
+     * Prompts the user to select an age range and displays corresponding staff members.
+     */
     public static void listStaffByAgeRange() {
         String[] ageRanges = {"20 - 29", "30 - 39", "40 - 49"};
         int[] age = {20, 30, 40};
@@ -129,6 +169,9 @@ public class AdminstratorView implements View {
         } else System.out.println("Invalid choice. Please try again");
     }
 
+    /**
+     * Handles the management of hospital staff, including adding and removing staff members.
+     */
     public static void handleManageStaff() {
         int choice;
         do {
@@ -154,6 +197,10 @@ public class AdminstratorView implements View {
         } while (choice != 3);
     }
 
+    /**
+     * Prompts the user to add a new staff member to the system.
+     * Collects and validates the staff member's name, role, gender, and age, and calls the manager to add the staff.
+     */
     public static void handleAddStaff() {
         System.out.println("\nADD NEW STAFF");
         Role[] roles = {Role.DOCTOR, Role.PHARMACIST, Role.ADMINISTRATOR};
@@ -190,6 +237,10 @@ public class AdminstratorView implements View {
         Helper.pauseApplication();
     }
 
+    /**
+     * Prompts the user to remove a staff member from the system.
+     * The user must enter the staff ID of the staff member for validation before removal.
+     */
     public static void handleRemoveStaff() {
         System.out.println("\nREMOVE STAFF");
 
@@ -210,6 +261,10 @@ public class AdminstratorView implements View {
         Helper.pauseApplication();
     }
 
+    /**
+     * Displays all appointments for all patients in the system.
+     * If no appointments are found, a message is displayed to indicate this.
+     */
     public static void handleViewAllPatientsAppointment() {
         System.out.println("VIEW ALL PATIENTS APPOINTMENT");
 
@@ -230,6 +285,10 @@ public class AdminstratorView implements View {
         } else System.out.println("No appointments found.");
     }
 
+    /**
+     * Handles viewing and managing the medication inventory.
+     * Displays options for viewing the inventory, managing the inventory, or going back.
+     */
     public static void handleViewManageMedicationInventory() {
         int choice;
         do {
@@ -255,6 +314,10 @@ public class AdminstratorView implements View {
         } while (choice != 3);
     }
 
+    /**
+     * Manages the inventory of medications, allowing the user to add stock, remove stock,
+     * update low stock alerts, or go back to the previous menu.
+     */
     public static void handleManageInventory() {
         do {
             System.out.println("Manage Inventory");
@@ -295,6 +358,11 @@ public class AdminstratorView implements View {
         } while (true);
     }
 
+    /**
+     * Handles the approval of replenishment requests for medicines that are low in stock.
+     * Displays a list of medicines with low stock alerts and prompts the user to approve
+     * or deny each request.
+     */
     public static void handleApproveReplenishmentRequests() {
         System.out.println("APPROVE REPLENISHMENT REQUEST");
         List<Medicine> medicinesLowStock = InventoryManager.getAllMedicineWithLowStockAlert();
@@ -325,6 +393,10 @@ public class AdminstratorView implements View {
         }
     }
 
+    /**
+     * Prompts the user to enter details for a new medicine and adds it to the inventory.
+     * Collects the medicine's name, quantity, and low stock alert threshold.
+     */
     public static void handleAddNewMedicine() {
         System.out.println("ADDING NEW MEDICINE");
         System.out.println("Please Enter the following Details");
@@ -339,6 +411,10 @@ public class AdminstratorView implements View {
         Helper.pauseApplication();
     }
 
+    /**
+     * Prints the view menu for the administrator, displaying options for managing staff,
+     * appointments, inventory, and other functionalities.
+     */
     @Override
     public void printViewMenu() {
         this.viewTitle();
@@ -351,6 +427,10 @@ public class AdminstratorView implements View {
         System.out.print("Please Enter your Choice: ");
     }
 
+    /**
+     * Handles the view of the administrator menu, allowing the user to select different
+     * management options until they choose to log out.
+     */
     @Override
     public void handleView() {
         int choice;
@@ -378,6 +458,9 @@ public class AdminstratorView implements View {
         } while (choice != 6);
     }
 
+    /**
+     * Displays the title of the administrator menu.
+     */
     @Override
     public void viewTitle() {
         System.out.println("Adminstrator Menu");
