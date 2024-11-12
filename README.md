@@ -2,6 +2,8 @@
 
 >Hospital Management System Application
 
+![](./images/mainView.png)
+
 ## 📂 Project Folder Structure
 
 ### High Level Directory Layout
