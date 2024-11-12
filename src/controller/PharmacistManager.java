@@ -1,86 +1,69 @@
 package controller;
 
+import database.DataBase;
 import model.AppointmentOutcome;
 import model.Medicine;
-import database.DataBase;
-import helper.Helper;
+import model.Patient;
+import using.MedicationStatus;
 
-import java.util.ArrayList;
-
+/**
+ * Manages pharmacist-related operations, including viewing inventory, submitting replenishment requests,
+ * and updating prescription statuses.
+ *
+ * @author Goh Jun Keat
+ * @version 4.3
+ * @since 2024-10-29
+ */
 public class PharmacistManager {
-    public PharmacistManager(){};
 
-    // public static void viewAppointmentOutcomeRecords(String appointmentOutcomeID){
+    /**
+     * Default constructor for the PharmacistManager class.
+     */
+    public PharmacistManager() {
+    }
 
-    //     //if AppointmentOutcome hashmap is empty (no appointments completed yet)
-    //     if (DataBase.AppointmentOutcomes == null){
-    //         System.out.println("No Appointment Outcome Records found.");
-    //         return;
-    //     }
+    /**
+     * Displays the list of medicines in the inventory. If the inventory is empty, a message is displayed.
+     */
+    public static void viewInventory() {
+        if (DataBase.getMedicines().isEmpty()) {
+            System.out.println("No medicines record in the inventory");
+            return;
+        }
+        InventoryManager.listInventory();
+    }
 
-    //     // iterate through each key (AppointmentOutcomeID) of Appointment Outcome hashmap
-    //     for (String key : DataBase.AppointmentOutcomes.keySet()){
-            
-    //         // reach end of hashmap
-    //         if (key == null){
-    //             System.out.println("Appointment Outcome not found.");
-    //             return;
-    //         }
+    /**
+     * Submits a replenishment request for medicines that are low in stock and do not already have a pending request.
+     * Prints a message for each medicine for which a replenishment request is submitted.
+     */
+    public static void submitRequest() {
+        System.out.println("\nReplenishment Request Sent For:");
+        for (Medicine medicine : DataBase.getMedicines().values())
+            if (medicine.getLowStockAlert() && !medicine.getRequestAddStock()) {
+                System.out.println(medicine.getMedicineName());
+                medicine.setRequestAddStock();
+            }
+    }
 
-    //         // current entry is not the correct appointment outcome
-    //         if (key != appointmentOutcomeID){
-    //             continue;
-    //         }
-
-    //         // appointment outcome found
-    //         // assume that hashmap for appointment outcome has AppointmentID as key, and rest as List of values
-            
-    //         // to print the appointment id
-    //         System.out.println("Appointment Outcome: ");
-    //         System.out.println("Appointment ID: " + key);
-    //         List<AppointmentOutcome> values = DataBase.AppointmentOutcomes.get(key);
-            
-    //         // to print the record itself
-    //         for (AppointmentOutcome info : values){
-    //             System.out.println("Date: " + info.getDate());
-    //             System.out.println("Service: " + info.getService());
-    //             // need add medicine in appointment outcome
-    //             System.out.println("Medicine: " + info.getMedicine());      
-    //             System.out.println("Consultation Notes: " + info.getConsultationNotes());
-    //         }
-
-    //     }
-    // }
-
-    // public static void updatePrescriptionStatus(String appointmentOutcomeID){
-
-    //     if (DataBase.AppointmentOutcomes == null){
-    //         System.out.println("No Appointment Outcome Records found.");
-    //         return;
-    //     }
-
-    //     for (String key : DataBase.AppointmentOutcomes.keySet()){
-    //         if (key == null){
-    //             System.out.println("Appointment Outcome not found.");
-    //             return;
-    //         }
-
-
-    //         if (key != appointmentOutcomeID)
-    //             continue;
-
-    //         // set the variable medicine_prescribed to true
-    //         List<AppointmentOutcome> values = DataBase.AppointmentOutcomes.get(key);
-    //         for (AppointmentOutcome info : values){
-    //             info.setIsMedicinePrescribed(true);     // set medicine_prescribed to true
-    //         }
-
-    //         // may need add function to update inventory after updating status
-    //     }
-
-    // }
-
-
-
-
+    /**
+     * Updates the prescription status of a specified appointment outcome for a given patient.
+     * If the prescription is in "Pending" status, it is marked as "Dispensed" and the inventory is updated.
+     * Displays appropriate messages if the medicine has already been dispensed or if the appointment outcome
+     * is not found.
+     *
+     * @param appointmentOutcomeID the ID of the appointment outcome to be updated
+     * @param patientID            the ID of the patient associated with the appointment outcome
+     */
+    public static void updatePrescriptionStatus(String appointmentOutcomeID, String patientID) {
+        if (DataBase.getUsers().containsKey(patientID) &&
+                ((Patient) DataBase.getUsers().get(patientID)).getMedicalRecord().getAppointmentOutcomes().containsKey(appointmentOutcomeID)) {
+            AppointmentOutcome appointmentOutcome = ((Patient) DataBase.getUsers().get(patientID)).getMedicalRecord().getAppointmentOutcomes().get(appointmentOutcomeID);
+            if (appointmentOutcome.getMedicationStatus() == MedicationStatus.PENDING) {
+                appointmentOutcome.setMedicationStatus(MedicationStatus.DISPENSED);
+                InventoryManager.dispenseMedicine(appointmentOutcome.getMedicine());
+                System.out.println("Updated Successfully\n");
+            } else System.out.println("The medicine for this appointment had dispensed\n");
+        } else System.out.println("This appointment outcome is not recorded in the system\n");
+    }
 }

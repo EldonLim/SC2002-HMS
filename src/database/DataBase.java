@@ -1,158 +1,171 @@
 package database;
-import using.*;
-import model.*;
 
-import java.util.ArrayList;
-import java.lang.reflect.GenericDeclaration;
+import model.Medicine;
+import model.User;
+import using.Role;
+
 import java.util.HashMap;
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.FileReader;
-import java.util.function.DoubleConsumer;
 
-
+/**
+ * Represents a database manager that handles the interaction with various DAO (Data Access Object) components,
+ * such as user, medicine, schedule, and appointment data.
+ *
+ * @author Chin Linn Sheng
+ * @version 9.12
+ * @since 2024-10-26
+ */
 public class DataBase {
 
-    private static final String folderPath = "./data/";
-    private static final String fileExtension = ".csv";
+    /**
+     * The Data Access Object (DAO) responsible for managing user data.
+     */
+    private static UserDAO userDAO;
 
-    public static HashMap<String, User> Users = new HashMap<String, User>();
-    public static HashMap<String, MedicalRecord> MedicalRecords = new HashMap<>();
-    public static HashMap<String, Medicine> MedicineList = new HashMap<String, Medicine>();
+    /**
+     * The Data Access Object (DAO) responsible for managing medicine data.
+     */
+    private static MedicineDAO medicineDAO;
 
-    // For the purpose of easy of writing back to database.
-    // When update need to update both Schedules and the schedule within every doctor
-    public static HashMap<String, Schedule> Schedules = new HashMap<>();
+    /**
+     * The Data Access Object (DAO) responsible for managing schedule data,
+     * which depends on the userDAO for user-specific data.
+     */
+    private static ScheduleDAO scheduleDAO;
 
-    public static int numberOfPatient = 0;
-    public static int numberofDoctor = 0;
-    public static int numberofAdminstrator = 0;
-    public static int numberOfPharmacist = 0;
+    /**
+     * The Data Access Object (DAO) responsible for managing appointment data.
+     */
+    private static AppointmentDAO appointmentDAO;
 
+    /**
+     * Constructs the DataBase object and initializes the necessary DAOs.
+     * Also initializes the data if it's the first time the system is being booted.
+     */
     public DataBase() {
-        if (!readPatientCSVFile(FileType.PATIENTFILE))
-            System.err.println("Fail to read" + FileType.PATIENTFILE.getFileName());
-        if (!readStaffCSVFile(FileType.STAFFFILE))
-            System.err.println("Fail to read" + FileType.STAFFFILE.getFileName());
-        if (!readMedicineCSVFile(FileType.MEDICINEFILE))
-            System.err.println("Fail to read" + FileType.MEDICINEFILE.getFileName());
+        userDAO = new UserDAO();
+        medicineDAO = new MedicineDAO();
+        scheduleDAO = new ScheduleDAO(userDAO);
+        appointmentDAO = new AppointmentDAO();
 
-        // for initial case where we only have 3 files, initialize the schedule for each doctor
-        // initializeDoctorSchedule();
+        initializeData();
     }
 
-    // public static void initializeDoctorSchedule() {
-    //     for (User user : Users.values())
-    //         if (user.getRole() == Role.DOCTOR) {
-    //             Schedule schedule = new Schedule();
-    //             schedule.setDoctor((Doctor) user);
-    //             ((Doctor) user).setSchedule(schedule);
+    /**
+     * Initializes the data by reading the data files and loading the necessary information.
+     * If it's the first time the application is running, it will set up initial data.
+     */
+    private static void initializeData() {
+        boolean firstBoot = !(scheduleDAO.getScheduleFile().exists());
 
-    //             Schedules.put(user.getID(), schedule);
-    //         }
-    // }
+        userDAO.readPatientData();
+        UserDAO.readStaffData();
+        MedicineDAO.readMedicineData();
 
-    public static boolean readStaffCSVFile(FileType fileType) {
-        String filePath = folderPath + fileType.getFileName() + fileExtension;
-
-        try (BufferedReader br = new BufferedReader(new FileReader(filePath))) {
-            String line = br.readLine();
-            String[] headers = line.split(",");
-
-            boolean initialState = headers.length == 5;
-
-            while ((line = br.readLine()) != null) {
-                String[] inputData = line.split(",");
-
-                String staffID = inputData[0];
-                Role role = Role.fromString(inputData[2]);
-                User user = null;
-
-                switch (role) {
-                    case ADMINISTRATOR:
-                        user = new Adminstrator(inputData[1], staffID, initialState? "password" : inputData[5], role, Gender.fromString(inputData[3]), Integer.parseInt(inputData[4]));
-                        numberofAdminstrator++;
-                        break;
-
-                    case DOCTOR:
-                        user = new Doctor(inputData[1], staffID, initialState? "password" : inputData[5], role, Gender.fromString(inputData[3]), Integer.parseInt(inputData[4]));
-                        numberofDoctor++;
-                        break;
-
-                    case PHARMACIST:
-                        user = new Pharmacist(inputData[1], staffID, initialState? "password" : inputData[5], role, Gender.fromString(inputData[3]), Integer.parseInt(inputData[4]));
-                        numberOfPharmacist++;
-                        break;
-                }
-
-                Users.put(staffID, user);
-
-            }
+        if (!firstBoot) {
+            scheduleDAO.readScheduleData();
+            AppointmentDAO.readAppointmentData();
         }
-        catch (IOException e) {
-            e.printStackTrace();
-            return false;
-        }
-        return true;
-    }
-    public static boolean readPatientCSVFile(FileType fileType) {
-       String filePath = folderPath + fileType.getFileName() + fileExtension;
-
-       try (BufferedReader br = new BufferedReader(new FileReader(filePath))) {
-           String line = br.readLine();
-           String[] headers = line.split(",");
-           boolean initialState = headers.length == 6;
-
-           while ((line = br.readLine()) != null) {
-               String[] inputData = line.split(",");
-
-               String patientID = inputData[0];
-               User user = new Patient(inputData[1], patientID, initialState? "password" : inputData[6], Role.PATIENT, Gender.fromString(inputData[3]), BloodType.fromString(inputData[4]), initialState? "" : inputData[7], inputData[5], inputData[2]);
-               // might change the casting
-               MedicalRecord medicalRecord = new MedicalRecord((Patient) user);
-               ((Patient) user).setMedicalRecord(medicalRecord);
-
-               numberOfPatient++;
-               Users.put(patientID, user);
-               MedicalRecords.put(patientID, medicalRecord);
-           }
-
-       }
-       catch (IOException e) {
-           e.printStackTrace();
-           return false;
-       }
-       return true;
-    }
-    public static boolean readMedicineCSVFile(FileType fileType) {
-        String filePath = folderPath + fileType.getFileName() + fileExtension;
-
-        try (BufferedReader br = new BufferedReader(new FileReader(filePath))) {
-            String line = br.readLine();
- 
-            while ((line = br.readLine()) != null) {
-                String[] inputData = line.split(",");
- 
-                String medicineName = inputData[0];
-                Medicine medicine = new Medicine(inputData[0], Integer.valueOf(inputData[1]), Integer.valueOf(inputData[2]));
- 
-                MedicineList.put(medicineName, medicine);
-            }
- 
-        }
-        catch (IOException e) {
-            e.printStackTrace();
-            return false;
-        }
-        return true;
     }
 
-    public static int getNumberOfPatient() { return numberOfPatient; }
 
-    public static int getNumberofDoctor() { return numberofDoctor; }
+    /**
+     * Writes the current data of users, medicines, schedules, and appointments back to their respective data files.
+     */
+    public static void writeData() {
+        UserDAO.writePatientData();
+        MedicineDAO.writeMedicineData();
+        UserDAO.writeStaffData();
+        scheduleDAO.writeScheduleData();
+        AppointmentDAO.writeAppointmentData();
+    }
 
-    public static int getNumberofAdminstrator() { return numberofAdminstrator; }
+    /**
+     * Gets the total number of patients stored in the user database.
+     *
+     * @return the number of patients
+     */
+    public static int getNumberOfPatients() {
+        return UserDAO.getNumberOfPatients();
+    }
 
-    public static int getNumberOfPharmacist() { return numberOfPharmacist; }
+    /**
+     * Gets the total number of doctors stored in the user database.
+     *
+     * @return the number of doctors
+     */
+    public static int getNumberOfDoctors() {
+        return UserDAO.getNumberOfDoctors();
+    }
 
+    /**
+     * Gets the total number of administrators stored in the user database.
+     *
+     * @return the number of administrators
+     */
+    public static int getNumberOfAdminstrators() {
+        return UserDAO.getNumberOfAdminstrators();
+    }
+
+    /**
+     * Gets the total number of pharmacists stored in the user database.
+     *
+     * @return the number of pharmacists
+     */
+    public static int getNumberOfPharmacists() {
+        return UserDAO.getNumberOfPharmacists();
+    }
+
+    /**
+     * Gets the ID of the currently logged-in user.
+     *
+     * @return the current user ID
+     */
+    public static String getCurrentUserID() {
+        return UserDAO.getCurrentUserID();
+    }
+
+    /**
+     * Sets the ID of the current user.
+     *
+     * @param currentUserID the ID of the user to set as the current user
+     */
+    public static void setCurrentUserID(String currentUserID) {
+        userDAO.setCurrentUserID(currentUserID);
+    }
+
+    /**
+     * Retrieves all users stored in the user database.
+     *
+     * @return a HashMap containing user IDs as keys and User objects as values
+     */
+    public static HashMap<String, User> getUsers() {
+        return UserDAO.getUsers();
+    }
+
+    /**
+     * Retrieves all medicines stored in the medicine database.
+     *
+     * @return a HashMap containing medicine IDs as keys and Medicine objects as values
+     */
+    public static HashMap<String, Medicine> getMedicines() {
+        return MedicineDAO.getMedicines();
+    }
+
+    /**
+     * Increases the count of users of a specific role in the user database.
+     *
+     * @param role the role whose user count should be increased
+     */
+    public static void increaseUserCount(Role role) {
+        userDAO.increaseUserCount(role);
+    }
+
+    /**
+     * Decreases the count of users of a specific role in the user database.
+     *
+     * @param role the role whose user count should be decreased
+     */
+    public static void decreaseUserCount(Role role) {
+        userDAO.decreaseUserCount(role);
+    }
 }
