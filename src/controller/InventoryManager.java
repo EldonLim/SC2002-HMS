@@ -8,7 +8,7 @@ import java.util.List;
 
 public class InventoryManager {
 
-    private final static int NUMBER_OF_MEDICINE_DISPENDED = 20;
+    private final static int NUMBER_OF_MEDICINE_DISPENSED = 50;
     private final static int NUMBER_OF_STOCK_ADDED = 50;
 
     public InventoryManager() {
@@ -18,8 +18,7 @@ public class InventoryManager {
         System.out.printf("%-20s %-5s\n", "Medicines", "Stock");
 
         for (Medicine medicine : DataBase.getMedicines().values())
-            if (medicine.getStock() != 0)
-                System.out.printf("%-20s %-5d\n", medicine.getMedicineName(), medicine.getStock());
+            System.out.printf("%-20s %-5d\n", medicine.getMedicineName(), medicine.getStock());
     }
 
     public static boolean checkInventoryLowStock() {
@@ -36,7 +35,7 @@ public class InventoryManager {
 
     public static void dispenseMedicine(String medicineName) {
         Medicine medicine = DataBase.getMedicines().get(medicineName);
-        medicine.setStock(medicine.getStock() - NUMBER_OF_MEDICINE_DISPENDED);
+        medicine.setStock(medicine.getStock() - NUMBER_OF_MEDICINE_DISPENSED);
     }
 
     public static void updateStock(String medicineName, boolean isAddition) {
@@ -63,6 +62,7 @@ public class InventoryManager {
     public static void handleApproveReplenishmentRequest(Medicine medicine) {
         medicine.setStock(medicine.getStock() + NUMBER_OF_STOCK_ADDED);
         System.out.println("Approved Replenishment Request for " + medicine.getMedicineName());
+        Helper.pauseApplication();
     }
 
     public static void addNewMedicine(String medicineName, int quantity, int lowStockAlertQuantity) {

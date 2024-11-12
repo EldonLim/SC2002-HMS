@@ -300,7 +300,8 @@ public class AdminstratorView implements View {
         List<Medicine> medicinesLowStock = InventoryManager.getAllMedicineWithLowStockAlert();
 
         if (medicinesLowStock.isEmpty()) {
-            System.out.println("No Request Submitted");
+            InventoryManager.listInventory();
+            System.out.println("\nNo Request Submitted");
             return;
         }
 
@@ -316,7 +317,11 @@ public class AdminstratorView implements View {
                 choice = Helper.readChar();
             }
 
-            if (choice == 'y') InventoryManager.handleApproveReplenishmentRequest(medicine);
+            if (choice == 'y') {
+                InventoryManager.handleApproveReplenishmentRequest(medicine);
+                InventoryManager.listInventory();
+                Helper.pauseApplication();
+            }
         }
     }
 

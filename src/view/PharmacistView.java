@@ -11,6 +11,7 @@ import model.Patient;
 import model.User;
 import using.MedicationStatus;
 
+import java.util.List;
 import java.util.Map;
 
 public class PharmacistView implements View {
@@ -19,7 +20,13 @@ public class PharmacistView implements View {
         System.out.println("SUBMIT REPLENISHMENT REQUEST");
 
         if (!InventoryManager.checkInventoryLowStock()) System.out.println("No Medicine Low In Stock");
-        else if (submittedRequest()) System.out.println("Replenishment request already submitted");
+        else if (submittedRequest()) {
+            System.out.println("Replenishment request already submitted");
+
+            int cnt = 1;
+            for (Medicine medicine : InventoryManager.getAllMedicineWithLowStockAlert())
+                System.out.println(cnt++ + ". " + medicine.getMedicineName());
+        }
         else {
             displayLowStockMeds();
             handleSubmitRequest();
@@ -77,7 +84,7 @@ public class PharmacistView implements View {
         }
 
         do {
-            System.out.print("Please Enter the AppointmentOutcome ID: ");
+            System.out.print("\nPlease Enter the AppointmentOutcome ID: ");
             String appointmentOutcomeID = Helper.readString();
             String patientID = appointmentOutcomeID.substring(0, 5);
 
