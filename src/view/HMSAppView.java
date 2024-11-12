@@ -15,27 +15,27 @@ import using.Role;
  * Provides methods for logging in, registering new users, and handling user-specific views based on roles.
  * 
  * @author Eldon Lim Kai Jie
- * @version 14.6
+ * @version 14.7
  * @since 2024-10-27
  */
 public class HMSAppView implements View {
 
-    /*
+    /**
      * Instance of PatientView for handling patient-related operations.
      */
     protected static PatientView patientView;
 
-    /*
+    /**
      * Instance of AdminstratorView for handling administrator-related operations.
      */
     protected static AdminstratorView adminstratorView;
 
-    /*
+    /**
      * Instance of DoctorView for handling doctor-related operations.
      */
     protected static DoctorView doctorView;
 
-    /*
+    /**
      * Instance of PharmacistView for handling pharmacist-related operations.
      */
     protected static PharmacistView pharmacistView;

@@ -16,12 +16,12 @@ import java.util.Map;
  * doctor schedules based on data from the user database.
  *
  * @author Chin Linn Sheng
- * @version 1.1
+ * @version 1.2
  * @since 2024-11-06
  */
 public class ScheduleDAO {
 
-    /*
+    /**
      * The UserDAO instance for accessing user data, including doctor information. 
      */
     private UserDAO userDAO;

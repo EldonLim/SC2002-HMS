@@ -12,37 +12,37 @@ import using.AppointmentStatus;
  */
 public class Appointment {
 
-    /*
+    /**
      * The date of the appointment.
      */
     private String date;
 
-    /*
+    /**
      * The time slot of the appointment (hour of the day).
      */
     private int timeSlot;
 
-    /*
+    /**
      * The current status of the appointment.
      */
     private AppointmentStatus appointmentStatus;
 
-    /*
+    /**
      * A unique identifier for the appointment, formatted as PatientID|DATE|TIME.
      */
     private String appointmentID; 
 
-    /*
+    /**
      * The patient involved in the appointment.
      */
     private final Patient patient;
 
-    /*
+    /**
      * The doctor assigned to the appointment.
      */
     private final Doctor doctor;
 
-    /*
+    /**
      * The outcome of the appointment, if any.
      */
     private AppointmentOutcome appointmentOutcome;

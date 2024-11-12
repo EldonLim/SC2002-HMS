@@ -5,7 +5,7 @@ package using;
  * Each status has a corresponding label that provides a descriptive name.
  * 
  * @author Eldon Lim Kai Jie
- * @version 2.2
+ * @version 2.3
  * @since 2024-10-26
  */
 public enum AppointmentStatus {
@@ -29,7 +29,7 @@ public enum AppointmentStatus {
      */
     COMPLETED("Completed");
 
-    /*
+    /**
      * A descriptive label for the appointment status.
      */
     private final String label;

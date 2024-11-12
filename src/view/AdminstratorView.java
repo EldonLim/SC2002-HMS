@@ -24,7 +24,7 @@ import java.util.List;
  */
 public class AdminstratorView implements View {
 
-    /*
+    /**
      * Constructs an instance of AdministratorView
      */
     public AdminstratorView() {

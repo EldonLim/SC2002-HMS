@@ -11,12 +11,18 @@ import java.util.Scanner;
  * 
  * @author Chin Linn Sheng
  * @author Goh Jun Keat
- * @version 7.5
+ * @version 7.6
  * @since 2024-10-27
  */
 public class Helper {
 
-    /*
+    /**
+     * Default constructor for Helper class.
+     */
+    public Helper() {
+    }
+
+    /**
      * A Scanner instance used to read user input from the console.
      */
     private static final Scanner sc = new Scanner(System.in);

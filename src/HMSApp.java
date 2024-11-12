@@ -6,10 +6,16 @@ import view.HMSAppView;
  * Initializes the database and the main application view.
  * 
  * @author Chin Linn Sheng
- * @version 5.4
+ * @version 5.5
  * @since 2024-10-26
  */
 public class HMSApp {
+
+    /**
+     * Default constructor for the HMSApp class.
+     */
+    public HMSApp() {
+    }
 
     /**
      * Main method that launches the HMS application.

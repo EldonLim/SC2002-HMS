@@ -11,7 +11,7 @@ import java.util.HashMap;
  * and their availability status.
  * 
  * @author Chin Linn Sheng
- * @version 5.3
+ * @version 5.4
  * @since 2024-10-29
  */
 public class Schedule {
@@ -28,7 +28,10 @@ public class Schedule {
     /** The total number of working days in the schedule. */
     public static final int TOTAL_DAYS = 5;
 
+    /** The doctor associated with this schedule. */
     private final Doctor doctor;
+
+    /** The weekly time slots mapping, where each date maps to hourly availability status. */
     private final HashMap<String, HashMap<Integer, Availability>> weeklySlots;
 
     /**

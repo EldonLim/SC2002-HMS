@@ -19,10 +19,17 @@ import java.util.Map;
  * Provides methods for managing inventory, viewing appointment outcomes, and updating prescription statuses.
  * 
  * @author Goh Jun Keat
- * @version 11.7
+ * @version 11.8
  * @since 2024-10-27
  */
 public class PharmacistView implements View {
+
+    /**
+     * Constructs a new PharmacistView instance.
+     */
+    public PharmacistView() {
+
+    }
 
     /**
      * Handles the submission of a replenishment request for low-stock medications.

@@ -11,17 +11,17 @@ import java.util.List;
  * including checking stock levels, dispensing, updating stock, and handling replenishment requests.
  * 
  * @author Eldon Lim Kai Jie
- * @version 2.4
+ * @version 2.5
  * @since 2024-10-31
  */
 public class InventoryManager {
 
-    /*
+    /**
      * The number of medicine units dispensed per prescription.
      */
     private final static int NUMBER_OF_MEDICINE_DISPENDED = 20;
 
-    /*
+    /**
      * The number of stock units added when approving a replenishment request.
      */
     private final static int NUMBER_OF_STOCK_ADDED = 50;

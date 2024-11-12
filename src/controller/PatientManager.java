@@ -7,10 +7,16 @@ import model.Patient;
  * Manages patient-related operations, including retrieving medical records and updating personal information.
  * 
  * @author Chin Linn Sheng
- * @version 4.4
+ * @version 4.5
  * @since 2024-10-28
  */
 public class PatientManager {
+
+    /**
+     * Constructs a PatientManager instance.
+     */
+    public PatientManager() {
+    }
 
     /**
      * Retrieves and prints the medical record of a specified patient.
