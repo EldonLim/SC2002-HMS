@@ -16,6 +16,6 @@ public class UserManager {
 
     public static void resetPassword(String newPassword) {
         DataBase.getUsers().get(DataBase.getCurrentUserID()).setPassword(Encryption.encode(newPassword));
-        System.out.println("Password Reset Successfully");
+        System.out.println("\nPassword Reset Successfully");
     }
 }
