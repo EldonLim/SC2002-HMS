@@ -8,7 +8,7 @@ import java.util.List;
 
 public class InventoryManager {
 
-    private final static int NUMBER_OF_MEDICINE_DISPENSED = 50;
+    private final static int NUMBER_OF_MEDICINE_DISPENSED = 20;
     private final static int NUMBER_OF_STOCK_ADDED = 50;
 
     public InventoryManager() {
