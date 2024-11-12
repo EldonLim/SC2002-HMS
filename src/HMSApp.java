@@ -1,3 +1,5 @@
+package main;
+
 import database.DataBase;
 import view.HMSAppView;
 
