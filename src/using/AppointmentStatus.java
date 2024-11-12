@@ -1,4 +1,4 @@
-package src.using;
+package using;
 
 /**
  * Enum representing the status of an appointment.

@@ -25,11 +25,11 @@ public class Encryption {
     private static final int SECRET_KEY = 123;    /**
 
      /**
-     * Encodes a password using XOR and Base64.
-     *
-     * @param password Password to encode.
-     * @return Encoded password.
-     */
+      * Encodes a password using XOR and Base64.
+      *
+      * @param password Password to encode.
+      * @return Encoded password.
+      */
     public static String encode(String password) {
         byte[] passwordBytes = password.getBytes(StandardCharsets.UTF_8);
         byte[] encodedBytes = xor(passwordBytes);
