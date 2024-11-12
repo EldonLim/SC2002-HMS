@@ -34,7 +34,7 @@ public class InventoryManager {
         return DataBase.getMedicines().get(medicineName).getLowStockAlert();
     }
 
-    public static void dispendMedicine(String medicineName) {
+    public static void dispenseMedicine(String medicineName) {
         Medicine medicine = DataBase.getMedicines().get(medicineName);
         medicine.setStock(medicine.getStock() - NUMBER_OF_MEDICINE_DISPENDED);
     }

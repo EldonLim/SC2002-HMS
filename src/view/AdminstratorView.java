@@ -305,7 +305,7 @@ public class AdminstratorView implements View {
         }
 
         for (Medicine medicine : medicinesLowStock) {
-            System.out.println("Medcine: " + medicine.getMedicineName());
+            System.out.println("Medicine: " + medicine.getMedicineName());
             System.out.println("Stock: " + medicine.getStock());
             System.out.print("Approve Replenishment Request (Y/N): ");
             char choice = Helper.readChar();

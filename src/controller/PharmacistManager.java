@@ -34,7 +34,7 @@ public class PharmacistManager {
             AppointmentOutcome appointmentOutcome = ((Patient) DataBase.getUsers().get(patientID)).getMedicalRecord().getAppointmentOutcomes().get(appointmentOutcomeID);
             if (appointmentOutcome.getMedicationStatus() == MedicationStatus.PENDING) {
                 appointmentOutcome.setMedicationStatus(MedicationStatus.DISPENSED);
-                InventoryManager.dispendMedicine(appointmentOutcome.getMedicine());
+                InventoryManager.dispenseMedicine(appointmentOutcome.getMedicine());
                 System.out.println("Updated Successfully\n");
             } else System.out.println("The medicine for this appointment had dispensed\n");
         } else System.out.println("This appointment outcome is not recorded in the system\n");
