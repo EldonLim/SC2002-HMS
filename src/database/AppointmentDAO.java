@@ -16,7 +16,7 @@ import java.util.List;
  * Handles reading and writing of appointment-related data from/to a CSV file.
  * 
  * @author Chin Linn Sheng
- * @version 1.1
+ * @version 1.2
  * @since 2024-11-06
  */
 public class AppointmentDAO {
@@ -29,8 +29,6 @@ public class AppointmentDAO {
     /**
      * Reads the appointment data from the CSV file and processes it.
      * Creates appointment objects, associates them with patients and doctors, and updates the relevant data.
-     * 
-     * @throws IOException if an error occurs while reading the file
      */
     public static void readAppointmentData() {
         try (BufferedReader br = new BufferedReader(new FileReader(FileType.APPOINTMENTFILE.getFilePath()))) {
@@ -121,8 +119,6 @@ public class AppointmentDAO {
     /**
      * Writes appointment data to the CSV file.
      * It iterates over all patients' appointments and writes their details into the file.
-     * 
-     * @throws IOException if an error occurs while writing to the file
      */
     public static void writeAppointmentData() {
         try (BufferedWriter bw = new BufferedWriter(new FileWriter(FileType.APPOINTMENTFILE.getFilePath()))) {
