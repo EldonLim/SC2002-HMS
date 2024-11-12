@@ -136,12 +136,19 @@ public class HMSAppView implements View {
      * Prints the title for the HMS application.
      */
     public void viewTitle() {
-        System.out.println("========================================");
-        System.out.println("||                                    ||");
-        System.out.println("||  HOSPITAL MANAGEMENT SYSTEM (HMS)  ||");
-        System.out.println("||                                    ||");
-        System.out.println("========================================");
+        System.out.println("===========================================================");
+        System.out.println("||                                                       ||");
+        System.out.println("||              ██╗  ██╗███╗   ███╗███████╗              ||");
+        System.out.println("||              ██║  ██║████╗ ████║██╔════╝              ||");
+        System.out.println("||              ███████║██╔████╔██║███████╗              ||");
+        System.out.println("||              ██╔══██║██║╚██╔╝██║     ██╝              ||");
+        System.out.println("||              ██║  ██║██║ ╚═╝ ██║███████╗              ||");
+        System.out.println("||              ╚═╝  ╚═╝╚═╝     ╚═╝╚══════╝              ||");
+        System.out.println("||                                                       ||");
+        System.out.println("||             HOSPITAL MANAGEMENT SYSTEM (HMS)          ||");
+        System.out.println("===========================================================");
     }
+
 
     /**
      * Handles the main view menu, allowing the user to choose between login, registration, and exit.
