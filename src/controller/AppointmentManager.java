@@ -51,12 +51,15 @@ public class AppointmentManager {
                 break;
             }
 
+        String oldAppointmentSubStr = appointmentID.substring(5, 11);
+        String oldAppointmentDate = oldAppointmentSubStr.substring(0, 2) + '/' + oldAppointmentSubStr.substring(2, 4) + '/' + oldAppointmentSubStr.substring(4);
+
+        appointment.getDoctor().getSchedule().setAvailabilityForParticularDate_Time(oldAppointmentDate, Integer.parseInt(appointmentID.substring(11)), Availability.AVAILABLE);
         appointment.setAppointmentID(patient.getID() + date.replace("/", "") + timeSlot);
         appointment.setDate(date);
         appointment.setTimeSlot(timeSlot);
         appointment.setAppointmentStatus(AppointmentStatus.PENDING);
 
-        appointment.getDoctor().getSchedule().setAvailabilityForParticularDate_Time(date, timeSlot, Availability.AVAILABLE);
     }
 
     public static void viewAppointmentDetail(Appointment appointment, Role role) {
