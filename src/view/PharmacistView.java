@@ -28,7 +28,6 @@ public class PharmacistView implements View {
      * Constructs a new PharmacistView instance.
      */
     public PharmacistView() {
-
     }
 
     /**
