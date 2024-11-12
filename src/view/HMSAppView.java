@@ -1,6 +1,6 @@
 package view;
 
-import controller.AdminstratorManager;
+import controller.AdministratorManager;
 import controller.UserManager;
 import database.DataBase;
 import helper.Encryption;
@@ -127,7 +127,7 @@ public class HMSAppView implements View {
         System.out.print("Blood Type (A-/+, B-/+, O-/+, AB-/+): ");
         String bloodType = Helper.readString();
 
-        AdminstratorManager.registerNewPatient(name, phoneNo, emailAddress, BloodType.fromString(bloodType), dateOfBirth, gender == 'm' ? Gender.MALE : Gender.FEMALE);
+        AdministratorManager.registerNewPatient(name, phoneNo, emailAddress, BloodType.fromString(bloodType), dateOfBirth, gender == 'm' ? Gender.MALE : Gender.FEMALE);
 
         Helper.pauseApplication();
     }

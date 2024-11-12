@@ -1,6 +1,6 @@
 package view;
 
-import controller.AdminstratorManager;
+import controller.AdministratorManager;
 import controller.AppointmentManager;
 import controller.InventoryManager;
 import database.DataBase;
@@ -104,14 +104,14 @@ public class AdminstratorView implements View {
         Gender genderPick = gender == 'm' ? Gender.MALE : Gender.FEMALE;
 
         System.out.println("\nFilter By Gender: " + genderPick.getLabel());
-        printStaff(AdminstratorManager.getAllStaffByGender(genderPick));
+        printStaff(AdministratorManager.getAllStaffByGender(genderPick));
     }
 
     /**
      * Lists all staff members without any filters.
      */
     public static void listAllStaff() {
-        printStaff(AdminstratorManager.getAllStaff());
+        printStaff(AdministratorManager.getAllStaff());
     }
 
     /**
@@ -144,7 +144,7 @@ public class AdminstratorView implements View {
 
         if (choice >= 0 && choice < roles.length) {
             System.out.println("Filter By Role: " + roles[choice].getLabel());
-            printStaff(AdminstratorManager.getAllStaffByRole(roles[choice]));
+            printStaff(AdministratorManager.getAllStaffByRole(roles[choice]));
         } else System.out.println("Invalid choice. Please try again.");
     }
 
@@ -165,7 +165,7 @@ public class AdminstratorView implements View {
 
         if (choice >= 0 && choice < age.length) {
             System.out.println("\nFilter By AgeRange: " + ageRanges[choice]);
-            printStaff(AdminstratorManager.getAllStaffByAgeGroup(age[choice]));
+            printStaff(AdministratorManager.getAllStaffByAgeGroup(age[choice]));
         } else System.out.println("Invalid choice. Please try again");
     }
 
@@ -231,7 +231,7 @@ public class AdminstratorView implements View {
         System.out.print("Enter Age: ");
         int userAge = Helper.readInt();
 
-        AdminstratorManager.addNewStaff(userName, roles[userRole - 1], userGender == 'm' ? Gender.MALE : Gender.FEMALE, userAge);
+        AdministratorManager.addNewStaff(userName, roles[userRole - 1], userGender == 'm' ? Gender.MALE : Gender.FEMALE, userAge);
 
         System.out.println("Staff Added Successfully");
         Helper.pauseApplication();
@@ -255,7 +255,7 @@ public class AdminstratorView implements View {
             System.out.println("No such staff with this staff ID");
         }
 
-        AdminstratorManager.removeStaff(staffID);
+        AdministratorManager.removeStaff(staffID);
 
         System.out.println("Staff Removed Successfully");
         Helper.pauseApplication();
@@ -352,7 +352,7 @@ public class AdminstratorView implements View {
             switch (choice) {
                 case 1 -> InventoryManager.updateStock(medicineName, true);
                 case 2 -> InventoryManager.updateStock(medicineName, false);
-                case 3 -> AdminstratorManager.updateLowStockAlert(medicineName);
+                case 3 -> AdministratorManager.updateLowStockAlert(medicineName);
             }
             Helper.pauseApplication();
         } while (true);
