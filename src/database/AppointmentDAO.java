@@ -15,8 +15,9 @@ import java.util.List;
  * Data Access Object (DAO) responsible for managing appointment data.
  * Handles reading and writing of appointment-related data from/to a CSV file.
  * 
- * @author Chin Linn Sheng
- * @version 1.2
+ * @author Chew En Zee
+ * @author Lean Yi Fan
+ * @version 3.4
  * @since 2024-11-06
  */
 public class AppointmentDAO {

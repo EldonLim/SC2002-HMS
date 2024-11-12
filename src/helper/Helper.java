@@ -9,7 +9,6 @@ import java.util.Scanner;
  * The Helper class provides utility methods for reading user input, 
  * parsing CSV-formatted strings, and other helper functions.
  * 
- * @author Chin Linn Sheng
  * @author Goh Jun Keat
  * @version 7.6
  * @since 2024-10-27
