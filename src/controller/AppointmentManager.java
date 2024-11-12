@@ -16,7 +16,7 @@ import java.util.List;
  * as well as handling appointment requests and recording outcomes.
  * 
  * @author Eldon Lim Kai Jie
- * @version 12.9
+ * @version 12.11
  * @since 2024-10-31
  */
 public class AppointmentManager {
@@ -69,6 +69,7 @@ public class AppointmentManager {
 
     /**
      * Reschedules an appointment for a patient with a new date and time slot.
+     * New appointment timing request sent to doctor for confirmation.
      *
      * @param patient       the patient requesting the reschedule
      * @param appointmentID the ID of the appointment to be rescheduled
@@ -84,12 +85,15 @@ public class AppointmentManager {
                 break;
             }
 
+        String oldAppointmentSubStr = appointmentID.substring(5, 11);
+        String oldAppointmentDate = oldAppointmentSubStr.substring(0, 2) + '/' + oldAppointmentSubStr.substring(2, 4) + '/' + oldAppointmentSubStr.substring(4);
+    
+        appointment.getDoctor().getSchedule().setAvailabilityForParticularDate_Time(oldAppointmentDate, Integer.parseInt(appointmentID.substring(11)), Availability.AVAILABLE);
         appointment.setAppointmentID(patient.getID() + date.replace("/", "") + timeSlot);
         appointment.setDate(date);
         appointment.setTimeSlot(timeSlot);
         appointment.setAppointmentStatus(AppointmentStatus.PENDING);
 
-        appointment.getDoctor().getSchedule().setAvailabilityForParticularDate_Time(date, timeSlot, Availability.AVAILABLE);
     }
 
     /**
@@ -104,8 +108,8 @@ public class AppointmentManager {
         System.out.printf("Time Slot: %2d:00 - %2d:00\n", appointment.getTimeSlot(), appointment.getTimeSlot() + 1);
 
         if (role == Role.ADMINISTRATOR) {
-            System.out.println("Doctor: " + appointment.getDoctor().getName());
-            System.out.println("Patient: " + appointment.getPatient().getName());
+            System.out.println("Doctor ID: " + appointment.getDoctor().getID());
+            System.out.println("Patient ID: " + appointment.getPatient().getID());
             System.out.println("Appointment Status: " + appointment.getAppointmentStatus().getLabel());
             if (appointment.getAppointmentOutcome() != null && appointment.getAppointmentStatus() == AppointmentStatus.COMPLETED) {
                 System.out.println("Service: " + appointment.getAppointmentOutcome().getService().getLabel());

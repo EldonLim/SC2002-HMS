@@ -19,7 +19,7 @@ import java.util.List;
  * Provides methods for managing hospital staff, appointments, and inventory.
  * 
  * @author Lean Yi Fan
- * @version 7.5
+ * @version 7.6
  * @since 2024-10-27
  */
 public class AdminstratorView implements View {
@@ -193,9 +193,6 @@ public class AdminstratorView implements View {
             switch (choice) {
                 case 1 -> handleAddStaff();
                 case 2 -> handleRemoveStaff();
-                case 3 -> {
-                    break;
-                }
             }
         } while (choice != 3);
     }
