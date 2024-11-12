@@ -150,9 +150,6 @@ public class AdminstratorView implements View {
             switch (choice) {
                 case 1 -> handleAddStaff();
                 case 2 -> handleRemoveStaff();
-                case 3 -> {
-                    break;
-                }
             }
         } while (choice != 3);
     }

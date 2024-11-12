@@ -68,8 +68,8 @@ public class AppointmentManager {
         System.out.printf("Time Slot: %2d:00 - %2d:00\n", appointment.getTimeSlot(), appointment.getTimeSlot() + 1);
 
         if (role == Role.ADMINISTRATOR) {
-            System.out.println("Doctor: " + appointment.getDoctor().getName());
-            System.out.println("Patient: " + appointment.getPatient().getName());
+            System.out.println("Doctor ID: " + appointment.getDoctor().getID());
+            System.out.println("Patient ID: " + appointment.getPatient().getID());
             System.out.println("Appointment Status: " + appointment.getAppointmentStatus().getLabel());
             if (appointment.getAppointmentOutcome() != null && appointment.getAppointmentStatus() == AppointmentStatus.COMPLETED) {
                 System.out.println("Service: " + appointment.getAppointmentOutcome().getService().getLabel());
