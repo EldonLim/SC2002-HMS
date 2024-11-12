@@ -59,13 +59,3 @@ src
 
 ## ‼️ Requirements
 - **Java Version**: 21.0.5
-
-## Running Bash Script (For Linux User)
-1. Give execution permissions
-    ```
-    chmod +x setup.sh 
-   ```
-2. Run the bash script
-    ```
-   ./setup.sh
-   ```
