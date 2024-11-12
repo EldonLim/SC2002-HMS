@@ -7,6 +7,13 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
+/**
+ * Represents a medical record for a patient, containing personal details, medical history, and appointments.
+ *
+ * @author Chin Linn Sheng
+ * @version 4.4
+ * @since 2024-10-27
+ */
 public class MedicalRecord {
 
     /**

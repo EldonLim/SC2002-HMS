@@ -22,6 +22,9 @@ import java.util.List;
  */
 public class AppointmentDAO {
 
+    /**
+     * Constructor for the AppointmentDAO class.
+     */
     public AppointmentDAO() {}
 
     /**
