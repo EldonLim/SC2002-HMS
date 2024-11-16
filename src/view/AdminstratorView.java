@@ -328,15 +328,15 @@ public class AdminstratorView implements View {
             System.out.print("Please Enter your Choice: ");
             int choice = Helper.readInt();
 
-            if (choice == 4) {
-                Helper.pauseApplication();
-                return;
-            }
-
             while (choice < 1 || choice > 4) {
                 System.out.println("\nInvalid choice. Please try again.");
                 System.out.print("Please Enter your Choice: ");
                 choice = Helper.readInt();
+            }
+
+            if (choice == 4) {
+                Helper.pauseApplication();
+                return;
             }
 
             String medicineName;
