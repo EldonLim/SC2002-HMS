@@ -125,8 +125,15 @@ public class PharmacistView implements View {
         do {
             System.out.print("\nPlease Enter the AppointmentOutcome ID: ");
             String appointmentOutcomeID = Helper.readString();
-            String patientID = appointmentOutcomeID.substring(0, 5);
 
+            while (appointmentOutcomeID.length() < 13) {
+                System.out.println("Invalid Appointment ID Format");
+                Helper.pauseApplication();
+                System.out.print("Please Re-Enter the AppointmentOutcome ID: ");
+                appointmentOutcomeID = Helper.readString();
+            }
+
+            String patientID = appointmentOutcomeID.substring(0, 5);
             PharmacistManager.updatePrescriptionStatus(appointmentOutcomeID, patientID);
 
             System.out.print("Update other appointment outcome prescription status (Y/N)?: ");
