@@ -15,7 +15,7 @@ import java.util.List;
  * The AppointmentManager class provides methods for scheduling, viewing, rescheduling, and canceling appointments,
  * as well as handling appointment requests and recording outcomes.
  *
- * @author Chin Linn Sheng
+ * @author Eldon Lim Kai Jie
  * @version 12.11
  * @since 2024-10-31
  */

@@ -4,7 +4,7 @@ package view;
  * Represents a view in the Hospital Management System (HMS) application.
  * Defines common methods for displaying menus and handling interactions within the view.
  *
- * @author Chin Linn Sheng
+ * @author Chew En Zee
  * @version 3.1
  * @since 2024-10-27
  */

@@ -10,7 +10,7 @@ import java.util.List;
 /**
  * Represents a medical record for a patient, containing personal details, medical history, and appointments.
  *
- * @author Chin Linn Sheng
+ * @author Eldon Lim Kai Jie
  * @version 4.4
  * @since 2024-10-27
  */

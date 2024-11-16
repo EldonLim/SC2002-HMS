@@ -12,6 +12,5 @@
  * @see view
  *
  * @since 2024-10-26
- * @version 5.5
  */
 package main;

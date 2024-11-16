@@ -11,6 +11,7 @@ import java.util.List;
  * including checking stock levels, dispensing, updating stock, and handling replenishment requests.
  *
  * @author Eldon Lim Kai Jie
+ * @author Goh Jun Keat
  * @version 2.5
  * @since 2024-10-31
  */

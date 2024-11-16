@@ -6,7 +6,7 @@ import using.Role;
 /**
  * Represents a staff member, which is a subclass of the User class, with additional attributes such as age.
  *
- * @author Chin Linn Sheng
+ * @author Lean Yi Fan
  * @version 1.4
  * @since 2024-10-27
  */

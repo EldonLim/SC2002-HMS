@@ -7,7 +7,7 @@ import model.Patient;
 /**
  * Manages the operations related to medical records, including printing and updating records.
  *
- * @author Chin Linn Sheng
+ * @author Eldon Lim Kai Jie
  * @version 4.5
  * @since 2024-10-28
  */
