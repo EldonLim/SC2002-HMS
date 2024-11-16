@@ -141,8 +141,8 @@ public class HMSAppView implements View {
         System.out.println("||              ██╗  ██╗███╗   ███╗███████╗              ||");
         System.out.println("||              ██║  ██║████╗ ████║██╔════╝              ||");
         System.out.println("||              ███████║██╔████╔██║███████╗              ||");
-        System.out.println("||              ██╔══██║██║╚██╔╝██║     ██╝              ||");
-        System.out.println("||              ██║  ██║██║ ╚═╝ ██║███████╗              ||");
+        System.out.println("||              ██╔══██║██║╚██╔╝██║     ██║              ||");
+        System.out.println("||              ██║  ██║██║ ╚═╝ ██║███████║              ||");
         System.out.println("||              ╚═╝  ╚═╝╚═╝     ╚═╝╚══════╝              ||");
         System.out.println("||                                                       ||");
         System.out.println("||             HOSPITAL MANAGEMENT SYSTEM (HMS)          ||");
