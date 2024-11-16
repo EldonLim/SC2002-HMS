@@ -43,7 +43,7 @@ src
 ## 📃 Documentation
 1. Make sure you are at root directory
     ```
-    javadoc -d ./docs .src/*/*java
+    javadoc -d ./docs ./src/*/*java -encoding UTF-8 -author -private -noqualifier all -version
     ```
 2. launch the `index.html` under ./docs/index.html
     - Window
