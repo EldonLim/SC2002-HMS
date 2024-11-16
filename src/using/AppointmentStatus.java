@@ -22,7 +22,7 @@ public enum AppointmentStatus {
     /**
      * Status indicating that the appointment is canceled.
      */
-    CANCEL("Canceled"),
+    CANCEL("Cancelled"),
 
     /**
      * Status indicating that the appointment is completed.
