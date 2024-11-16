@@ -2,7 +2,7 @@
 
 >Hospital Management System Application
 
-![](./images/mainView.png)
+![](./images/HMSMainView.png)
 
 ## 📂 Project Folder Structure
 
