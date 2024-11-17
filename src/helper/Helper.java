@@ -1,9 +1,6 @@
 package helper;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
-import java.util.Scanner;
+import java.util.*;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -45,14 +42,23 @@ public class Helper {
     }
 
     /**
-     * Reads an integer input from the user.
-     * If there are any leftover characters in the input buffer, they are cleared.
+     * Repeatedly tries to read an integer until an integer is read.
+     * Keeps catching the exception {@link InputMismatchException} when input others than integer is entered.
      * @return The integer entered by the user.
      */
     public static int readInt() {
-        int userInput = sc.nextInt();
-        clearInputBuffer();
-        return userInput;
+        while (true) {
+            try {
+                int userInput = -1;
+                userInput = sc.nextInt();
+                sc.nextLine(); // Consume newline left-over
+                return userInput;
+            } catch (InputMismatchException e) {
+                sc.nextLine();
+                System.out.println("Invalid Input, enter an integer!");
+                System.out.println("Please Try Again\n");
+            }
+        }
     }
 
     /**
