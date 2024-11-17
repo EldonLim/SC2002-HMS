@@ -37,12 +37,17 @@ public class PatientView implements View {
     public static void handleUpdatePersonalInfo() {
         System.out.println("UPDATE PERSONAL INFORMATION");
         System.out.println("Please key in the latest PhoneNo & EmailAddress");
-        System.out.print("Email Address: ");
-        String updateEmailAddress = Helper.readString();
+        String emailAddress;
+        while (true) {
+            System.out.print("Email Address: ");
+            emailAddress = Helper.readString();
+            if (Helper.validEmailAddress(emailAddress)) break;
+            System.out.println("Invalid Email Address. Please Try Again");
+        }
         System.out.print("Phone No: ");
-        String updatePhoneNo = Helper.readString();
+        String phoneNo = Helper.readString();
 
-        PatientManager.updatePersonalInformation(updateEmailAddress, updatePhoneNo, DataBase.getCurrentUserID());
+        PatientManager.updatePersonalInformation(emailAddress, phoneNo, DataBase.getCurrentUserID());
     }
 
     /**

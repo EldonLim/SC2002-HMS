@@ -120,8 +120,14 @@ public class HMSAppView implements View {
         char gender = Helper.readChar();
         System.out.print("Phone No: ");
         String phoneNo = Helper.readString();
-        System.out.print("Email Address: ");
-        String emailAddress = Helper.readString();
+        String emailAddress;
+        while (true) {
+            System.out.print("Email Address: ");
+            emailAddress = Helper.readString();
+            if (Helper.validEmailAddress(emailAddress)) break;
+            System.out.println("Invalid Email Address. Please Try Again");
+        }
+
         System.out.print("Date of Birth: ");
         String dateOfBirth = Helper.readString();
         System.out.print("Blood Type (A-/+, B-/+, O-/+, AB-/+): ");

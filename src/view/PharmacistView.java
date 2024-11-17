@@ -46,7 +46,8 @@ public class PharmacistView implements View {
             int cnt = 1;
             for (Medicine medicine : InventoryManager.getAllMedicineWithLowStockAlert())
                 System.out.println(cnt++ + ". " + medicine.getMedicineName());
-        } else {
+        }
+        else {
             displayLowStockMeds();
             handleSubmitRequest();
         }
@@ -170,6 +171,7 @@ public class PharmacistView implements View {
                             System.out.println("AppointOutcome ID: " + outcome.getAppointmentOutcomeID());
                             AppointmentManager.printAppointmentOutcome(outcome);
                             System.out.println("Prescription Status: " + outcome.getMedicationStatus().getLabel());
+                            System.out.println();
                         }
             }
         return foundAppointOutcome;

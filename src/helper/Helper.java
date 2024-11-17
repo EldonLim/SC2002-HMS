@@ -4,6 +4,8 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Scanner;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 /**
  * The Helper class provides utility methods for reading user input,
@@ -99,5 +101,17 @@ public class Helper {
             return new ArrayList<>(); // Return empty list
 
         return Arrays.asList(field.replace("\"", "").split(","));
+    }
+
+    /**
+     * Validates an email address against a regular expression pattern
+     * @param emailAddress the email address to be validated
+     * @return true if the email address is valid else false
+     */
+    public static boolean validEmailAddress(String emailAddress) {
+        final String EMAIL_PATTERN =  "^[a-zA-Z0-9]+@[a-zA-Z.-]+\\.[a-zA-Z]{2,}$";
+        Pattern pattern = Pattern.compile(EMAIL_PATTERN);
+        Matcher matcher = pattern.matcher(emailAddress);
+        return matcher.matches();
     }
 }
