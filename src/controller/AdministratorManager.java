@@ -8,6 +8,7 @@ import using.BloodType;
 import using.Gender;
 import using.Role;
 
+import javax.xml.crypto.Data;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -95,17 +96,17 @@ public class AdministratorManager {
 
         switch (role) {
             case DOCTOR -> {
-                userID = String.format("D%03d", DataBase.getNumberOfDoctors() + 1);
+                userID = String.format("D%03d", Helper.getMaxIDByRole(Role.DOCTOR) + 1);
                 DataBase.increaseUserCount(role);
                 user = new Doctor(name, userID, defaultPassword, role, gender, age);
             }
             case PHARMACIST -> {
-                userID = String.format("P%03d", DataBase.getNumberOfPharmacists() + 1);
+                userID = String.format("P%03d", Helper.getMaxIDByRole(Role.PHARMACIST) + 1);
                 DataBase.increaseUserCount(role);
                 user = new Pharmacist(name, userID, defaultPassword, role, gender, age);
             }
             case ADMINISTRATOR -> {
-                userID = String.format("A%03d", DataBase.getNumberOfAdminstrators() + 1);
+                userID = String.format("A%03d", Helper.getMaxIDByRole(Role.ADMINISTRATOR)+ 1);
                 DataBase.increaseUserCount(role);
                 user = new Adminstrator(name, userID, defaultPassword, role, gender, age);
             }

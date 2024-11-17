@@ -1,5 +1,9 @@
 package helper;
 
+import database.DataBase;
+import model.User;
+import using.Role;
+
 import java.util.*;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -119,5 +123,28 @@ public class Helper {
         Pattern pattern = Pattern.compile(EMAIL_PATTERN);
         Matcher matcher = pattern.matcher(emailAddress);
         return matcher.matches();
+    }
+
+    /**
+     * Retrieves the maximum staff ID for a given role.
+     *
+     * This method iterates through all users in the database, checks their role,
+     * and extracts the numeric part of their ID (excluding the prefix).
+     * It then returns the highest ID found for the specified role.
+     *
+     * @param role the role for which to retrieve the maximum ID
+     * @return the maximum staff ID for the given role
+     *
+     * @see Role
+     * @see User#getID()
+     */
+    public static int getMaxIDByRole(Role role) {
+        int maxID = 0;
+        for (User user : DataBase.getUsers().values())
+            if (user.getRole() == role) {
+                int id = Integer.parseInt(user.getID().substring(1));
+                maxID = Math.max(maxID, id);
+            }
+        return maxID;
     }
 }
