@@ -124,7 +124,7 @@ public class PharmacistView implements View {
         }
 
         do {
-            System.out.print("\nPlease Enter the AppointmentOutcome ID: ");
+            System.out.print("Please Enter the AppointmentOutcome ID: ");
             String appointmentOutcomeID = Helper.readString();
 
             while (appointmentOutcomeID.length() < 13) {

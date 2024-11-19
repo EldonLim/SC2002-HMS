@@ -49,8 +49,10 @@ public class PharmacistManager {
     /**
      * Updates the prescription status of a specified appointment outcome for a given patient.
      * If the prescription is in "Pending" status, it is marked as "Dispensed" and the inventory is updated.
-     * Displays appropriate messages if the medicine has already been dispensed or if the appointment outcome
-     * is not found.
+     * Displays error messages if:
+     * - The medicine has already been dispensed.
+     * - The appointment outcome is not found in the system.
+     * - The current stock of the medicine is insufficient for dispensing.
      *
      * @param appointmentOutcomeID the ID of the appointment outcome to be updated
      * @param patientID            the ID of the patient associated with the appointment outcome
@@ -60,9 +62,12 @@ public class PharmacistManager {
                 ((Patient) DataBase.getUsers().get(patientID)).getMedicalRecord().getAppointmentOutcomes().containsKey(appointmentOutcomeID)) {
             AppointmentOutcome appointmentOutcome = ((Patient) DataBase.getUsers().get(patientID)).getMedicalRecord().getAppointmentOutcomes().get(appointmentOutcomeID);
             if (appointmentOutcome.getMedicationStatus() == MedicationStatus.PENDING) {
-                appointmentOutcome.setMedicationStatus(MedicationStatus.DISPENSED);
-                InventoryManager.dispenseMedicine(appointmentOutcome.getMedicine());
-                System.out.println("Updated Successfully\n");
+                if (InventoryManager.dispenseMedicine(appointmentOutcome.getMedicine())) {
+                    appointmentOutcome.setMedicationStatus(MedicationStatus.DISPENSED);
+                    System.out.println("Update Successfully\n");
+                }
+                else
+                    System.out.println("The current stock for " + appointmentOutcome.getMedicine() + " is not enough to dispense\n");
             } else System.out.println("The medicine for this appointment had dispensed\n");
         } else System.out.println("This appointment outcome is not recorded in the system\n");
     }

@@ -68,12 +68,17 @@ public class InventoryManager {
 
     /**
      * Dispenses a specified quantity of a medicine from the inventory.
-     *
+     * Checks if the available stock is sufficient before dispensing.
      * @param medicineName the name of the medicine to dispense
+     * @return true if the medicine is dispensed successfully, false otherwise
      */
-    public static void dispenseMedicine(String medicineName) {
+    public static boolean dispenseMedicine(String medicineName) {
         Medicine medicine = DataBase.getMedicines().get(medicineName);
-        medicine.setStock(medicine.getStock() - NUMBER_OF_MEDICINE_DISPENSED);
+        if (medicine.getStock() >= NUMBER_OF_MEDICINE_DISPENSED) {
+            medicine.setStock(medicine.getStock() - NUMBER_OF_MEDICINE_DISPENSED);
+            return true;
+        }
+        return false;
     }
 
     /**
