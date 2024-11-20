@@ -62,7 +62,7 @@ public class Appointment {
         this.patient = patient;
         this.doctor = doctor;
         this.appointmentStatus = AppointmentStatus.PENDING;
-        this.appointmentID = patient.getID() + date.replace("/", "") + timeSlot;
+        this.appointmentID = patient.getID() + date.replace("/", "") + (timeSlot < 10? "0" + timeSlot : timeSlot);
         appointmentOutcome = null;
     }
 
